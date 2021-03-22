@@ -4,16 +4,26 @@ import java.util.Date;
 
 public class Record {
 
+    private int id;
     private int studentId;
     private Date date;
     private int scheduleEntityId;
     private boolean isPresent;
 
-    public Record(int studentId, Date date, int scheduleEntityId, boolean isPresent) {
+    public Record(int id, int studentId, Date date, int scheduleEntityId, boolean isPresent) {
+        this.id = id;
         this.studentId = studentId;
         this.date = date;
         this.scheduleEntityId = scheduleEntityId;
         this.isPresent = isPresent;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getStudentId() {
