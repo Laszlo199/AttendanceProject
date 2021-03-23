@@ -10,24 +10,11 @@ public class DBConnector {
 
     public DBConnector()
     {
-        //kamilas DB
-
-        /*
-        dataSource = new SQLServerDataSource();
-        dataSource.setServerName("10.176.111.31");
-        dataSource.setUser("CSe20B_10");
-        dataSource.setPassword("database000");
-        dataSource.setDatabaseName("ItunesGROUP2");
-
-         */
-
-
         dataSource = new SQLServerDataSource();
         dataSource.setServerName("10.176.111.31");
         dataSource.setUser("CSe20B_8");
         dataSource.setPassword("potatoe2021");
-        dataSource.setDatabaseName("MyItuesKuba");
-
+        dataSource.setDatabaseName("AttendanceProject");
 
     }
 

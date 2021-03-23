@@ -5,9 +5,9 @@ public class ChangeRequest {
     private int recordId;
     private StatusType status;
 
-    public ChangeRequest(int recordId) {
+    public ChangeRequest(int recordId, StatusType status) {
         this.recordId = recordId;
-        status = StatusType.PENDING;
+        this.status = status;
     }
 
     public int getRecordId() {

@@ -1,5 +1,6 @@
 package be;
 
+import java.sql.Time;
 import java.time.LocalDateTime;
 
 public class ScheduleEntity {
@@ -7,10 +8,10 @@ public class ScheduleEntity {
     private int id;
     private int subjectId;
     private WeekDay weekDay;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private Time startTime;
+    private Time endTime;
 
-    public ScheduleEntity(int id, int subjectId, WeekDay weekDay, LocalDateTime startTime, LocalDateTime endTime) {
+    public ScheduleEntity(int id, int subjectId, WeekDay weekDay, Time startTime, Time endTime) {
         this.id = id;
         this.subjectId = subjectId;
         this.weekDay = weekDay;
@@ -42,19 +43,19 @@ public class ScheduleEntity {
         this.weekDay = weekDay;
     }
 
-    public LocalDateTime getStartTime() {
+    public Time getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(Time startTime) {
         this.startTime = startTime;
     }
 
-    public LocalDateTime getEndTime() {
+    public Time getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(Time endTime) {
         this.endTime = endTime;
     }
 }
