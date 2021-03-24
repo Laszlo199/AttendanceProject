@@ -57,8 +57,8 @@ public class LogInWindowController implements Initializable, ILogIn {
      * if connection won't be established in 3 sec show alert to the user
      */
     private void checkConnection() {
-        while (!loginModel.getConnection()){
-
+        while (!loginModel.establishedConnection()){
+            
         }
 
     }
