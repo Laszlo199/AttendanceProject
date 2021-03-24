@@ -2,9 +2,14 @@ package dal.dataAccessObjects;
 
 import be.ScheduleEntity;
 import be.WeekDay;
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dal.DBConnector;
 
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +43,7 @@ public class ScheduleEntityDAO {
                         entities.add(new ScheduleEntity(id, subjectId, WeekDay.WEDNESDAY, startTime, endTime));
                     case "thursday":
                         entities.add(new ScheduleEntity(id, subjectId, WeekDay.THURSDAY, startTime, endTime));
-                    case "fiday":
+                    case "friday":
                         entities.add(new ScheduleEntity(id, subjectId, WeekDay.FRIDAY, startTime, endTime));
                 }
 
@@ -119,5 +124,55 @@ public class ScheduleEntityDAO {
             throwables.printStackTrace();
         }
         return entity;
+    }
+
+    /**
+     *
+     * @param courseId course of the student that is currently logged in
+     * @return null if there isnt any currect lesson, ScheduleEntity if there is a lesson at the moment
+     */
+    public ScheduleEntity getCurrentEntity(int courseId) {
+        ScheduleEntity currentLesson = null;
+        LocalDate currentDate = LocalDate.now();
+        String day = currentDate.getDayOfWeek().toString();
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+        String currentTime = dateFormat.format(LocalTime.now());
+
+        try(Connection connection = dbConnector.getConnection()) {
+            String sql = "SELECT se.* " +
+                    "FROM ScheduleEntity se " +
+                    "JOIN Subjects s ON se.SubjectID = s.ID " +
+                    "WHERE s.courseId = ? AND se.WeekDay = ? AND (? BETWEEN se.StartTime AND se.EndTime)";
+            PreparedStatement pstat = connection.prepareStatement(sql);
+            pstat.setInt(1, courseId);
+            pstat.setString(2, day);
+            pstat.setString(3, currentTime);
+            ResultSet rs = pstat.executeQuery();
+            while(rs.next()) {
+                int id = rs.getInt("id");
+                String weekday = rs.getString("weekday");
+                Time startTime = rs.getTime("startTime");
+                Time endTime = rs.getTime("endTime");
+                int subjectId = rs.getInt("subjectId");
+                switch (weekday) {
+                    case "monday":
+                        currentLesson = new ScheduleEntity(id, subjectId, WeekDay.MONDAY, startTime, endTime);
+                    case "tuesday":
+                        currentLesson = new ScheduleEntity(id, subjectId, WeekDay.TUESDAY, startTime, endTime);
+                    case "wednesday":
+                        currentLesson = new ScheduleEntity(id, subjectId, WeekDay.WEDNESDAY, startTime, endTime);
+                    case "thursday":
+                        currentLesson = new ScheduleEntity(id, subjectId, WeekDay.THURSDAY, startTime, endTime);
+                    case "friday":
+                        currentLesson = new ScheduleEntity(id, subjectId, WeekDay.FRIDAY, startTime, endTime);
+                }
+            }
+        } catch (SQLServerException throwables) {
+            throwables.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return currentLesson;
     }
 }
