@@ -1,7 +1,8 @@
-package dal;
+package dal.dataAccessObjects;
 
 import be.ChangeRequest;
 import be.StatusType;
+import dal.DBConnector;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -98,5 +99,28 @@ public class ChangeRequestDAO {
             throwables.printStackTrace();
         }
         return request;
+    }
+
+    public List<ChangeRequest> getRequestsForTeacher(int teacherId) {
+        List<ChangeRequest> requests = new ArrayList<>();
+        try(Connection connection = dbConnector.getConnection()) {
+            String sql = "SELECT c.RecordID, c.[Status] " +
+                    "FROM ChangeRequests c " +
+                    "JOIN Records r ON r.id = c.RecordID " +
+                    "JOIN ScheduleEntity se ON se.ID = r.ScheduleEntityID " +
+                    "JOIN Subjects s ON s.ID = se.SubjectID " +
+                    "WHERE s.TeacherID = ? AND c.[Status] = 'pending' ";
+            PreparedStatement pstat = connection.prepareStatement(sql);
+            pstat.setInt(1, teacherId);
+            ResultSet rs = pstat.executeQuery();
+
+            while(rs.next()) {
+                int recordId = rs.getInt("recordId");
+                requests.add(new ChangeRequest(recordId, StatusType.PENDING));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return requests;
     }
 }

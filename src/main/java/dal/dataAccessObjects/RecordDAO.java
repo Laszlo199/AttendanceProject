@@ -1,6 +1,7 @@
-package dal;
+package dal.dataAccessObjects;
 
 import be.Record;
+import dal.DBConnector;
 
 import java.sql.*;
 import java.util.ArrayList;

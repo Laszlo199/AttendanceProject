@@ -2,9 +2,8 @@ package bll;
 
 import be.Student;
 import be.WeekDay;
-import dal.ICalculatorOperations;
+import dal.IAbsenceData;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,8 +11,9 @@ import java.util.Map;
  * @author Kuba
  * @date 3/22/2021 5:32 PM
  */
-public class Calculations implements ICalculationsOverview{
-    private ICalculatorOperations dal; // concrete class created by kamila that
+public class OverviewAbsenceCalculator implements ICalculationsOverview{
+
+    private IAbsenceData dal; // concrete class created by kamila that
     //implements that interface
 
     /**
