@@ -10,8 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane fx:controller="gui.LogInWindowController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="800.0" style="-fx-background-color: #B49A3E;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="800.0" style="-fx-background-color: #B49A3E;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.LogInWindowController">
    <children>
       <StackPane layoutX="110.0" layoutY="100.0" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: yellow;">
          <children>
@@ -53,17 +52,17 @@
             </StackPane>
             <StackPane layoutX="71.0" layoutY="247.0" prefHeight="55.0" prefWidth="258.0" style="-fx-background-color: green;">
                <children>
-                  <JFXTextField promptText="email" />
+                  <JFXTextField fx:id="emailField" promptText="email" />
                </children>
             </StackPane>
             <StackPane layoutX="71.0" layoutY="309.0" prefHeight="55.0" prefWidth="258.0" style="-fx-background-color: green;">
                <children>
-                  <JFXTextField promptText="password" />
+                  <JFXTextField fx:id="passwordField" promptText="password" />
                </children>
             </StackPane>
             <StackPane layoutX="72.0" layoutY="364.0" prefHeight="29.0" prefWidth="259.0">
                <children>
-                  <JFXCheckBox text="remember me" StackPane.alignment="CENTER_LEFT">
+                  <JFXCheckBox fx:id="rememberMe" text="remember me" StackPane.alignment="CENTER_LEFT">
                      <font>
                         <Font size="13.0" />
                      </font>
@@ -72,8 +71,8 @@
             </StackPane>
             <StackPane layoutX="71.0" layoutY="400.0" prefHeight="57.0" prefWidth="258.0">
                <children>
-                  <JFXButton buttonType="RAISED" prefHeight="40.0" prefWidth="106.0" ripplerFill="WHITE" style="-fx-background-color: blue;" textFill="WHITE" StackPane.alignment="CENTER_LEFT" />
-                  <JFXButton buttonType="RAISED" prefHeight="40.0" prefWidth="106.0" style="-fx-background-color: blue;" textFill="WHITE" StackPane.alignment="CENTER_RIGHT" />
+                  <JFXButton fx:id="logInTeacher" buttonType="RAISED" onAction="#logTeacherButton" prefHeight="40.0" prefWidth="106.0" ripplerFill="WHITE" style="-fx-background-color: blue;" text="Log in as teacher" textFill="WHITE" StackPane.alignment="CENTER_LEFT" />
+                  <JFXButton fx:id="logInStudent" buttonType="RAISED" onAction="#logStudentButton" prefHeight="40.0" prefWidth="106.0" style="-fx-background-color: blue;" text="Log in as student" textFill="WHITE" StackPane.alignment="CENTER_RIGHT" />
                </children>
             </StackPane>
          </children>
