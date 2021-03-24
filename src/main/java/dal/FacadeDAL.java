@@ -8,7 +8,7 @@ import bll.FacadeBLL;
  */
 public class FacadeDAL implements IFacadeDAL{
     private static FacadeDAL facadeDAL;
-    private DBConnector dbConnector = new DBConnector();
+ private DBConnector dbConnector = new DBConnector();
 
     public static IFacadeDAL getInstance(){
         if(facadeDAL==null)

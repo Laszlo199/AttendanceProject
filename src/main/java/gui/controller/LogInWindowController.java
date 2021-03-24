@@ -5,12 +5,16 @@ import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXTextField;
 import gui.controller.ILogIn;
 import gui.model.LoginModel;
+import gui.util.AlertDisplay;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * @author Kuba
@@ -48,7 +52,7 @@ public class LogInWindowController implements Initializable, ILogIn {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-       checkConnection();
+        checkConnection();
 
     }
 
@@ -57,9 +61,7 @@ public class LogInWindowController implements Initializable, ILogIn {
      * if connection won't be established in 3 sec show alert to the user
      */
     private void checkConnection() {
-        while (!loginModel.establishedConnection()){
-            
-        }
+
 
     }
 
