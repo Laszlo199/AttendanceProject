@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane fx:controller="gui.controller.LogInWindowController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="1109.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <StackPane layoutX="155.0" layoutY="81.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="99.0" AnchorPane.leftAnchor="155.0" AnchorPane.rightAnchor="154.0" AnchorPane.topAnchor="81.0">
+         <children>
+            <StackPane prefHeight="150.0" prefWidth="200.0" StackPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="400.0" spacing="7.0">
+                           <children>
+                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/icon.png" />
+                                 </image>
+                              </ImageView>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="KLM" textAlignment="CENTER" wrappingWidth="200.984375">
+                                 <font>
+                                    <Font name="System Bold" size="34.0" />
+                                 </font>
+                              </Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Attendance Tracker" textAlignment="CENTER" wrappingWidth="201.13671875">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="480.0" prefWidth="400.0" spacing="20.0">
+                           <children>
+                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/person.jpg" />
+                                 </image>
+                              </ImageView>
+                              <JFXTextField fx:id="emailField" promptText="email">
+                                 <padding>
+                                    <Insets left="20.0" right="20.0" />
+                                 </padding>
+                              </JFXTextField>
+                              <JFXTextField fx:id="passwordField" promptText="password">
+                                 <padding>
+                                    <Insets left="20.0" right="20.0" />
+                                 </padding>
+                              </JFXTextField>
+                              <StackPane alignment="TOP_LEFT" prefHeight="28.0" prefWidth="400.0">
+                                 <children>
+                                    <JFXCheckBox fx:id="rememberMe" prefHeight="20.0" prefWidth="108.0" text="remember me" StackPane.alignment="CENTER_LEFT">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets top="15.0" />
+                                       </padding>
+                                    </JFXCheckBox>
+                                 </children>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <padding>
+                                    <Insets left="20.0" />
+                                 </padding>
+                              </StackPane>
+                              <HBox prefHeight="57.0" prefWidth="400.0" spacing="20.0">
+                                 <children>
+                                    <JFXButton fx:id="logInStudent" buttonType="RAISED" prefHeight="40.0" prefWidth="120.0" ripplerFill="WHITE" style="-fx-background-color: blue;" text="Log in as student" textFill="WHITE" />
+                                    <JFXButton fx:id="logInTeacher" buttonType="RAISED" prefHeight="40.0" prefWidth="120.0" style="-fx-background-color: blue;" text="Log in as teacher" textFill="WHITE" />
+                                 </children>
+                                 <padding>
+                                    <Insets left="20.0" />
+                                 </padding>
+                              </HBox>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Forgot password?" underline="true" wrappingWidth="388.8740234375">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets left="20.0" />
+                                 </VBox.margin>
+                              </Text>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </StackPane>
+         </children>
+      </StackPane>
+   </children>
+</AnchorPane>
