@@ -4,7 +4,6 @@ import be.Student;
 import be.WeekDay;
 
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * @author Kuba
@@ -12,8 +11,8 @@ import java.util.List;
  */
 public interface ICalculationsOverview {
         // Name, encapsulated data.
-        HashMap<String,  Calculations.OverviewEntity>
-        getOverviewClassAttendance(Calculations.Timeframe timeframe);
-        int getPresence(Student student, Calculations.Timeframe timeframe);
-        WeekDay getMostAbsWeekday(Calculations.Timeframe timeframe, Student student);
+        HashMap<String,  OverviewAbsenceCalculator.OverviewEntity>
+        getOverviewClassAttendance(OverviewAbsenceCalculator.Timeframe timeframe);
+        int getPresence(Student student, OverviewAbsenceCalculator.Timeframe timeframe);
+        WeekDay getMostAbsWeekday(OverviewAbsenceCalculator.Timeframe timeframe, Student student);
 }
