@@ -23,4 +23,8 @@ public class LoginModel {
     public boolean establishedConnection() {
         return facadeBLL.establishedConnection();
     }
+
+    public String getHashedPassword(String password) {
+      return   facadeBLL.getHashedPassword( password);
+    }
 }

@@ -1,5 +1,6 @@
 package bll;
 
+import bll.util.PasswordHasher;
 import dal.FacadeDAL;
 import dal.IFacadeDAL;
 
@@ -23,5 +24,10 @@ public class FacadeBLL implements IFacadeBLL{
     @Override
     public boolean establishedConnection() {
         return facadeDAL.establishedConnection();
+    }
+
+    @Override
+    public String getHashedPassword(String password) {
+        return PasswordHasher.getHashedPassword(password);
     }
 }

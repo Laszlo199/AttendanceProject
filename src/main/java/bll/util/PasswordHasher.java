@@ -10,8 +10,7 @@ import java.util.Base64;
 import java.util.Optional;
 
 /**
- * https://dev.to/awwsmm/how-to-encrypt-a-password-in-java-42dh
- * @author Kuba
+ * @author https://dev.to/awwsmm/how-to-encrypt-a-password-in-java-42dh
  * @date 3/24/2021 8:05 PM
  */
 public class PasswordHasher {
@@ -20,6 +19,7 @@ public class PasswordHasher {
     private static final int KEY_LENGTH = 512;
     private static final String ALGORITHM = "PBKDF2WithHmacSHA512";
     private static final SecureRandom RAND = new SecureRandom();
+    static String salt = PasswordHasher.generateSalt(512).get();
 
     public static Optional<String> hashPassword (String password, String salt) {
 
@@ -42,6 +42,10 @@ public class PasswordHasher {
         } finally {
             spec.clearPassword();
         }
+    }
+
+    public static String getHashedPassword(String password){
+        return hashPassword(password, salt).get();
     }
 
     public static boolean verifyPassword (String password, String key, String salt) {

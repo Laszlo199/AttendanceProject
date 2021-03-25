@@ -6,4 +6,6 @@ package bll;
  */
 public interface IFacadeBLL {
     boolean establishedConnection();
+
+    String getHashedPassword(String password);
 }
