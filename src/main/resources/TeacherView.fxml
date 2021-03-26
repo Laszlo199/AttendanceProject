@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.gui.controller.TeacherViewController">
+   <center>
+      <AnchorPane id="background" prefHeight="645.0" prefWidth="817.0" stylesheets="@../../css/TeacherViewStyle.css">
+         <children>
+            <AnchorPane id="card" layoutX="14.0" layoutY="14.0" prefHeight="289.0" prefWidth="336.0">
+               <children>
+                  <PieChart fx:id="absenceChart" layoutX="-1.0" layoutY="64.0" legendSide="RIGHT" prefHeight="221.0" prefWidth="348.0" />
+                  <Text fx:id="dayLabel" layoutX="14.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tuesday">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="dateLabel" layoutX="26.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="12.02.2021" />
+               </children>
+            </AnchorPane>
+            <AnchorPane id="card" layoutX="14.0" layoutY="321.0" prefHeight="263.0" prefWidth="347.0">
+               <children>
+                  <Text layoutX="14.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Absent today">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+                  <ListView fx:id="absentList" layoutX="5.0" layoutY="44.0" prefHeight="205.0" prefWidth="337.0" />
+               </children>
+            </AnchorPane>
+            <TableView fx:id="studentsTable" layoutX="376.0" layoutY="14.0" prefHeight="379.0" prefWidth="427.0">
+              <columns>
+                <TableColumn fx:id="nameColumn" prefWidth="155.0" text="name" />
+                <TableColumn fx:id="monthColumn" prefWidth="70.0" text="\%  month" />
+                  <TableColumn fx:id="semesterColumn" prefWidth="75.0" text="\% semester" />
+                  <TableColumn fx:id="dayColumn" prefWidth="114.0" text="absence pattern" />
+              </columns>
+            </TableView>
+            <AnchorPane id="card" layoutX="376.0" layoutY="408.0" prefHeight="178.0" prefWidth="427.0">
+               <children>
+                  <Text layoutX="14.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Change requests">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+                  <TableView id="changeTable" fx:id="changeTable" layoutX="11.0" layoutY="22.0" prefHeight="139.0" prefWidth="416.0">
+                    <columns>
+                      <TableColumn fx:id="nameColumnn" prefWidth="132.5089111328125" text="name" />
+                      <TableColumn fx:id="typeColumnn" minWidth="0.0" prefWidth="70.4910888671875" text="type" />
+                        <TableColumn fx:id="dateColumnn" prefWidth="69.45196533203125" text="date" />
+                        <TableColumn fx:id="acceptColumnn" minWidth="1.0" prefWidth="71.5479736328125" />
+                        <TableColumn fx:id="declineColumnn" prefWidth="73.451904296875" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+            <Button fx:id="logOutButton" layoutX="740.0" layoutY="604.0" mnemonicParsing="false" onAction="#logOut" text="Log out" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
