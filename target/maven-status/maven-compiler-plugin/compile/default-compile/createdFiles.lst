@@ -1,1 +1,5 @@
+bll\RecordManager.class
+bll\ScheduleEntityManager.class
+gui\model\StudentDashboardModel.class
 bll\util\PasswordHasher.class
+gui\controller\StudentDashboardController.class

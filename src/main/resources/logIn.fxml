@@ -63,7 +63,7 @@
                               </JFXPasswordField>
                               <StackPane alignment="TOP_LEFT" prefHeight="28.0" prefWidth="400.0">
                                  <children>
-                                    <JFXCheckBox fx:id="rememberMe" prefHeight="20.0" prefWidth="108.0" text="remember me" StackPane.alignment="CENTER_LEFT">
+                                    <JFXCheckBox fx:id="rememberMe" onAction="#rememberMe" prefHeight="20.0" prefWidth="108.0" text="remember me" StackPane.alignment="CENTER_LEFT">
                                        <font>
                                           <Font size="13.0" />
                                        </font>
@@ -81,8 +81,8 @@
                               </StackPane>
                               <HBox prefHeight="57.0" prefWidth="400.0" spacing="20.0">
                                  <children>
-                                    <JFXButton fx:id="logInStudent" buttonType="RAISED" prefHeight="40.0" prefWidth="120.0" ripplerFill="WHITE" style="-fx-background-color: blue;" text="Log in as student" textFill="WHITE" />
-                                    <JFXButton fx:id="logInTeacher" buttonType="RAISED" prefHeight="40.0" prefWidth="120.0" style="-fx-background-color: blue;" text="Log in as teacher" textFill="WHITE" />
+                                    <JFXButton fx:id="logInStudent" buttonType="RAISED" onAction="#logStudentButton" prefHeight="40.0" prefWidth="120.0" ripplerFill="WHITE" style="-fx-background-color: blue;" text="Log in as student" textFill="WHITE" />
+                                    <JFXButton fx:id="logInTeacher" buttonType="RAISED" onAction="#logTeacherButton" prefHeight="40.0" prefWidth="120.0" style="-fx-background-color: blue;" text="Log in as teacher" textFill="WHITE" />
                                  </children>
                                  <padding>
                                     <Insets left="20.0" />
