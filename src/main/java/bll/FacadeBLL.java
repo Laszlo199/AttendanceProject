@@ -1,5 +1,8 @@
 package bll;
 
+import be.Student;
+import be.UserType;
+import bll.util.Operations;
 import bll.util.PasswordHasher;
 import dal.FacadeDAL;
 import dal.IFacadeDAL;
@@ -11,6 +14,7 @@ import dal.IFacadeDAL;
 public class FacadeBLL implements IFacadeBLL{
     private static FacadeBLL facadeBLL;
     private IFacadeDAL facadeDAL = FacadeDAL.getInstance();
+    private Operations operations = new Operations();
 
     public static IFacadeBLL getInstance(){
         if(facadeBLL==null)
@@ -29,5 +33,15 @@ public class FacadeBLL implements IFacadeBLL{
     @Override
     public String getHashedPassword(String password) {
         return PasswordHasher.getHashedPassword(password);
+    }
+
+    @Override
+    public boolean verifyPassword(String email, String password, UserType userType) {
+        return operations.verifyPassword(email, password, userType);
+    }
+
+    @Override
+    public Student getStudent(String email) {
+        return facadeDAL.getStudent(email);
     }
 }

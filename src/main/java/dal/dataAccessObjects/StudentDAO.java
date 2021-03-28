@@ -85,15 +85,28 @@ public class StudentDAO {
         }
     }
 
-    public void getStudent(String email) {
+    public Student getStudent(String email) {
+        Student student =null;
         try(Connection connection = dbConnector.getConnection()) {
             String sql = "SELECT FROM Students WHERE email=?";
             PreparedStatement pstat = connection.prepareStatement(sql);
             pstat.setString(1, email);
-            pstat.executeUpdate();
+             ResultSet rs = pstat.executeQuery();
+
+            while(rs.next()) {
+                int  id = rs.getInt("id");
+                String name = rs.getString("name");
+                String email1 = rs.getString("email");
+                int courseId = rs.getInt("courseID");
+                int semester = rs.getInt("semester");
+                String photoPath = rs.getString("photoPath");
+                student = new Student(id, name, email1, photoPath, semester, courseId);
+            }
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        return student;
     }
 
     public Student getStudent(int id) {

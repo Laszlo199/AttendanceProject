@@ -1,5 +1,7 @@
 package gui.controller;
 
+import be.Student;
+import be.UserType;
 import bll.util.PasswordHasher;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
@@ -117,11 +119,26 @@ public class LogInWindowController implements Initializable, ILogIn {
 
     /**
      * event handler for button
+     *
+     * if password is from preferences there is another way because we have password
+     * in the hased version but we don't have in unhashed version but we need that!!
+     * lets leave it as it is for now
      * @param actionEvent
      */
     public void logTeacherButton(ActionEvent actionEvent) {
         //if preferences are set remember to check the value from preferences
         // not test because it actually not exists
+        if(loginModel.verifyPassword(emailField.getText(),
+                emailField.getText(), UserType.TEACHER)){
+
+        }
+
+    }
+
+    public class Opener{
+        public void openStudentDashboard(String email){
+            Student student = loginModel.getStudent(email);
+        }
     }
 
     /**

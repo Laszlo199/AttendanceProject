@@ -44,11 +44,28 @@ public class PasswordHasher {
         }
     }
 
+    /**
+     * method will get as parameter hashed password from DB
+     * @param hashedPassword
+     * @return
+     */
+    public static boolean verifyPassword(String hashedPassword, String password){
+        return verifyPassword(password, hashedPassword, salt);
+    }
+
     public static String getHashedPassword(String password){
         return hashPassword(password, salt).get();
     }
 
-    public static boolean verifyPassword (String password, String key, String salt) {
+    /**
+     * key is a hashed password
+     * password is a real password
+     * @param password
+     * @param key
+     * @param salt
+     * @return
+     */
+    private static boolean verifyPassword (String password, String key, String salt) {
         Optional<String> optEncrypted = hashPassword(password, salt);
         if (!optEncrypted.isPresent()) return false;
         return optEncrypted.get().equals(key);

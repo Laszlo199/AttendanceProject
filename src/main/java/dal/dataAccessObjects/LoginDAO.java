@@ -89,7 +89,7 @@ public class LoginDAO {
         }
         return false;
     }
-    
+
 
     private boolean studentExists(String email) {
         String query = "SELECT COUNT(Email) as total FROM Students WHERE Email = ?;";

@@ -1,5 +1,11 @@
-bll\RecordManager.class
-bll\ScheduleEntityManager.class
+be\UserType.class
+gui\controller\TeacherViewController.class
 gui\model\StudentDashboardModel.class
+dal\dataAccessObjects\LoginDAO.class
+bll\managers\RecordManager.class
+gui\controller\LogInWindowController$Opener.class
+bll\managers\ChangeRequestManager.class
 bll\util\PasswordHasher.class
 gui\controller\StudentDashboardController.class
+bll\managers\ScheduleEntityManager.class
+bll\util\Operations.class

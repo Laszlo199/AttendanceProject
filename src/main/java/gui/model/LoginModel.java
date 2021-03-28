@@ -1,5 +1,7 @@
 package gui.model;
 
+import be.Student;
+import be.UserType;
 import bll.FacadeBLL;
 import bll.IFacadeBLL;
 
@@ -26,5 +28,14 @@ public class LoginModel {
 
     public String getHashedPassword(String password) {
       return   facadeBLL.getHashedPassword( password);
+    }
+
+    public boolean verifyPassword(String email, String password,
+                                  UserType userType) {
+        return facadeBLL.verifyPassword(email, password, userType);
+    }
+
+    public Student getStudent(String email) {
+        return facadeBLL.getStudent(email);
     }
 }
