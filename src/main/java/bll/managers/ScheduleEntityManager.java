@@ -1,4 +1,4 @@
-package bll;
+package bll.managers;
 
 import be.ScheduleEntity;
 import dal.dataAccessObjects.ScheduleEntityDAO;

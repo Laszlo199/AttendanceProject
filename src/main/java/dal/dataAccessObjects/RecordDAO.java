@@ -99,4 +99,27 @@ public class RecordDAO {
         }
         return record;
     }
+
+    public List<Record> getAbsentDays(int studentId) {
+        List<Record> records = new ArrayList<>();
+
+        try(Connection connection = dbConnector.getConnection()) {
+            String sql = "SELECT * FROM Records WHERE studentId =? AND isPresent=0";
+            PreparedStatement pstat = connection.prepareStatement(sql);
+            pstat.setInt(1, studentId);
+            ResultSet rs = pstat.executeQuery();
+
+            while(rs.next()) {
+                int id = rs.getInt("id");
+                int student = rs.getInt("studentID");
+                int scheduleEntityId = rs.getInt("scheduleEntityId");
+                boolean isPresent = rs.getBoolean("isPresent");
+                Date date = rs.getDate("date");
+                records.add(new Record(id, student, date, scheduleEntityId, isPresent));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return records;
+    }
 }
