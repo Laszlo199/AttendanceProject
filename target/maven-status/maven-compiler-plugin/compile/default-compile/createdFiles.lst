@@ -1,6 +1,8 @@
 be\UserType.class
 gui\controller\TeacherViewController.class
+gui\util\Resizer.class
 gui\model\StudentDashboardModel.class
+gui\util\Resizer$SceneSizeChangeListener.class
 dal\dataAccessObjects\LoginDAO.class
 bll\managers\RecordManager.class
 gui\controller\LogInWindowController$Opener.class
