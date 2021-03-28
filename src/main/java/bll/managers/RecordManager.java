@@ -1,7 +1,9 @@
-package bll;
+package bll.managers;
 
 import be.Record;
 import dal.dataAccessObjects.RecordDAO;
+
+import java.util.List;
 
 public class RecordManager {
 
@@ -14,5 +16,9 @@ public class RecordManager {
 
     public void createRecord(Record record) {
         recordDAO.create(record);
+    }
+
+    public List<Record> getAbsentDays(int studentId) {
+        return recordDAO.getAbsentDays(studentId);
     }
 }
