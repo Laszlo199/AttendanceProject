@@ -3,6 +3,7 @@ package gui.controller;
 import be.*;
 import be.Record;
 import gui.model.StudentDashboardModel;
+import gui.util.DonutChart;
 import gui.util.Resizer;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -13,6 +14,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -29,6 +31,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class StudentDashboardController implements Initializable {
+    @FXML
+    private AnchorPane anchorChart;
     private StudentDashboardModel studentDashboardModel = new StudentDashboardModel();
 
 
@@ -44,9 +48,7 @@ public class StudentDashboardController implements Initializable {
 
     public void setLoggedStudent(Student student) {
         this.loggedStudent = student;
-
-          System.out.println(loggedStudent.toString());
-         studentDashboardModel.setAbsentDays(loggedStudent.getId());
+        studentDashboardModel.setAbsentDays(loggedStudent.getId());
          //there is an exception when I use that method
          //this.currentLesson = model.getCurrentLesson(loggedStudent.getCourseID());
     }
@@ -55,8 +57,28 @@ public class StudentDashboardController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
        // this.currentLesson = model.getCurrentLesson(loggedStudent.getCourseID());
         setListView();
+        initPieChart();
 
        // this.absentDays = model.getAbsentDays(loggedStudent.getId());
+    }
+
+    private void initPieChart() {
+        ObservableList<PieChart.Data> pieChartData = createData();
+        final DonutChart chart = new DonutChart(pieChartData);
+        chart.setTitle("Attendance");
+        chart.setPrefHeight(270);
+        chart.setPrefWidth(270);
+        anchorChart.getChildren().add(chart);
+    }
+
+    /**
+     * creates data for PieChart
+     * @return
+     */
+    private ObservableList<PieChart.Data> createData() {
+        return FXCollections.observableArrayList(
+                new PieChart.Data("Present", 13),
+                new PieChart.Data("Absent", 25));
     }
 
     private void setListView() {

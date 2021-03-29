@@ -1,4 +1,5 @@
 be\UserType.class
+gui\util\DonutChart.class
 gui\controller\TeacherViewController.class
 gui\util\Resizer.class
 gui\model\StudentDashboardModel.class
@@ -10,7 +11,9 @@ gui\controller\LogInWindowController$Opener.class
 gui\controller\StudentDashboardController$1.class
 bll\managers\ChangeRequestManager.class
 bll\util\PasswordHasher.class
+gui\command\LogInStudent.class
 gui\controller\StudentDashboardController.class
 bll\managers\ScheduleEntityManager.class
 bll\util\Operations.class
+gui\command\Command.class
 gui\controller\StudentDashboardController$RecordCell.class
