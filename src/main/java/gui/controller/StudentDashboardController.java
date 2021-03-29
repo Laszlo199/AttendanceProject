@@ -5,6 +5,9 @@ import be.Record;
 import gui.model.StudentDashboardModel;
 import gui.util.DonutChart;
 import gui.util.Resizer;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -20,17 +23,27 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import javafx.util.Duration;
 
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class StudentDashboardController implements Initializable {
+    @FXML
+    private Text dayLabel;
+    @FXML
+    private Text dateLabel;
+    @FXML
+    private Text hourLabel;
     @FXML
     private AnchorPane anchorChart;
     private StudentDashboardModel studentDashboardModel = new StudentDashboardModel();
@@ -58,6 +71,7 @@ public class StudentDashboardController implements Initializable {
        // this.currentLesson = model.getCurrentLesson(loggedStudent.getCourseID());
         setListView();
         initPieChart();
+        digitalClock();
 
        // this.absentDays = model.getAbsentDays(loggedStudent.getId());
     }
@@ -97,6 +111,32 @@ public class StudentDashboardController implements Initializable {
         });
 
     }
+
+    /**
+     * method handles clock functionality
+     */
+    private void digitalClock() {
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.seconds(0),
+                        new EventHandler<ActionEvent>() {
+                            @Override public void handle(ActionEvent actionEvent) {
+                                Calendar time = Calendar.getInstance();
+                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+                                hourLabel.setText(simpleDateFormat.format(time.getTime()));
+                            }
+                        }
+                ),
+                new KeyFrame(Duration.seconds(1))
+        );
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+        Calendar time = Calendar.getInstance();
+        SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("MM-dd-yyyy");
+        dateLabel.setText(simpleDateFormat2.format(time.getTime()));
+        SimpleDateFormat simpleDateFormat3 = new SimpleDateFormat("EEEE");
+        dayLabel.setText(simpleDateFormat3.format(time.getTime()));
+    }
+
 
     static class RecordCell extends ListCell<Record> {
         HBox hbox = new HBox();
