@@ -26,4 +26,12 @@ public class Student extends User {
     public void setCourseID(int courseID) {
         this.courseID = courseID;
     }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "semester=" + semester +
+                ", courseID=" + courseID +
+                '}';
+    }
 }

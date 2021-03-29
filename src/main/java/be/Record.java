@@ -57,4 +57,9 @@ public class Record {
     public void setPresent(boolean present) {
         isPresent = present;
     }
+
+    @Override
+    public String toString() {
+        return date.toString();
+    }
 }

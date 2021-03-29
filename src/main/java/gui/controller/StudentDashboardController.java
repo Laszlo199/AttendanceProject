@@ -3,7 +3,24 @@ package gui.controller;
 import be.*;
 import be.Record;
 import gui.model.StudentDashboardModel;
+import gui.util.Resizer;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.layout.*;
+import javafx.scene.transform.Scale;
+import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -12,20 +29,84 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class StudentDashboardController implements Initializable {
+    private StudentDashboardModel studentDashboardModel = new StudentDashboardModel();
 
+
+    public AnchorPane top;
+    @FXML
+    private GridPane gridPane;
     private Student loggedStudent;
     private ScheduleEntity currentLesson;
     private StudentDashboardModel model;
-    private List<Record> absentDays;
+    @FXML
+    private ListView<Record> listView;
+   // private List<Record> absentDays;
 
     public void setLoggedStudent(Student student) {
         this.loggedStudent = student;
+
+          System.out.println(loggedStudent.toString());
+         studentDashboardModel.setAbsentDays(loggedStudent.getId());
+         //there is an exception when I use that method
+         //this.currentLesson = model.getCurrentLesson(loggedStudent.getCourseID());
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.currentLesson = model.getCurrentLesson(loggedStudent.getCourseID());
-        this.absentDays = model.getAbsentDays(loggedStudent.getId());
+       // this.currentLesson = model.getCurrentLesson(loggedStudent.getCourseID());
+        setListView();
+
+       // this.absentDays = model.getAbsentDays(loggedStudent.getId());
+    }
+
+    private void setListView() {
+      //  System.out.println(loggedStudent.toString());
+       // studentDashboardModel.setAbsentDays(loggedStudent.getId());
+       listView.setItems(studentDashboardModel.getRecordObservableList());
+        for (Record r: studentDashboardModel.getRecordObservableList()
+             ) {
+            System.out.println(r);
+        }
+        listView.setCellFactory(new Callback<ListView<Record>, ListCell<Record>>() {
+            @Override
+            public ListCell<Record> call(ListView<Record> recordListView) {
+                return new RecordCell();
+            }
+        });
+
+    }
+
+    static class RecordCell extends ListCell<Record> {
+        HBox hbox = new HBox();
+        Label label = new Label("(empty)");
+        Pane pane = new Pane();
+        Button button = new Button("Edit");
+        Record lastItem;
+
+        public RecordCell() {
+            super();
+            hbox.getChildren().addAll(label, pane, button);
+            HBox.setHgrow(pane, Priority.ALWAYS);
+            button.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    System.out.println(lastItem + " : " + event);
+                }
+            });
+        }
+
+        protected void updateItem(Record item, boolean empty) {
+            super.updateItem(item, empty);
+            setText(null);  // No text in label of super class
+            if (empty) {
+                lastItem = null;
+                setGraphic(null);
+            } else {
+                lastItem = item;
+                label.setText(item!=null ? item.toString() : "<null>");
+                setGraphic(hbox);
+            }
+        }
     }
 
     //when 'save' button is clicked
@@ -48,4 +129,7 @@ public class StudentDashboardController implements Initializable {
     }
 
 
+    public void setlisteners(Stage stage) {
+      //  Resizer.letterbox(stage.getScene(), top);
+    }
 }

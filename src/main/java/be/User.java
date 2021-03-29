@@ -45,4 +45,14 @@ public abstract class User {
     public void setPhotoPath(String photoPath) {
         this.photoPath = photoPath;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", photoPath='" + photoPath + '\'' +
+                '}';
+    }
 }
