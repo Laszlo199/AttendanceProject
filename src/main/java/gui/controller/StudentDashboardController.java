@@ -186,13 +186,24 @@ public class StudentDashboardController implements Initializable {
 
     //when 'save' button is clicked
     //creates a new Record
-    public void setCurrentAttendance() {
+    public void setCurrentAttendance(boolean isPresent) {
         LocalDate currentDate = LocalDate.now();
         //here basing on what a user chooses
-        boolean isPresent = false;
         //0 is a temporary id
         Record record = new Record(0, loggedStudent.getId(), Date.valueOf(currentDate), currentLesson.getId(), isPresent);
         model.createRecord(record);
+    }
+
+    /**
+     * method checks which radio button is selected and
+     * handles save event
+     * @param actionEvent
+     */
+    public void SaveAttendance(ActionEvent actionEvent) {
+        boolean isPresent = false;
+        if(presentRadioButton.isSelected())
+            isPresent  = true;
+        setCurrentAttendance(isPresent);
     }
 
     //when 'edit' button

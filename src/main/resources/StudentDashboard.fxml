@@ -104,7 +104,7 @@
                   <Insets top="70.0" />
                </VBox.margin>
             </HBox>
-            <JFXButton style="-fx-background-color: grey;" text="SAVE">
+            <JFXButton onAction="#SaveAttendance" style="-fx-background-color: grey;" text="SAVE">
                <font>
                   <Font size="38.0" />
                </font>
