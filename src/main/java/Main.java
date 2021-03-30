@@ -25,15 +25,15 @@ public class Main extends Application {
         //for the student dashboard in the stage of development
         StudentDashboardController studentDashboardController = (StudentDashboardController)
         loader.getController();
-        studentDashboardController.setLoggedStudent(new Student(1, "Dorelia McCawley", "dmccawley0@epa.gov",
-                null,
-                1, 1));
-
         stage.setTitle("Attendance tracker");
         stage.getIcons().add(new Image("/images/icon.png"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
-        studentDashboardController.setlisteners(stage);
+        studentDashboardController.setLoggedStudent(new Student(1, "Dorelia McCawley", "dmccawley0@epa.gov",
+                null,
+                1, 1));
+
+
         stage.show();
     }
 }

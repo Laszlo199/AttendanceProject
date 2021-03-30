@@ -9,6 +9,9 @@ import gui.util.Resizer;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -36,6 +39,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class StudentDashboardController implements Initializable {
+    public Label subject;
+    public VBox vBox;
     @FXML
     private JFXRadioButton presentRadioButton;
     @FXML
@@ -48,11 +53,10 @@ public class StudentDashboardController implements Initializable {
     private Text hourLabel;
     @FXML
     private AnchorPane anchorChart;
-
     private final ToggleGroup groupRadioButtons = new ToggleGroup();
-
+    private DoubleProperty fontSize = new SimpleDoubleProperty(76);
     private StudentDashboardModel studentDashboardModel = new StudentDashboardModel();
-
+    private boolean quoteIsShown = false;
 
     @FXML
     private AnchorPane top;
@@ -79,9 +83,56 @@ public class StudentDashboardController implements Initializable {
         initPieChart();
         digitalClock();
         initGroupRadioButtons();
+        listenForShowingQuote();
+       // listenForResize();
+    }
 
-        //its not needed anymore -> moved to model
-       // this.absentDays = model.getAbsentDays(loggedStudent.getId());
+    private void listenForShowingQuote() {
+        vBox.sceneProperty().addListener((observableScene, oldScene, newScene) -> {
+            if (oldScene == null && newScene != null) {
+              newScene.heightProperty().addListener((observableValue, number, t1) -> {
+                  if(t1.intValue()> 760 && !quoteIsShown){
+                      System.out.println("bigger than 760");
+                      showQuote();
+                  }
+                  else{
+                      System.out.println("delate that quote");
+                  }
+              });
+            }
+        });
+    }
+/*
+    private void listenForResize() {
+        vBox.sceneProperty().addListener((observableScene, oldScene, newScene) -> {
+            if (oldScene == null && newScene != null) {
+                // scene is set for the first time. Now its the time to listen stage changes.
+                newScene.windowProperty().addListener((observableWindow, oldWindow, newWindow) -> {
+                    if (oldWindow == null && newWindow != null) {
+                        // stage is set. now is the right time to do whatever we need to the stage in the controller.
+                        ((Stage) newWindow).maximizedProperty().addListener((a, b, c) -> {
+                            if (c) {
+                                System.out.println("I am maximized!");
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+ */
+
+    private void showQuote() {
+       Label label = new Label(studentDashboardModel.getRandQuote());
+       label.wrapTextProperty().set(true);
+       vBox.getChildren().add(label);
+       quoteIsShown  =true;
+    }
+
+
+    private void setStudentsData() {
+        // TO DO
     }
 
     private void initGroupRadioButtons() {
@@ -210,9 +261,5 @@ public class StudentDashboardController implements Initializable {
         if(presentRadioButton.isSelected())
             isPresent  = true;
         setCurrentAttendance(isPresent);
-    }
-
-    public void setlisteners(Stage stage) {
-      //  Resizer.letterbox(stage.getScene(), top);
     }
 }

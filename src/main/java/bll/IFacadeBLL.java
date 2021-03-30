@@ -15,4 +15,6 @@ public interface IFacadeBLL {
     boolean verifyPassword(String email, String password, UserType userType);
 
     Student getStudent(String email);
+
+    String getRandomQuote();
 }

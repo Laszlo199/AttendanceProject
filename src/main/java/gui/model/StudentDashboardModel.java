@@ -3,18 +3,22 @@ package gui.model;
 import be.ChangeRequest;
 import be.Record;
 import be.ScheduleEntity;
+import bll.FacadeBLL;
+import bll.IFacadeBLL;
 import bll.managers.ChangeRequestManager;
 import bll.managers.RecordManager;
 import bll.managers.ScheduleEntityManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.sql.Array;
 import java.sql.Time;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 public class StudentDashboardModel {
-
+    private IFacadeBLL logic = FacadeBLL.getInstance();
     private ScheduleEntityManager scheduleEntityManager;
     private RecordManager recordManager;
     private ChangeRequestManager changeRequestManager;
@@ -48,5 +52,9 @@ public class StudentDashboardModel {
 
     public void createChangeRequest(ChangeRequest newRequest) {
         changeRequestManager.create(newRequest);
+    }
+
+    public String getRandQuote() {
+        return logic.getRandomQuote();
     }
 }

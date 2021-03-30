@@ -38,7 +38,6 @@ public class LogInStudent extends Command{
         stage.getIcons().add(new Image("/images/icon.png"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
-        studentDashboardController.setlisteners(stage);
         stage.show();
         return false;
     }

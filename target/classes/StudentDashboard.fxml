@@ -32,17 +32,17 @@
    <children>
       <AnchorPane fx:id="top" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.vgrow="NEVER">
          <children>
-            <ImageView fitHeight="78.0" fitWidth="103.0" layoutX="21.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="12.0">
+            <ImageView fx:id="studentImage" fitHeight="78.0" fitWidth="103.0" layoutX="21.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="12.0">
                <image>
                   <Image url="@images/person2.png" />
                </image>
             </ImageView>
-            <Text layoutX="115.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Danilel Cardman">
+            <Text fx:id="studentName" layoutX="115.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Danilel Cardman">
                <font>
                   <Font size="23.0" />
                </font>
             </Text>
-            <Text layoutX="115.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Computer Science  1st sem">
+            <Text fx:id="studentProgram" layoutX="115.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Computer Science  1st sem">
                <font>
                   <Font size="17.0" />
                </font>
@@ -64,12 +64,12 @@
             </Text>
          </children>
       </AnchorPane>
-      <VBox alignment="TOP_CENTER" spacing="10.0" style="-fx-background-color: white; -fx-border-color: grey;" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.vgrow="ALWAYS">
+      <VBox fx:id="vBox" alignment="TOP_CENTER" spacing="10.0" style="-fx-background-color: white; -fx-border-color: grey;" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.vgrow="ALWAYS">
          <GridPane.margin>
             <Insets bottom="20.0" left="40.0" right="40.0" top="10.0" />
          </GridPane.margin>
          <children>
-            <Label prefHeight="95.0" prefWidth="145.0" text="SCO">
+            <Label fx:id="subject" prefHeight="95.0" prefWidth="145.0" text="SCO">
                <font>
                   <Font size="76.0" />
                </font>
