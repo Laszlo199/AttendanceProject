@@ -22,7 +22,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.chart.PieChart;
+import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
@@ -37,6 +37,7 @@ import java.time.LocalDate;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 public class StudentDashboardController implements Initializable {
@@ -59,7 +60,13 @@ public class StudentDashboardController implements Initializable {
     private StudentDashboardModel studentDashboardModel = new StudentDashboardModel();
     private boolean quoteIsShown = false;
     Label quote;
-
+    DonutChart donutChart;
+    private boolean bigChartIsShown;
+    ComboBox<Months> comboBox = new ComboBox<>();
+    final CategoryAxis xAxis = new CategoryAxis();
+    final NumberAxis yAxis = new NumberAxis();
+    BarChart<String,Number> barChart =
+            new BarChart<String,Number>(xAxis,yAxis);
     @FXML
     private AnchorPane top;
     @FXML
@@ -70,6 +77,7 @@ public class StudentDashboardController implements Initializable {
     @FXML
     private ListView<Record> listView;
    // private List<Record> absentDays;
+    private int count =0;
 
     public void setLoggedStudent(Student student) {
         this.loggedStudent = student;
@@ -81,12 +89,91 @@ public class StudentDashboardController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
        //this.currentLesson = model.getCurrentLesson(loggedStudent.getCourseID());
+        initComboBox();
         setListView();
-        initPieChart();
+        addPieChart();
         digitalClock();
         initGroupRadioButtons();
         listenForShowingQuote();
+        listenForShowingSecondDiagram();
        // listenForResize();
+    }
+
+    private void initComboBox() {
+        for(Months m: Months.values())
+            comboBox.getItems().add(m);
+        comboBox.setPrefWidth(131);
+        comboBox.setLayoutX(358);
+        comboBox.setLayoutY(22);
+        comboBox.setPromptText("Select month");
+        AnchorPane.setTopAnchor(comboBox, 15.0);
+        AnchorPane.setRightAnchor(comboBox, 15.0);
+        anchorChart.getChildren().add(comboBox);
+    }
+
+    /**
+     * when there is enough space we delete the shown diagram
+     * and display full diagram for whole year. maybe resize the
+     * diagram to make it fill all the available space
+     *
+     * in the full screen mode show attendance compared to the
+     * full group (I have no idea how i can show that)
+     * it will be done later
+     */
+    private void listenForShowingSecondDiagram() {
+       anchorChart.sceneProperty().addListener((observableScene, oldScene, newScene) -> {
+           if (oldScene == null && newScene != null) {
+               newScene.widthProperty().addListener((observableValue, number, t1) -> {
+                   if(t1.intValue()> 1400 && !bigChartIsShown){
+                       System.out.println("bigger than 500. " + t1.intValue());
+                       //delete small diagram and combobox
+                       anchorChart.getChildren().removeAll(comboBox, donutChart);
+                       bigChartIsShown= true;
+                       //add new bigger diagram
+                       //TO DO
+                       if(count<1)
+                           initBarChart();
+                       anchorChart.getChildren().add(barChart);
+                       count++;
+                   }
+                   else if (t1.intValue() <= 1400 && bigChartIsShown){
+                       anchorChart.getChildren().remove(barChart);
+                       anchorChart.getChildren().addAll(this.comboBox, donutChart);
+                       bigChartIsShown=false;
+
+                   }
+
+               });
+           }
+       });
+    }
+
+    /**
+     * method is responsible for showing bar chart
+     * which corresponds to attendance in each month
+     *
+     * Also we need to think about the situation
+     *
+     * later it will be generated once and then it will just
+     * appear and disappear for the sake of optimalization
+     */
+    private void initBarChart() {
+        barChart.setTitle("Attendance summary");
+        xAxis.setLabel("Month");
+        yAxis.setLabel("Presence in %");
+        XYChart.Series series1 = new XYChart.Series();
+        Calendar time = Calendar.getInstance();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
+        series1.setName("Year: " + simpleDateFormat.format(time.getTime()));
+        for(Months m: Months.values()){
+            int presentDays = 0;
+            int absDays=1;
+            int avg = presentDays / (presentDays+absDays);
+            Random r = new Random();
+            series1.getData().add(new XYChart.Data(m.name(), r.nextInt(100) + 1));
+        }
+        barChart.setPrefHeight(anchorChart.getHeight()-30);
+        barChart.getData().add(series1);
     }
 
     private void listenForShowingQuote() {
@@ -98,7 +185,7 @@ public class StudentDashboardController implements Initializable {
                       showQuote();
                   }
                   else if (t1.intValue() <= 740 && quoteIsShown){
-                      System.out.println("delate that quote");
+                      System.out.println("delete that quote");
                       deleteQuote();
                   }
               });
@@ -152,13 +239,16 @@ public class StudentDashboardController implements Initializable {
         presentRadioButton.setSelected(true);
     }
 
-    private void initPieChart() {
+
+    private void addPieChart() {
         ObservableList<PieChart.Data> pieChartData = createData();
-        final DonutChart chart = new DonutChart(pieChartData);
-        chart.setTitle("Attendance");
-        chart.setPrefHeight(270);
-        chart.setPrefWidth(270);
-        anchorChart.getChildren().add(chart);
+        donutChart = new DonutChart(pieChartData);
+        donutChart.setTitle("Attendance");
+        donutChart.setPrefHeight(270);
+        donutChart.setPrefWidth(270);
+        AnchorPane.setLeftAnchor(donutChart, 10.0);
+        AnchorPane.setBottomAnchor(donutChart, 15.0);
+        anchorChart.getChildren().add(donutChart);
     }
 
     /**
@@ -167,6 +257,7 @@ public class StudentDashboardController implements Initializable {
      */
     private ObservableList<PieChart.Data> createData() {
         return FXCollections.observableArrayList(
+                //do we have  a method for getting a number of absent days ??
                 new PieChart.Data("Present", 13),
                 new PieChart.Data("Absent", 25));
     }

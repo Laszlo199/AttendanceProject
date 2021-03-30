@@ -1,20 +1,25 @@
 package dal;
 
+import be.ScheduleEntity;
 import be.Student;
 import be.UserType;
 import bll.FacadeBLL;
+import bll.OverviewAbsenceCalculator;
 import dal.dataAccessObjects.LoginDAO;
 import dal.dataAccessObjects.StudentDAO;
+
+import java.util.List;
 
 /**
  * @author Kuba
  * @date 3/24/2021 1:36 PM
  */
-public class FacadeDAL implements IFacadeDAL{
+public class FacadeDAL implements IFacadeDAL, IAbsenceData{
     private static FacadeDAL facadeDAL;
  private DBConnector dbConnector = new DBConnector();
  private LoginDAO loginDAO = new LoginDAO();
  private StudentDAO studentDAO = new StudentDAO();
+ private IAbsenceData absenceData = new AbsenceData();
 
     public static IFacadeDAL getInstance(){
         if(facadeDAL==null)
@@ -43,5 +48,40 @@ public class FacadeDAL implements IFacadeDAL{
     @Override
     public Student getStudent(String email) {
         return studentDAO.getStudent(email);
+    }
+
+    @Override
+    public int getNumberOfPresentDays(Student student, OverviewAbsenceCalculator.Timeframe timeframe) {
+        return absenceData.getNumberOfPresentDays(student, timeframe);
+    }
+
+    @Override
+    public int getNumberOfAbsentDays(Student student, OverviewAbsenceCalculator.Timeframe timeframe) {
+        return absenceData.getNumberOfAbsentDays(student, timeframe);
+    }
+
+    @Override
+    public List<Student> getAllStudents() {
+        return null;
+    }
+
+    @Override
+    public List<Student> getAbsentToday(ScheduleEntity scheduleEntity) {
+        return null;
+    }
+
+    @Override
+    public List<Student> getPresentToday(ScheduleEntity scheduleEntity) {
+        return null;
+    }
+
+    @Override
+    public int getNumberOfPresentToday(ScheduleEntity scheduleEntity) {
+        return 0;
+    }
+
+    @Override
+    public int getNumberOfAbsentToday(ScheduleEntity scheduleEntity) {
+        return 0;
     }
 }
