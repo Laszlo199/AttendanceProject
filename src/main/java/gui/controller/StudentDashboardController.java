@@ -20,6 +20,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
@@ -57,6 +58,7 @@ public class StudentDashboardController implements Initializable {
     private DoubleProperty fontSize = new SimpleDoubleProperty(76);
     private StudentDashboardModel studentDashboardModel = new StudentDashboardModel();
     private boolean quoteIsShown = false;
+    Label quote;
 
     @FXML
     private AnchorPane top;
@@ -91,17 +93,19 @@ public class StudentDashboardController implements Initializable {
         vBox.sceneProperty().addListener((observableScene, oldScene, newScene) -> {
             if (oldScene == null && newScene != null) {
               newScene.heightProperty().addListener((observableValue, number, t1) -> {
-                  if(t1.intValue()> 760 && !quoteIsShown){
+                  if(t1.intValue()> 740 && !quoteIsShown){
                       System.out.println("bigger than 760");
                       showQuote();
                   }
-                  else{
+                  else if (t1.intValue() <= 740 && quoteIsShown){
                       System.out.println("delate that quote");
+                      deleteQuote();
                   }
               });
             }
         });
     }
+
 /*
     private void listenForResize() {
         vBox.sceneProperty().addListener((observableScene, oldScene, newScene) -> {
@@ -124,10 +128,17 @@ public class StudentDashboardController implements Initializable {
  */
 
     private void showQuote() {
-       Label label = new Label(studentDashboardModel.getRandQuote());
-       label.wrapTextProperty().set(true);
-       vBox.getChildren().add(label);
-       quoteIsShown  =true;
+        quote = new Label(studentDashboardModel.getRandQuote());
+        quote.wrapTextProperty().set(true);
+       //top, left, bottom, right
+        quote.setPadding(new Insets(30 ,40, 0, 40) );
+       vBox.getChildren().add(quote);
+        quoteIsShown  = true;
+    }
+
+    private void deleteQuote() {
+        vBox.getChildren().remove(quote);
+        quoteIsShown =false;
     }
 
 
