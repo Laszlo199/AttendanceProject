@@ -7,14 +7,19 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import gui.command.Command;
+import gui.command.LogInStudent;
 import gui.controller.ILogIn;
 import gui.model.LoginModel;
 import gui.util.AlertDisplay;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Timer;
@@ -130,9 +135,32 @@ public class LogInWindowController implements Initializable, ILogIn {
         // not test because it actually not exists
         if(loginModel.verifyPassword(emailField.getText(),
                 emailField.getText(), UserType.TEACHER)){
-
+            //add it when we  have full teacher gui
         }
 
+    }
+
+    /**
+     * method is responsible for handling logging in
+     * It follows command pattern
+     * @param actionEvent
+     * @param command
+     */
+    private void executeLogIn(ActionEvent actionEvent, Command command){
+        //close this stage
+        Node node = (Node) actionEvent.getSource();
+        Stage thisStage = (Stage) node.getScene().getWindow();
+        command.closeCurrentStage(thisStage);
+        //open new stage
+        try {
+            if(!command.logIn()){
+                //show information that we couldn't log in
+                AlertDisplay.displayAlert("Couldn't open Dashboard",
+                        "Please try again", "", Alert.AlertType.ERROR);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public class Opener{
@@ -146,6 +174,12 @@ public class LogInWindowController implements Initializable, ILogIn {
      * @param actionEvent
      */
     public void logStudentButton(ActionEvent actionEvent) {
+        if(loginModel.verifyPassword(emailField.getText(),
+                emailField.getText(), UserType.STUDENT)){
+            //we need to get student
+           executeLogIn(actionEvent, new LogInStudent(loginModel.
+                   getStudent(emailField.getText())));
+        }
     }
 
     /**
