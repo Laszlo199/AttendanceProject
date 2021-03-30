@@ -60,7 +60,7 @@ public class StudentDashboardController implements Initializable {
     private GridPane gridPane;
     private Student loggedStudent;
     private ScheduleEntity currentLesson;
-    private StudentDashboardModel model;
+    private static StudentDashboardModel model;
     @FXML
     private ListView<Record> listView;
    // private List<Record> absentDays;
@@ -74,12 +74,13 @@ public class StudentDashboardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-       // this.currentLesson = model.getCurrentLesson(loggedStudent.getCourseID());
+       //this.currentLesson = model.getCurrentLesson(loggedStudent.getCourseID());
         setListView();
         initPieChart();
         digitalClock();
         initGroupRadioButtons();
 
+        //its not needed anymore -> moved to model
        // this.absentDays = model.getAbsentDays(loggedStudent.getId());
     }
 
@@ -166,6 +167,11 @@ public class StudentDashboardController implements Initializable {
                 @Override
                 public void handle(ActionEvent event) {
                     System.out.println(lastItem + " : " + event);
+                    editAttendance(lastItem);
+                }
+                private void editAttendance(Record lastItem) {
+                    ChangeRequest newRequest = new ChangeRequest(lastItem.getId(), StatusType.PENDING);
+                    model.createChangeRequest(newRequest);
                 }
             });
         }
@@ -205,15 +211,6 @@ public class StudentDashboardController implements Initializable {
             isPresent  = true;
         setCurrentAttendance(isPresent);
     }
-
-    //when 'edit' button
-    //creates a changeRequest
-    public void editAttendance() {
-        //!! insert actual recordId !!
-        ChangeRequest newRequest = new ChangeRequest(0, StatusType.PENDING);
-        model.createChangeRequest(newRequest);
-    }
-
 
     public void setlisteners(Stage stage) {
       //  Resizer.letterbox(stage.getScene(), top);
