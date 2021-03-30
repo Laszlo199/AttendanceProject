@@ -2,6 +2,7 @@ package gui.controller;
 
 import be.*;
 import be.Record;
+import com.jfoenix.controls.JFXRadioButton;
 import gui.model.StudentDashboardModel;
 import gui.util.DonutChart;
 import gui.util.Resizer;
@@ -18,10 +19,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
@@ -39,6 +37,10 @@ import java.util.ResourceBundle;
 
 public class StudentDashboardController implements Initializable {
     @FXML
+    private JFXRadioButton presentRadioButton;
+    @FXML
+    private JFXRadioButton absentRadioButton;
+    @FXML
     private Text dayLabel;
     @FXML
     private Text dateLabel;
@@ -46,10 +48,14 @@ public class StudentDashboardController implements Initializable {
     private Text hourLabel;
     @FXML
     private AnchorPane anchorChart;
+
+    private final ToggleGroup groupRadioButtons = new ToggleGroup();
+
     private StudentDashboardModel studentDashboardModel = new StudentDashboardModel();
 
 
-    public AnchorPane top;
+    @FXML
+    private AnchorPane top;
     @FXML
     private GridPane gridPane;
     private Student loggedStudent;
@@ -72,8 +78,15 @@ public class StudentDashboardController implements Initializable {
         setListView();
         initPieChart();
         digitalClock();
+        initGroupRadioButtons();
 
        // this.absentDays = model.getAbsentDays(loggedStudent.getId());
+    }
+
+    private void initGroupRadioButtons() {
+        absentRadioButton.setToggleGroup(groupRadioButtons);
+        presentRadioButton.setToggleGroup(groupRadioButtons);
+        presentRadioButton.setSelected(true);
     }
 
     private void initPieChart() {

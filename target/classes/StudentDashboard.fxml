@@ -86,12 +86,12 @@
             </Label>
             <HBox alignment="TOP_CENTER" prefHeight="44.0" prefWidth="483.0" spacing="70.0">
                <children>
-                  <JFXRadioButton text="present">
+                  <JFXRadioButton fx:id="presentRadioButton" text="present">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </JFXRadioButton>
-                  <JFXRadioButton text="absent">
+                  <JFXRadioButton fx:id="absentRadioButton" text="absent">
                      <font>
                         <Font size="18.0" />
                      </font>
