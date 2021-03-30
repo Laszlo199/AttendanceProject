@@ -84,4 +84,14 @@ public class FacadeDAL implements IFacadeDAL, IAbsenceData{
     public int getNumberOfAbsentToday(ScheduleEntity scheduleEntity) {
         return 0;
     }
+
+    @Override
+    public int getAbsForDay(Enum dayOfWeek) {
+        return 0;
+    }
+
+    @Override
+    public int getPresentForDay(Enum dayOfWeek) {
+        return 0;
+    }
 }
