@@ -1,9 +1,11 @@
 package bll;
 
 import be.Student;
+import be.Subject;
 import be.WeekDay;
 import dal.IAbsenceData;
 
+import java.time.DayOfWeek;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -83,7 +85,25 @@ public class OverviewAbsenceCalculator implements ICalculationsOverview{
 
         return min.getKey();
     }
+    public DayOfWeek getAbsORPresentForDay() {
 
+       HashMap<DayOfWeek, Integer> hasmap= new HashMap<>();
+        for (DayOfWeek day: DayOfWeek.values()) {
+            int present = dal.getPresentForDay(day);
+            int abs = dal.getAbsForDay(day);
+            int pr = present / (present + abs );
+            hasmap.put(day, pr);
+        }
+
+        HashMap.Entry<DayOfWeek, Integer> min = null;
+        for (HashMap.Entry<DayOfWeek, Integer> entry : hasmap.entrySet()) {
+            if (min == null || min.getValue() > entry.getValue()) {
+                min = entry;
+            }
+        }
+
+        return min.getKey();
+    }
 
     public enum Timeframe{
         MONTH,

@@ -19,5 +19,7 @@ public interface IAbsenceData {
     List<Student> getPresentToday(ScheduleEntity scheduleEntity);
     int getNumberOfPresentToday(ScheduleEntity scheduleEntity);
     int getNumberOfAbsentToday(ScheduleEntity scheduleEntity);
+    int getAbsForDay(Enum dayOfWeek);
+    int getPresentForDay(Enum dayOfWeek);
 
 }

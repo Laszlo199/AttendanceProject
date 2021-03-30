@@ -2,6 +2,7 @@ package dal;
 
 import be.ScheduleEntity;
 import be.Student;
+import be.WeekDay;
 import bll.OverviewAbsenceCalculator;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dal.dataAccessObjects.StudentDAO;
@@ -10,6 +11,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * @author kamila
@@ -57,6 +59,12 @@ public class AbsenceData implements IAbsenceData {
     @Override
     public int getNumberOfAbsentToday(ScheduleEntity scheduleEntity) {
         return getNumberOfToday(scheduleEntity, 0);
+    }
+    public int getAbsForDay(Enum dayOfWeek){
+        return getAllDays(false, dayOfWeek);
+    }
+    public int getPresentForDay(Enum dayOfWeek){
+        return getAllDays(true, dayOfWeek);
     }
 
     /**
@@ -158,6 +166,32 @@ public class AbsenceData implements IAbsenceData {
             ResultSet rs = pstat.executeQuery();
             while(rs.next()) {
                 number = rs.getInt("NumberOfStudents");
+            }
+        } catch (SQLServerException throwables) {
+            throwables.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return number;
+    }
+
+    private int getAllDays(Boolean isPresent,Enum dayOfWeek) {
+        int number = 0;
+        String temp = String.valueOf(dayOfWeek).toLowerCase();
+        temp = temp.substring(0,1).toUpperCase() + String.valueOf(dayOfWeek).toLowerCase().substring(1);
+
+
+        try(Connection connection = dbConnector.getConnection()) {
+            String sql = "SELECT COUNT(r.ID) AS AbsOrPresentDays " +
+                    "FROM Records r " +
+                    "JOIN ScheduleEntity se ON se.ID = r.ScheduleEntityID " +
+                    "WHERE r.isPresent=? AND se.WeekDay=?";
+            PreparedStatement pstat = connection.prepareStatement(sql);
+            pstat.setBoolean(1, isPresent);
+            pstat.setString(2, temp);
+            ResultSet rs = pstat.executeQuery();
+            while(rs.next()) {
+                number = rs.getInt("AbsOrPresentDays");
             }
         } catch (SQLServerException throwables) {
             throwables.printStackTrace();
