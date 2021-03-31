@@ -117,7 +117,7 @@ public class ScheduleEntityDAO {
                         entity = new ScheduleEntity(id, subjectId, WeekDay.WEDNESDAY, startTime, endTime);
                     case "thursday":
                         entity = new ScheduleEntity(id, subjectId, WeekDay.THURSDAY, startTime, endTime);
-                    case "fiday":
+                    case "friday":
                         entity = new ScheduleEntity(id, subjectId, WeekDay.FRIDAY, startTime, endTime);
                 }
             }
