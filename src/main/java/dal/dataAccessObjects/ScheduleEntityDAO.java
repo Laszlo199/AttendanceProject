@@ -10,6 +10,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -135,8 +136,7 @@ public class ScheduleEntityDAO {
         ScheduleEntity currentLesson = null;
         LocalDate currentDate = LocalDate.now();
         String day = currentDate.getDayOfWeek().toString();
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-        String currentTime = dateFormat.format(LocalTime.now());
+        String currentTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
 
         try(Connection connection = dbConnector.getConnection()) {
             String sql = "SELECT se.* " +

@@ -5,7 +5,7 @@ import be.Record;
 import com.jfoenix.controls.JFXRadioButton;
 import gui.model.StudentDashboardModel;
 import gui.util.DonutChart;
-import gui.util.Resizer;
+//import gui.util.Resizer;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -40,6 +40,7 @@ import javafx.util.Duration;
 
 import java.awt.*;
 import java.net.URL;
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.sql.Date;
@@ -93,13 +94,11 @@ public class StudentDashboardController implements Initializable {
     public void setLoggedStudent(Student student) {
         this.loggedStudent = student;
         model.setAbsentDays(loggedStudent.getId());
-         //there is an exception when I use that method
-         //this.currentLesson = model.getCurrentLesson(loggedStudent.getCourseID());
+        this.currentLesson = model.getCurrentLesson(loggedStudent.getCourseID());
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-       //this.currentLesson = model.getCurrentLesson(loggedStudent.getCourseID());
         initComboBox();
         setListView();
         initPieChart();
