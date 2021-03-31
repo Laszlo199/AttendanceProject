@@ -49,10 +49,11 @@ import java.util.Random;
 import java.util.ResourceBundle;
 
 public class StudentDashboardController implements Initializable {
-    private final Label caption = new Label("");
-    public Label subject;
-    public VBox vBox;
-    public AnchorPane quoteBackground;
+
+    @FXML
+    private  Label subject;
+    @FXML
+    private  VBox vBox;
     @FXML
     private JFXRadioButton presentRadioButton;
     @FXML
@@ -65,34 +66,29 @@ public class StudentDashboardController implements Initializable {
     private Text hourLabel;
     @FXML
     private AnchorPane anchorChart;
+    @FXML
+    private ListView<Record> listView;
+
     private final ToggleGroup groupRadioButtons = new ToggleGroup();
-    private DoubleProperty fontSize = new SimpleDoubleProperty(76);
-    private StudentDashboardModel studentDashboardModel = new StudentDashboardModel();
-    private boolean quoteIsShown = false;
-    Label quote = new Label(studentDashboardModel.getRandQuote());
     StackPane stackPane = new StackPane();
     DonutChart donutChart;
     private boolean bigChartIsShown;
     ComboBox<Months> comboBox = new ComboBox<>();
     final CategoryAxis xAxis = new CategoryAxis();
     final NumberAxis yAxis = new NumberAxis();
-    BarChart<String,Number> barChart =
+    private BarChart<String,Number> barChart =
             new BarChart<String,Number>(xAxis,yAxis);
-    @FXML
-    private AnchorPane top;
-    @FXML
-    private GridPane gridPane;
+    private ObservableList<PieChart.Data> pieChartData;
+    private final Label caption = new Label("");
+
     private Student loggedStudent;
     private ScheduleEntity currentLesson;
     private static StudentDashboardModel model;
-    @FXML
-    private ListView<Record> listView;
-   // private List<Record> absentDays;
+    private DoubleProperty fontSize = new SimpleDoubleProperty(76);
     private int count =0;
-    private ObservableList<PieChart.Data> pieChartData;
-
-    public StudentDashboardController() {
-    }
+    private StudentDashboardModel studentDashboardModel = new StudentDashboardModel();
+    private boolean quoteIsShown = false;
+    Label quote = new Label(studentDashboardModel.getRandQuote());
 
     public void setLoggedStudent(Student student) {
         this.loggedStudent = student;
@@ -103,7 +99,6 @@ public class StudentDashboardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
        //this.currentLesson = model.getCurrentLesson(loggedStudent.getCourseID());
         initComboBox();
         setListView();
@@ -112,19 +107,29 @@ public class StudentDashboardController implements Initializable {
         initGroupRadioButtons();
         listenForShowingQuote();
         listenerPieChart();
-       // listenForShowingSecondDiagram();
-       // listenForResize();
     }
 
     private void listenerPieChart() {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                formatData();
+                hoveredPieChart();
+                unhoveredPieChart();
             }
         });
     }
-    private void formatData() {
+
+    private void unhoveredPieChart() {
+        donutChart.getData()
+                .stream()
+                .forEach(data -> {
+                    data.getNode().addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
+                        caption.setVisible(false);
+                    });
+                });
+    }
+
+    private void hoveredPieChart() {
         donutChart.getData()
                 .stream()
                 .forEach(data ->{
@@ -133,19 +138,12 @@ public class StudentDashboardController implements Initializable {
                         Point2D locationInParent = donutChart.sceneToLocal(locationInScene);
                         caption.relocate(locationInParent.getX(), locationInParent.getY());
 
-                                        caption.setText(String.valueOf(data.getPieValue()));
-                                        caption.setVisible(true);
-                                });
+                        caption.setText(String.valueOf(data.getPieValue()));
+                        caption.setVisible(true);
                     });
-
-        donutChart.getData()
-                .stream()
-                .forEach(data -> {
-                            data.getNode().addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
-                                caption.setVisible(false);
-                            });
-                        });
+                });
     }
+
 
 
     private void initPieChart() {
@@ -156,18 +154,13 @@ public class StudentDashboardController implements Initializable {
         donutChart.setPrefWidth(270);
         AnchorPane.setLeftAnchor(donutChart, 10.0);
         AnchorPane.setBottomAnchor(donutChart, 15.0);
-       // anchorChart.getChildren().addAll(donutChart);
-
         caption.setVisible(false);
         caption.getStyleClass().addAll("chart-line-symbol", "chart-series-line");
         caption.setStyle("-fx-font-size: 12; -fx-font-weight: bold;");
         caption.setMinSize(Label.USE_PREF_SIZE, Label.USE_PREF_SIZE);
-        //anchorChart.getChildren().add(caption);
-
         Group group = new Group(donutChart, caption);
         anchorChart.getChildren().add(group);
     }
-
 
     private void initComboBox() {
         for(Months m: Months.values())
@@ -328,8 +321,6 @@ public class StudentDashboardController implements Initializable {
     }
 
     private void setListView() {
-      //  System.out.println(loggedStudent.toString());
-       // studentDashboardModel.setAbsentDays(loggedStudent.getId());
        listView.setItems(studentDashboardModel.getRecordObservableList());
         for (Record r: studentDashboardModel.getRecordObservableList()
              ) {
@@ -341,7 +332,6 @@ public class StudentDashboardController implements Initializable {
                 return new RecordCell();
             }
         });
-
     }
 
     /**
@@ -412,8 +402,6 @@ public class StudentDashboardController implements Initializable {
     //creates a new Record
     public void setCurrentAttendance(boolean isPresent) {
         LocalDate currentDate = LocalDate.now();
-        //here basing on what a user chooses
-        //0 is a temporary id
         Record record = new Record(0, loggedStudent.getId(), Date.valueOf(currentDate), currentLesson.getId(), isPresent);
         model.createRecord(record);
     }
