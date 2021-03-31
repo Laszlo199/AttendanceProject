@@ -1,5 +1,6 @@
 package dal;
 
+import be.Months;
 import be.ScheduleEntity;
 import be.Student;
 import bll.OverviewAbsenceCalculator;
@@ -12,8 +13,8 @@ import java.util.List;
  * @date 3/22/2021 9:01 PM
  */
 public interface IAbsenceData {
-    int getNumberOfPresentDays(Student student, OverviewAbsenceCalculator.Timeframe timeframe);
-    int getNumberOfAbsentDays(Student student, OverviewAbsenceCalculator.Timeframe timeframe);
+    int getNumberOfPresentDays(Student student, Months month);
+    int getNumberOfAbsentDays(Student student, Months month);
     List<Student> getAllStudents();
     List<Student> getAbsentToday(ScheduleEntity scheduleEntity);
     List<Student> getPresentToday(ScheduleEntity scheduleEntity);

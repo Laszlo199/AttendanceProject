@@ -129,7 +129,7 @@ public class ScheduleEntityDAO {
     /**
      *
      * @param courseId course of the student that is currently logged in
-     * @return null if there isnt any currect lesson, ScheduleEntity if there is a lesson at the moment
+     * @return null if there isnt any current lesson, ScheduleEntity if there is a lesson at the moment
      */
     public ScheduleEntity getCurrentEntity(int courseId) {
         ScheduleEntity currentLesson = null;

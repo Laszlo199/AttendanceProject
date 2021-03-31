@@ -1,5 +1,6 @@
 package dal;
 
+import be.Months;
 import be.ScheduleEntity;
 import be.Student;
 import be.WeekDay;
@@ -27,13 +28,13 @@ public class AbsenceData implements IAbsenceData {
     }
 
     @Override
-    public int getNumberOfPresentDays(Student student, OverviewAbsenceCalculator.Timeframe timeframe) {
-        return getNumberOfDays(1, student, timeframe);
+    public int getNumberOfPresentDays(Student student, Months month) {
+        return getNumberOfDays(1, student, month);
     }
 
     @Override
-    public int getNumberOfAbsentDays(Student student, OverviewAbsenceCalculator.Timeframe timeframe) {
-        return getNumberOfDays(0, student, timeframe);
+    public int getNumberOfAbsentDays(Student student, Months month) {
+        return getNumberOfDays(0, student, month);
     }
 
     @Override
@@ -72,39 +73,20 @@ public class AbsenceData implements IAbsenceData {
      * @param isPresent 1 - present days, 0 - absent days
      * @return number of those days
      */
-    private int getNumberOfDays(int isPresent, Student student, OverviewAbsenceCalculator.Timeframe timeframe) {
+    private int getNumberOfDays(int isPresent, Student student, Months month) {
         int number = 0;
-        LocalDate currentDate = LocalDate.now();
-        int month = currentDate.getMonthValue();
 
         try(Connection connection = dbConnector.getConnection()) {
-
-            switch (timeframe) {
-                case MONTH -> {
-                    String sql = "SELECT COUNT(r.ID) AS NumberOfDays " +
-                            "FROM Records r " +
-                            "WHERE r.StudentID=? AND r.isPresent=? AND MONTH(r.[Date])=?";
-                    PreparedStatement pstat = connection.prepareStatement(sql);
-                    pstat.setInt(1, student.getId());
-                    pstat.setInt(2, isPresent);
-                    pstat.setInt(3, month);
-                    ResultSet rs = pstat.executeQuery();
-                    while(rs.next()) {
-                        number = rs.getInt("NumberOfDays");
-                    }
-                }
-                case SEMESTER -> {
-                    String sql = "SELECT COUNT(r.ID) AS NumberOfDays " +
-                            "FROM Records r " +
-                            "WHERE r.StudentID=? AND r.isPresent=?";
-                    PreparedStatement pstat = connection.prepareStatement(sql);
-                    pstat.setInt(1, student.getId());
-                    pstat.setInt(2, isPresent);
-                    ResultSet rs = pstat.executeQuery();
-                    while(rs.next()) {
-                        number = rs.getInt("NumberOfDays");
-                    }
-                }
+            String sql = "SELECT COUNT(r.ID) AS NumberOfDays " +
+                    "FROM Records r " +
+                    "WHERE r.StudentID=? AND r.isPresent=? AND MONTH(r.[Date])=?";
+            PreparedStatement pstat = connection.prepareStatement(sql);
+            pstat.setInt(1, student.getId());
+            pstat.setInt(2, isPresent);
+            pstat.setInt(3, month.getValue());
+            ResultSet rs = pstat.executeQuery();
+            while(rs.next()) {
+                number = rs.getInt("NumberOfDays");
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
