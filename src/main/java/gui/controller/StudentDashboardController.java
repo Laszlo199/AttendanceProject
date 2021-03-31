@@ -43,6 +43,7 @@ import java.util.ResourceBundle;
 public class StudentDashboardController implements Initializable {
     public Label subject;
     public VBox vBox;
+    public AnchorPane quoteBackground;
     @FXML
     private JFXRadioButton presentRadioButton;
     @FXML
@@ -59,7 +60,8 @@ public class StudentDashboardController implements Initializable {
     private DoubleProperty fontSize = new SimpleDoubleProperty(76);
     private StudentDashboardModel studentDashboardModel = new StudentDashboardModel();
     private boolean quoteIsShown = false;
-    Label quote;
+    Label quote = new Label(studentDashboardModel.getRandQuote());
+    StackPane stackPane = new StackPane();
     DonutChart donutChart;
     private boolean bigChartIsShown;
     ComboBox<Months> comboBox = new ComboBox<>();
@@ -124,9 +126,10 @@ public class StudentDashboardController implements Initializable {
        anchorChart.sceneProperty().addListener((observableScene, oldScene, newScene) -> {
            if (oldScene == null && newScene != null) {
                newScene.widthProperty().addListener((observableValue, number, t1) -> {
-                   if(t1.intValue()> 1400 && !bigChartIsShown){
+                   if(t1.intValue()> 1500 && !bigChartIsShown){
                        System.out.println("bigger than 500. " + t1.intValue());
                        //delete small diagram and combobox
+                       //it can be commented
                        anchorChart.getChildren().removeAll(comboBox, donutChart);
                        bigChartIsShown= true;
                        //add new bigger diagram
@@ -136,8 +139,9 @@ public class StudentDashboardController implements Initializable {
                        anchorChart.getChildren().add(barChart);
                        count++;
                    }
-                   else if (t1.intValue() <= 1400 && bigChartIsShown){
+                   else if (t1.intValue() <= 1500 && bigChartIsShown){
                        anchorChart.getChildren().remove(barChart);
+                       //it can be commnented
                        anchorChart.getChildren().addAll(this.comboBox, donutChart);
                        bigChartIsShown=false;
 
@@ -172,8 +176,10 @@ public class StudentDashboardController implements Initializable {
             Random r = new Random();
             series1.getData().add(new XYChart.Data(m.name(), r.nextInt(100) + 1));
         }
-        barChart.setPrefHeight(anchorChart.getHeight()-30);
+        barChart.setPrefHeight(anchorChart.getHeight()-60);
         barChart.getData().add(series1);
+        AnchorPane.setBottomAnchor(barChart, 1.0);
+        AnchorPane.setRightAnchor(barChart, 8.0);
     }
 
     private void listenForShowingQuote() {
@@ -203,7 +209,7 @@ public class StudentDashboardController implements Initializable {
                         // stage is set. now is the right time to do whatever we need to the stage in the controller.
                         ((Stage) newWindow).maximizedProperty().addListener((a, b, c) -> {
                             if (c) {
-                                System.out.println("I am maximized!");
+                                System.out.println("I am maximized");
                             }
                         });
                     }
@@ -215,16 +221,17 @@ public class StudentDashboardController implements Initializable {
  */
 
     private void showQuote() {
-        quote = new Label(studentDashboardModel.getRandQuote());
-        quote.wrapTextProperty().set(true);
-       //top, left, bottom, right
-        quote.setPadding(new Insets(30 ,40, 0, 40) );
-       vBox.getChildren().add(quote);
-        quoteIsShown  = true;
+        quote.getStyleClass().add("labelQuote");
+        stackPane.getStyleClass().add("boxQuote");
+        HBox.setHgrow(stackPane, Priority.ALWAYS);
+        stackPane.getChildren().add(quote);
+        vBox.getChildren().add(stackPane);
+        quoteIsShown = true;
     }
 
     private void deleteQuote() {
-        vBox.getChildren().remove(quote);
+        stackPane.getChildren().remove(quote);
+        vBox.getChildren().removeAll(stackPane);
         quoteIsShown =false;
     }
 

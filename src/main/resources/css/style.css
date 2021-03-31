@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Gelasio:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+.boxQuote{
+    /*top, left, bottom, right*/
+    -fx-background-color: #f8fffe;
+    /*-fx-border-color: #b0d2cb; */
+   /* -fx-border-width: 1px; */
+   /* -fx-border-radius: 10px; */
+    -fx-background-radius: 10px;
+    -fx-background-insets: 10px;
+    -fx-effect: dropshadow(three-pass-box, gainsboro, 10, 0, 0, 0);
+}
+
+.labelQuote {
+    -fx-wrap-text: true;
+    -fx-padding: 30 40 30 40;
+    -fx-font-size: 2.0em;
+    -fx-font-family: 'Gelasio', Serif;
+    -fx-font-style: italic;
+}
