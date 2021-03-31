@@ -1,5 +1,6 @@
 package bll;
 
+import be.Months;
 import be.Student;
 import be.WeekDay;
 
@@ -12,7 +13,7 @@ import java.util.HashMap;
 public interface ICalculationsOverview {
         // Name, encapsulated data.
         HashMap<String,  OverviewAbsenceCalculator.OverviewEntity>
-        getOverviewClassAttendance(OverviewAbsenceCalculator.Timeframe timeframe);
-        int getPresence(Student student, OverviewAbsenceCalculator.Timeframe timeframe);
-        WeekDay getMostAbsWeekday(OverviewAbsenceCalculator.Timeframe timeframe, Student student);
+        getOverviewClassAttendance(Months month);
+        int getPresence(Student student, Months month);
+        WeekDay getMostAbsWeekday(Months month, Student student);
 }
