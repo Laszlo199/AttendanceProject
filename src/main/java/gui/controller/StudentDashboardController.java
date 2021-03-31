@@ -83,16 +83,16 @@ public class StudentDashboardController implements Initializable {
 
     private Student loggedStudent;
     private ScheduleEntity currentLesson;
-    private static StudentDashboardModel model;
+    private static StudentDashboardModel model = new StudentDashboardModel();
     private DoubleProperty fontSize = new SimpleDoubleProperty(76);
     private int count =0;
-    private StudentDashboardModel studentDashboardModel = new StudentDashboardModel();
+   // private StudentDashboardModel studentDashboardModel = new StudentDashboardModel();
     private boolean quoteIsShown = false;
-    Label quote = new Label(studentDashboardModel.getRandQuote());
+    Label quote = new Label(model.getRandQuote());
 
     public void setLoggedStudent(Student student) {
         this.loggedStudent = student;
-        studentDashboardModel.setAbsentDays(loggedStudent.getId());
+        model.setAbsentDays(loggedStudent.getId());
          //there is an exception when I use that method
          //this.currentLesson = model.getCurrentLesson(loggedStudent.getCourseID());
     }
@@ -321,8 +321,8 @@ public class StudentDashboardController implements Initializable {
     }
 
     private void setListView() {
-       listView.setItems(studentDashboardModel.getRecordObservableList());
-        for (Record r: studentDashboardModel.getRecordObservableList()
+       listView.setItems(model.getRecordObservableList());
+        for (Record r: model.getRecordObservableList()
              ) {
             System.out.println(r);
         }

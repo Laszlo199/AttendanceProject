@@ -21,7 +21,7 @@ public class StudentDashboardModel {
     private IFacadeBLL logic = FacadeBLL.getInstance();
     private ScheduleEntityManager scheduleEntityManager;
     private RecordManager recordManager;
-    private ChangeRequestManager changeRequestManager;
+    private ChangeRequestManager changeRequestManager = new ChangeRequestManager();
     private ObservableList<Record> recordObservableList =
             FXCollections.observableArrayList();
 
