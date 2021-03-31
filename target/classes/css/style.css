@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Gelasio:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
+/*styling quote */
 .boxQuote{
     /*top, left, bottom, right*/
     -fx-background-color: #f8fffe;
@@ -17,4 +18,25 @@
     -fx-font-size: 2.0em;
     -fx-font-family: 'Gelasio', Serif;
     -fx-font-style: italic;
+}
+
+/* styling pie chart*/
+.default-color0.chart-pie { -fx-pie-color: #860061; }
+.default-color1.chart-pie { -fx-pie-color: #ffa500; }
+.default-color2.chart-pie { -fx-pie-color: #ffd700; }
+.default-color3.chart-pie { -fx-pie-color: #adff2f; }
+.default-color4.chart-pie { -fx-pie-color: #ff5700; }
+
+.chart-pie-label-line {
+    -fx-stroke: #8b4513;
+    -fx-fill: #8b4513;
+}
+
+.chart-pie-label {
+    -fx-fill: #8b4513;
+    -fx-font-size: 1em;
+}
+.chart-legend {
+    -fx-background-color:  #fafad2;
+    -fx-stroke: #daa520;
 }

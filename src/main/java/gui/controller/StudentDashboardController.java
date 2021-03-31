@@ -97,7 +97,7 @@ public class StudentDashboardController implements Initializable {
         digitalClock();
         initGroupRadioButtons();
         listenForShowingQuote();
-        listenForShowingSecondDiagram();
+       // listenForShowingSecondDiagram();
        // listenForResize();
     }
 
