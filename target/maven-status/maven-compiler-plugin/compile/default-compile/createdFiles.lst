@@ -13,6 +13,7 @@ gui\controller\LogInWindowController$Opener.class
 gui\controller\StudentDashboardController$1.class
 bll\managers\ChangeRequestManager.class
 bll\util\PasswordHasher.class
+gui\controller\StudentDashboardController$3.class
 gui\command\LogInStudent.class
 gui\controller\StudentDashboardController.class
 bll\managers\ScheduleEntityManager.class

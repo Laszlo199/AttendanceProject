@@ -9,6 +9,7 @@ import gui.util.Resizer;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -21,16 +22,23 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
 
+import java.awt.*;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -41,6 +49,7 @@ import java.util.Random;
 import java.util.ResourceBundle;
 
 public class StudentDashboardController implements Initializable {
+    private final Label caption = new Label("");
     public Label subject;
     public VBox vBox;
     public AnchorPane quoteBackground;
@@ -80,6 +89,10 @@ public class StudentDashboardController implements Initializable {
     private ListView<Record> listView;
    // private List<Record> absentDays;
     private int count =0;
+    private ObservableList<PieChart.Data> pieChartData;
+
+    public StudentDashboardController() {
+    }
 
     public void setLoggedStudent(Student student) {
         this.loggedStudent = student;
@@ -90,16 +103,71 @@ public class StudentDashboardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
        //this.currentLesson = model.getCurrentLesson(loggedStudent.getCourseID());
         initComboBox();
         setListView();
-        addPieChart();
+        initPieChart();
         digitalClock();
         initGroupRadioButtons();
         listenForShowingQuote();
+        listenerPieChart();
        // listenForShowingSecondDiagram();
        // listenForResize();
     }
+
+    private void listenerPieChart() {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                formatData();
+            }
+        });
+    }
+    private void formatData() {
+        donutChart.getData()
+                .stream()
+                .forEach(data ->{
+                    data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED, e->{
+                        Point2D locationInScene = new Point2D(e.getSceneX(), e.getSceneY());
+                        Point2D locationInParent = donutChart.sceneToLocal(locationInScene);
+                        caption.relocate(locationInParent.getX(), locationInParent.getY());
+
+                                        caption.setText(String.valueOf(data.getPieValue()));
+                                        caption.setVisible(true);
+                                });
+                    });
+
+        donutChart.getData()
+                .stream()
+                .forEach(data -> {
+                            data.getNode().addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
+                                caption.setVisible(false);
+                            });
+                        });
+    }
+
+
+    private void initPieChart() {
+        ObservableList<PieChart.Data> pieChartData = createData();
+        donutChart = new DonutChart(pieChartData);
+        donutChart.setTitle("Attendance");
+        donutChart.setPrefHeight(270);
+        donutChart.setPrefWidth(270);
+        AnchorPane.setLeftAnchor(donutChart, 10.0);
+        AnchorPane.setBottomAnchor(donutChart, 15.0);
+       // anchorChart.getChildren().addAll(donutChart);
+
+        caption.setVisible(false);
+        caption.getStyleClass().addAll("chart-line-symbol", "chart-series-line");
+        caption.setStyle("-fx-font-size: 12; -fx-font-weight: bold;");
+        caption.setMinSize(Label.USE_PREF_SIZE, Label.USE_PREF_SIZE);
+        //anchorChart.getChildren().add(caption);
+
+        Group group = new Group(donutChart, caption);
+        anchorChart.getChildren().add(group);
+    }
+
 
     private void initComboBox() {
         for(Months m: Months.values())
@@ -247,16 +315,6 @@ public class StudentDashboardController implements Initializable {
     }
 
 
-    private void addPieChart() {
-        ObservableList<PieChart.Data> pieChartData = createData();
-        donutChart = new DonutChart(pieChartData);
-        donutChart.setTitle("Attendance");
-        donutChart.setPrefHeight(270);
-        donutChart.setPrefWidth(270);
-        AnchorPane.setLeftAnchor(donutChart, 10.0);
-        AnchorPane.setBottomAnchor(donutChart, 15.0);
-        anchorChart.getChildren().add(donutChart);
-    }
 
     /**
      * creates data for PieChart
