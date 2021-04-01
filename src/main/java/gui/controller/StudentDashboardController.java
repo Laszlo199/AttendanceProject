@@ -167,7 +167,13 @@ public class StudentDashboardController implements Initializable {
                         Point2D locationInScene = new Point2D(e.getSceneX(), e.getSceneY());
                         Point2D locationInParent = donutChart.sceneToLocal(locationInScene);
                         caption.relocate(locationInParent.getX(), locationInParent.getY());
-                        caption.setText(String.valueOf(data.getPieValue()));
+                       // caption.setText(String.valueOf(data.getPieValue()));
+                       int  avg = (int) ((pieChartData.get(0).getPieValue() / (pieChartData.get(0).getPieValue() +
+                               pieChartData.get(1).getPieValue())) *100);
+                        if(data.getName().matches("Present"))
+                            caption.setText("Presence:" + avg +"%");
+                        else if(data.getName().matches("Absent"))
+                            caption.setText("Absence: "+ (100-avg)+  "%");
                         caption.setVisible(true);
                     });
                 });
@@ -204,8 +210,10 @@ public class StudentDashboardController implements Initializable {
      * chart shows data for another month
      */
     private void changeChart(Months month) {
-        pieChartData.clear();
-        pieChartData.addAll(createData(month));
+        donutChart.getData().clear();
+        donutChart.getData().addAll(createData(month));
+        hoveredPieChart();
+        unhoveredPieChart();
     }
 
     private void initComboBox() {

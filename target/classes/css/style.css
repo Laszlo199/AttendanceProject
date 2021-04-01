@@ -47,7 +47,7 @@
     -fx-border-color: #b7a6a6;
     -fx-border-radius: 50px;
     -fx-background-radius: 50px;
-    -fx-background-color: #d6d0d0;
+   /* -fx-background-color: #d6d0d0; */
     -fx-font-style: normal;
     -fx-padding: 0px;
     -fx-font-family: 'Roboto Light' ,Arial;
