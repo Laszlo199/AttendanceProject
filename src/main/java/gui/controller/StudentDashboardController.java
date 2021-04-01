@@ -171,7 +171,7 @@ public class StudentDashboardController implements Initializable {
                        int  avg = (int) ((pieChartData.get(0).getPieValue() / (pieChartData.get(0).getPieValue() +
                                pieChartData.get(1).getPieValue())) *100);
                         if(data.getName().matches("Present"))
-                            caption.setText("Presence:" + avg +"%");
+                            caption.setText("Presence: " + avg +"%");
                         else if(data.getName().matches("Absent"))
                             caption.setText("Absence: "+ (100-avg)+  "%");
                         caption.setVisible(true);
