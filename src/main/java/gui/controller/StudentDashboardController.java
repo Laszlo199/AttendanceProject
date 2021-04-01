@@ -29,6 +29,7 @@ import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -44,6 +45,7 @@ import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.sql.Date;
+import java.time.Month;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
@@ -51,6 +53,12 @@ import java.util.ResourceBundle;
 
 public class StudentDashboardController implements Initializable {
 
+    @FXML
+    private ImageView studentImage;
+    @FXML
+    private Text studentName;
+    @FXML
+    private Text studentProgram;
     @FXML
     private  Label subject;
     @FXML
@@ -72,14 +80,14 @@ public class StudentDashboardController implements Initializable {
 
     private final ToggleGroup groupRadioButtons = new ToggleGroup();
     StackPane stackPane = new StackPane();
-    DonutChart donutChart;
     private boolean bigChartIsShown;
     ComboBox<Months> comboBox = new ComboBox<>();
     final CategoryAxis xAxis = new CategoryAxis();
     final NumberAxis yAxis = new NumberAxis();
     private BarChart<String,Number> barChart =
             new BarChart<String,Number>(xAxis,yAxis);
-    private ObservableList<PieChart.Data> pieChartData;
+    private ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+    DonutChart donutChart = new DonutChart(pieChartData);
     private final Label caption = new Label("");
 
     private Student loggedStudent;
@@ -91,21 +99,44 @@ public class StudentDashboardController implements Initializable {
     private boolean quoteIsShown = false;
     Label quote = new Label(model.getRandQuote());
 
+    //ObservableList<PieChart.Data> pieChartData = createData(getCurrentMonth());
+    //donutChart = new DonutChart(pieChartData);
+
     public void setLoggedStudent(Student student) {
         this.loggedStudent = student;
         model.setAbsentDays(loggedStudent.getId());
         this.currentLesson = model.getCurrentLesson(loggedStudent.getCourseID());
+       if(this.currentLesson==null)
+           System.out.println("current lesson is null");
+        showInfoStudent();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initComboBox();
-        setListView();
         initPieChart();
+        comboBoxListener();
+        setListView();
         digitalClock();
         initGroupRadioButtons();
         listenForShowingQuote();
         listenerPieChart();
+    }
+
+    private void comboBoxListener() {
+        comboBox.valueProperty().addListener(new ChangeListener<Months>() {
+            @Override
+            public void changed(ObservableValue<? extends Months> observableValue, Months months, Months t1) {
+                System.out.println(t1.name());
+                changeChart(t1);
+            }
+        });
+    }
+
+
+    private void showInfoStudent() {
+        studentName.setText(this.loggedStudent.getName());
+        studentProgram.setText("Semester: "  + String.valueOf(this.loggedStudent.getSemester()));
     }
 
     private void listenerPieChart() {
@@ -143,11 +174,20 @@ public class StudentDashboardController implements Initializable {
                 });
     }
 
-
+    private Months getCurrentMonth(){
+        LocalDate currentdate = LocalDate.now();
+        Month currentMonth = currentdate.getMonth();
+        String m = currentMonth.toString();
+        for (Months month: Months.values()) {
+            if(m.equals(month.name()))
+                return month;
+        }
+        return null;
+    }
 
     private void initPieChart() {
-        ObservableList<PieChart.Data> pieChartData = createData();
-        donutChart = new DonutChart(pieChartData);
+        //pieChartData = createData(getCurrentMonth());
+        pieChartData.addAll(createData(getCurrentMonth()));
         donutChart.setTitle("Attendance");
         donutChart.setPrefHeight(270);
         donutChart.setPrefWidth(270);
@@ -159,6 +199,15 @@ public class StudentDashboardController implements Initializable {
         caption.setMinSize(Label.USE_PREF_SIZE, Label.USE_PREF_SIZE);
         Group group = new Group(donutChart, caption);
         anchorChart.getChildren().add(group);
+    }
+
+    /**
+     * when the combobox is changed
+     * chart shows data for another month
+     */
+    private void changeChart(Months month) {
+        pieChartData.clear();
+        pieChartData.addAll(createData(month));
     }
 
     private void initComboBox() {
@@ -295,11 +344,6 @@ public class StudentDashboardController implements Initializable {
         quoteIsShown =false;
     }
 
-
-    private void setStudentsData() {
-        // TO DO
-    }
-
     private void initGroupRadioButtons() {
         absentRadioButton.setToggleGroup(groupRadioButtons);
         presentRadioButton.setToggleGroup(groupRadioButtons);
@@ -310,13 +354,14 @@ public class StudentDashboardController implements Initializable {
 
     /**
      * creates data for PieChart
+     * It has to be updated each time we select another month
      * @return
      */
-    private ObservableList<PieChart.Data> createData() {
+    private ObservableList<PieChart.Data> createData(Months month) {
+        Random r = new Random();
         return FXCollections.observableArrayList(
-                //do we have  a method for getting a number of absent days ??
-                new PieChart.Data("Present", 13),
-                new PieChart.Data("Absent", 25));
+                new PieChart.Data("Present", r.nextInt(100) + 50),
+                new PieChart.Data("Absent", r.nextInt(30)+5));
     }
 
     private void setListView() {
