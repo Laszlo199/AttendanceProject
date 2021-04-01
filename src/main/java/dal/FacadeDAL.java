@@ -50,7 +50,7 @@ public class FacadeDAL implements IFacadeDAL, IAbsenceData{
     public Student getStudent(String email) {
         return studentDAO.getStudent(email);
     }
-
+/*
     @Override
     public int getNumberOfPresentDays(Student student, Months month) {
         return absenceData.getNumberOfPresentDays(student, month);
@@ -59,6 +59,18 @@ public class FacadeDAL implements IFacadeDAL, IAbsenceData{
     @Override
     public int getNumberOfAbsentDays(Student student, Months month) {
         return absenceData.getNumberOfAbsentDays(student, month);
+    }
+
+ */
+
+    @Override
+    public int getNumberOfPresentDays(Student student, Months month) {
+        return 0;
+    }
+
+    @Override
+    public int getNumberOfAbsentDays(Student student, Months month) {
+        return 0;
     }
 
     @Override

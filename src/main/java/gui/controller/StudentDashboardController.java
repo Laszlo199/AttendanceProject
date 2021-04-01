@@ -179,6 +179,7 @@ public class StudentDashboardController implements Initializable {
                 });
     }
 
+
     private Months getCurrentMonth(){
         LocalDate currentdate = LocalDate.now();
         Month currentMonth = currentdate.getMonth();
@@ -189,6 +190,7 @@ public class StudentDashboardController implements Initializable {
         }
         return null;
     }
+
 
     private void initPieChart() {
         pieChartData.addAll(createData(getCurrentMonth()));
@@ -202,6 +204,8 @@ public class StudentDashboardController implements Initializable {
         caption.setStyle("-fx-font-size: 12; -fx-font-weight: bold;");
         caption.setMinSize(Label.USE_PREF_SIZE, Label.USE_PREF_SIZE);
         Group group = new Group(donutChart, caption);
+        AnchorPane.setBottomAnchor(group, 10.0);
+        AnchorPane.setLeftAnchor(group, 10.0);
         anchorChart.getChildren().add(group);
     }
 
@@ -301,14 +305,10 @@ public class StudentDashboardController implements Initializable {
         vBox.sceneProperty().addListener((observableScene, oldScene, newScene) -> {
             if (oldScene == null && newScene != null) {
               newScene.heightProperty().addListener((observableValue, number, t1) -> {
-                  if(t1.intValue()> 740 && !quoteIsShown){
-                      System.out.println("bigger than 760");
+                  if(t1.intValue()> 740 && !quoteIsShown)
                       showQuote();
-                  }
-                  else if (t1.intValue() <= 740 && quoteIsShown){
-                      System.out.println("delete that quote");
+                  else if (t1.intValue() <= 740 && quoteIsShown)
                       deleteQuote();
-                  }
               });
             }
         });

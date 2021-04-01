@@ -70,6 +70,7 @@ public class OverviewAbsenceCalculator implements ICalculationsOverview{
         Map<WeekDay, Integer> weekDayIntegerMap = new HashMap<>();
 
         for (WeekDay day: WeekDay.values()) {
+
             int presentDays = dal.getNumberOfPresentDays(student, month);
             int absDays = dal.getNumberOfAbsentDays(student, month);
             int avg = presentDays / (presentDays + absDays );
