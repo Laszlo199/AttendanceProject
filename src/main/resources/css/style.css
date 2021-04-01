@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Gelasio:ital,wght@0,400;0,700;1,400;1,700&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital@0;1&display=swap');
 /*styling quote */
 .boxQuote{
     /*top, left, bottom, right*/
@@ -39,4 +39,33 @@
 .chart-legend {
     -fx-background-color:  #fafad2;
     -fx-stroke: #daa520;
+}
+
+/* *styling combobox/ */
+.combo-box{
+    -fx-border-width: 1px;
+    -fx-border-color: #b7a6a6;
+    -fx-border-radius: 50px;
+    -fx-background-radius: 50px;
+   /* -fx-background-color: #d6d0d0; */
+    -fx-font-style: normal;
+    -fx-padding: 0px;
+    -fx-font-family: 'Roboto Light' ,Arial;
+}
+
+.combo-box:hover{
+    -fx-text-fill: white;
+}
+
+.combo-box-base:hover{
+    -fx-border-color: #356bbc;
+}
+
+.combo-box .list-view{
+    -fx-border-width: 0.5px;
+    -fx-border-color: #ACACAC;
+    -fx-background-color: white;
+    -fx-padding: 0px;
+   /* -fx-border-radius: 50px 50px 50px 50px; */
+    /*-fx-background-radius: 50px; */
 }

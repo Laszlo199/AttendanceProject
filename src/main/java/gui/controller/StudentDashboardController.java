@@ -167,7 +167,6 @@ public class StudentDashboardController implements Initializable {
                         Point2D locationInScene = new Point2D(e.getSceneX(), e.getSceneY());
                         Point2D locationInParent = donutChart.sceneToLocal(locationInScene);
                         caption.relocate(locationInParent.getX(), locationInParent.getY());
-
                         caption.setText(String.valueOf(data.getPieValue()));
                         caption.setVisible(true);
                     });
@@ -186,7 +185,6 @@ public class StudentDashboardController implements Initializable {
     }
 
     private void initPieChart() {
-        //pieChartData = createData(getCurrentMonth());
         pieChartData.addAll(createData(getCurrentMonth()));
         donutChart.setTitle("Attendance");
         donutChart.setPrefHeight(270);
