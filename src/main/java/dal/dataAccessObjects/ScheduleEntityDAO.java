@@ -150,7 +150,7 @@ public class ScheduleEntityDAO {
             ResultSet rs = pstat.executeQuery();
             while(rs.next()) {
                 int id = rs.getInt("id");
-                String weekday = rs.getString("weekday");
+                String weekday = rs.getString("weekday").toLowerCase();
                 Time startTime = rs.getTime("startTime");
                 Time endTime = rs.getTime("endTime");
                 int subjectId = rs.getInt("subjectId");

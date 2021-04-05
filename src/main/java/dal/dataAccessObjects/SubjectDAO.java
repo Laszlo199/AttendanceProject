@@ -76,7 +76,7 @@ public class SubjectDAO {
     public Subject getSubject(int id) {
         Subject subject = null;
         try (Connection connection = dbConnector.getConnection()) {
-            String sql = "SELECT * FROM Subject WHERE id=?";
+            String sql = "SELECT * FROM Subjects WHERE id=?";
             PreparedStatement pstat = connection.prepareStatement(sql);
             pstat.setInt(1, id);
             ResultSet rs = pstat.executeQuery();
