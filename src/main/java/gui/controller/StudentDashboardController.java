@@ -129,8 +129,7 @@ public class StudentDashboardController implements Initializable {
         studentProgram.setText("Semester: "  + String.valueOf(this.loggedStudent.getSemester()));
         if(currentLesson!=null) {
             Subject currentSubject = model.getSubject(currentLesson.getSubjectId());
-            //as for now it's to lower case to show the whole text
-            subjectName.setText(currentSubject.getName().toLowerCase());
+            subjectName.setText(currentSubject.getName());
             teacherName.setText("with " + model.getTeacher(currentSubject.getTeacherId()).getName());
             lessonDuration.setText(currentLesson.getStartTime() + " - " + currentLesson.getEndTime());
         }
