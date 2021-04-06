@@ -4,7 +4,8 @@ import be.*;
 import be.Record;
 import bll.FacadeBLL;
 import bll.IFacadeBLL;
-import bll.managers.*;
+
+import bll.exception.BLLexception;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -12,19 +13,10 @@ import java.util.List;
 
 public class StudentDashboardModel {
     private IFacadeBLL logic;
-    private ScheduleEntityManager scheduleEntityManager;
-    private RecordManager recordManager;
-    private ChangeRequestManager changeRequestManager;
-    private TeacherManager teacherManager;
-    private SubjectManager subjectManager;
+
     private ObservableList<Record> recordObservableList;
 
     public StudentDashboardModel() {
-        scheduleEntityManager = new ScheduleEntityManager();
-        recordManager = new RecordManager();
-        changeRequestManager = new ChangeRequestManager();
-        teacherManager = new TeacherManager();
-        subjectManager = new SubjectManager();
         logic = FacadeBLL.getInstance();
         recordObservableList = FXCollections.observableArrayList();
     }
@@ -34,31 +26,60 @@ public class StudentDashboardModel {
     }
 
     public ScheduleEntity getCurrentLesson(int courseId) {
-        return scheduleEntityManager.getCurrentLesson(courseId);
+        try {
+            return logic.getCurrentLesson(courseId);
+        } catch (BLLexception blLexception) {
+            blLexception.printStackTrace();
+            return null;
+        }
     }
 
     public Subject getSubject(int subjectId) {
-        return subjectManager.getSubject(subjectId);
+        try {
+            return logic.getSubject(subjectId);
+        } catch (BLLexception blLexception) {
+            blLexception.printStackTrace();
+            return null;
+        }
     }
 
     public Teacher getTeacher(int teacherId) {
-        return teacherManager.getTeacher(teacherId);
+        try {
+            return logic.getTeacher(teacherId);
+        } catch (BLLexception blLexception) {
+            blLexception.printStackTrace();
+            return null;
+        }
     }
 
     public void createRecord(Record record) {
-        recordManager.createRecord(record);
+        try {
+            logic.createRecord(record);
+        } catch (BLLexception blLexception) {
+            blLexception.printStackTrace();
+        }
     }
 
     public List<Record> getAbsentDays(int studentId) {
-        return recordManager.getAbsentDays(studentId);
+        try {
+            return logic.getAbsentDays(studentId);
+        } catch (BLLexception blLexception) {
+            blLexception.printStackTrace();
+            return null;
+        }
     }
+
     public void setAbsentDays(int studentId){
         this.recordObservableList.addAll(getAbsentDays(studentId));
         //this.recordObservableList.add(new Record(1, 1, new Date(System.currentTimeMillis()), 1, false));
     }
 
     public void createChangeRequest(ChangeRequest newRequest) {
-        changeRequestManager.create(newRequest);
+        try {
+            logic.createChangeRequest(newRequest);
+        } catch (BLLexception blLexception) {
+            blLexception.printStackTrace();
+        }
     }
 
     public String getRandQuote() {

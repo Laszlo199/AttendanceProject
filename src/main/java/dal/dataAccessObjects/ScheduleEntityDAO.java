@@ -4,10 +4,9 @@ import be.ScheduleEntity;
 import be.WeekDay;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dal.DBConnector;
+import dal.exception.DALexception;
 
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -22,7 +21,7 @@ public class ScheduleEntityDAO {
         dbConnector = new DBConnector();
     }
 
-    public List<ScheduleEntity> getAll() {
+    public List<ScheduleEntity> getAll() throws DALexception {
         List<ScheduleEntity> entities = new ArrayList<>();
         try(Connection connection = dbConnector.getConnection()) {
             String sql = "SELECT * FROM ScheduleEntity";
@@ -51,11 +50,12 @@ public class ScheduleEntityDAO {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't get all schedule entities");
         }
         return entities;
     }
 
-    public void create(ScheduleEntity entity) {
+    public void create(ScheduleEntity entity) throws DALexception{
         try(Connection connection = dbConnector.getConnection()) {
             String sql = "INSERT INTO ScheduleEntity(weekday, startTime, endTime, subjectId) VALUES(?,?,?,?)";
             PreparedStatement pstat = connection.prepareStatement(sql);
@@ -66,10 +66,11 @@ public class ScheduleEntityDAO {
             pstat.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't create a schedule entity");
         }
     }
 
-    public void delete(ScheduleEntity entity) {
+    public void delete(ScheduleEntity entity) throws DALexception{
         try(Connection connection = dbConnector.getConnection()) {
             String sql = "DELETE FROM ScheduleEntity WHERE id=?";
             PreparedStatement pstat = connection.prepareStatement(sql);
@@ -77,10 +78,11 @@ public class ScheduleEntityDAO {
             pstat.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't delete a schedule entity");
         }
     }
 
-    public void update(ScheduleEntity oldEntity, ScheduleEntity newEntity) {
+    public void update(ScheduleEntity oldEntity, ScheduleEntity newEntity) throws DALexception{
         try(Connection connection = dbConnector.getConnection()) {
             String sql = "UPDATE ScheduleEntity SET weekday = ?, startTime = ?, endTime =?, subjectId=? WHERE id=?";
             PreparedStatement pstat = connection.prepareStatement(sql);
@@ -92,10 +94,11 @@ public class ScheduleEntityDAO {
             pstat.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't update a schedule entity");
         }
     }
 
-    public ScheduleEntity getScheduleEntity(int id) {
+    public ScheduleEntity getScheduleEntity(int id) throws DALexception{
         ScheduleEntity entity = null;
         try(Connection connection = dbConnector.getConnection()) {
             String sql = "SELECT *FROM ScheduleEntity WHERE id=?";
@@ -123,6 +126,7 @@ public class ScheduleEntityDAO {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't get a schedule entity");
         }
         return entity;
     }
@@ -132,7 +136,7 @@ public class ScheduleEntityDAO {
      * @param courseId course of the student that is currently logged in
      * @return null if there isnt any current lesson, ScheduleEntity if there is a lesson at the moment
      */
-    public ScheduleEntity getCurrentEntity(int courseId) {
+    public ScheduleEntity getCurrentEntity(int courseId) throws DALexception{
         ScheduleEntity currentLesson = null;
         LocalDate currentDate = LocalDate.now();
         String day = currentDate.getDayOfWeek().toString();
@@ -169,8 +173,10 @@ public class ScheduleEntityDAO {
             }
         } catch (SQLServerException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't get a current lesson");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't get a current lesson");
         }
 
         return currentLesson;

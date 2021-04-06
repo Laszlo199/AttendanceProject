@@ -3,6 +3,7 @@ package bll;
 import be.Months;
 import be.Student;
 import be.WeekDay;
+import bll.exception.BLLexception;
 
 import java.util.HashMap;
 
@@ -13,7 +14,7 @@ import java.util.HashMap;
 public interface ICalculationsOverview {
         // Name, encapsulated data.
         HashMap<String,  OverviewAbsenceCalculator.OverviewEntity>
-        getOverviewClassAttendance(Months month);
-        int getPresence(Student student, Months month);
-        WeekDay getMostAbsWeekday(Months month, Student student);
+        getOverviewClassAttendance(Months month) throws BLLexception;
+        int getPresence(Student student, Months month) throws BLLexception;
+        WeekDay getMostAbsWeekday(Months month, Student student) throws BLLexception;
 }

@@ -3,6 +3,7 @@ package dal.dataAccessObjects;
 
 import be.Course;
 import dal.DBConnector;
+import dal.exception.DALexception;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class CourseDAO {
         dbConnector = new DBConnector();
     }
 
-    public List<Course> getAll() {
+    public List<Course> getAll() throws DALexception {
         List<Course> courses = new ArrayList<>();
         try(Connection connection = dbConnector.getConnection()) {
             String sql = "SELECT * FROM Courses";
@@ -30,11 +31,12 @@ public class CourseDAO {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't get all courses");
         }
         return courses;
     }
 
-    public void create(Course course) {
+    public void create(Course course) throws DALexception{
         try (Connection connection = dbConnector.getConnection()) {
             String sql = "INSERT INTO Courses([name]) VALUES (?)";
             PreparedStatement pstat = connection.prepareStatement(sql);
@@ -42,10 +44,11 @@ public class CourseDAO {
             pstat.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't create a course");
         }
     }
 
-    public void update(Course oldCourse, Course newCourse) {
+    public void update(Course oldCourse, Course newCourse) throws DALexception {
         try (Connection connection = dbConnector.getConnection()) {
             String sql = "UPDATE Courses SET name=? WHERE id=?";
             PreparedStatement pstat = connection.prepareStatement(sql);
@@ -54,10 +57,11 @@ public class CourseDAO {
             pstat.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't update a course");
         }
     }
 
-    public void delete(Course course) {
+    public void delete(Course course) throws DALexception{
         try (Connection connection = dbConnector.getConnection()) {
             String sql = "DELETE FROM Courses WHERE id=?";
             PreparedStatement pstat = connection.prepareStatement(sql);
@@ -65,10 +69,11 @@ public class CourseDAO {
             pstat.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't delete a course");
         }
     }
 
-    public Course getCourse(int id) {
+    public Course getCourse(int id) throws DALexception{
         Course course = null;
         try (Connection connection = dbConnector.getConnection()) {
             String sql = "SELECT * FROM Course WHERE id=?";
@@ -82,6 +87,7 @@ public class CourseDAO {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't get a course");
         }
         return course;
     }

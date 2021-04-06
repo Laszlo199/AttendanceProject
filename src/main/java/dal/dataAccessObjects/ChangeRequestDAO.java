@@ -3,6 +3,7 @@ package dal.dataAccessObjects;
 import be.ChangeRequest;
 import be.StatusType;
 import dal.DBConnector;
+import dal.exception.DALexception;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class ChangeRequestDAO {
         dbConnector = new DBConnector();
     }
 
-    public List<ChangeRequest> getAll() {
+    public List<ChangeRequest> getAll() throws DALexception {
         List<ChangeRequest> requests = new ArrayList<>();
         try(Connection connection = dbConnector.getConnection()) {
             String sql = "SELECT * FROM ChangeRequests";
@@ -35,25 +36,27 @@ public class ChangeRequestDAO {
                         requests.add(new ChangeRequest(recordId, StatusType.DECLINED));
                 }
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new DALexception("Couldn't get all requests");
         }
         return requests;
     }
 
-    public void create(ChangeRequest changeRequest) {
+    public void create(ChangeRequest changeRequest) throws DALexception {
         try (Connection connection = dbConnector.getConnection()) {
             String sql = "INSERT INTO ChangeRequests(RecordId, Status) VALUES (?,?)";
             PreparedStatement pstat = connection.prepareStatement(sql);
             pstat.setInt(1, changeRequest.getRecordId());
             pstat.setString(2, String.valueOf(changeRequest.getStatus()).toLowerCase());
             pstat.executeUpdate();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new DALexception("Couldn't create a new request");
         }
     }
 
-    public void update(ChangeRequest oldRequest, ChangeRequest newRequest) {
+    public void update(ChangeRequest oldRequest, ChangeRequest newRequest) throws DALexception {
         try (Connection connection = dbConnector.getConnection()) {
             String sql = "UPDATE ChangeRequests SET status=? WHERE recordId=?";
             PreparedStatement pstat = connection.prepareStatement(sql);
@@ -62,10 +65,11 @@ public class ChangeRequestDAO {
             pstat.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't update a request");
         }
     }
 
-    public void delete(ChangeRequest changeRequest) {
+    public void delete(ChangeRequest changeRequest) throws DALexception{
         try (Connection connection = dbConnector.getConnection()) {
             String sql = "DELETE FROM ChangeRequests WHERE recordId=?";
             PreparedStatement pstat = connection.prepareStatement(sql);
@@ -73,10 +77,11 @@ public class ChangeRequestDAO {
             pstat.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't delete a request");
         }
     }
 
-    public ChangeRequest getChangeRequest(int recordId) {
+    public ChangeRequest getChangeRequest(int recordId) throws DALexception {
         ChangeRequest request = null;
         try (Connection connection = dbConnector.getConnection()) {
             String sql = "SELECT * FROM ChangeRequests WHERE recordId=?";
@@ -97,11 +102,12 @@ public class ChangeRequestDAO {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't get a request");
         }
         return request;
     }
 
-    public List<ChangeRequest> getRequestsForTeacher(int teacherId) {
+    public List<ChangeRequest> getRequestsForTeacher(int teacherId) throws DALexception {
         List<ChangeRequest> requests = new ArrayList<>();
         try(Connection connection = dbConnector.getConnection()) {
             String sql = "SELECT c.RecordID, c.[Status] " +
@@ -120,6 +126,7 @@ public class ChangeRequestDAO {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't get all requests for a teacher");
         }
         return requests;
     }

@@ -3,6 +3,7 @@ package dal.dataAccessObjects;
 import be.UserType;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dal.DBConnector;
+import dal.exception.DALexception;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,7 +22,7 @@ public class LoginDAO {
      * @param userType
      * @return
      */
-    public String getPassword(String email, UserType userType) {
+    public String getPassword(String email, UserType userType) throws DALexception {
         if(userType== UserType.STUDENT)
             return getPasswordFromStudentTable(email);
        else if(userType == UserType.TEACHER)
@@ -30,7 +31,7 @@ public class LoginDAO {
            throw new IllegalArgumentException("This user type doesn't exist");
     }
 
-    private String getPasswordFromTeacherTable(String email) {
+    private String getPasswordFromTeacherTable(String email) throws DALexception {
         try(Connection connection = dbConnector.getConnection()) {
             String query = "Select Password FROM Teachers Where Email=?;";
             PreparedStatement pstat = connection.prepareStatement(query);
@@ -40,13 +41,14 @@ public class LoginDAO {
             return rs.getString("Email");
         } catch (SQLServerException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't get a password from teachers table");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't get a password from teachers table");
         }
-        return null;
     }
 
-    private String getPasswordFromStudentTable(String email) {
+    private String getPasswordFromStudentTable(String email) throws DALexception{
         try(Connection connection = dbConnector.getConnection()) {
             String query = "Select Password FROM Students Where Email=?;";
             PreparedStatement pstat = connection.prepareStatement(query);
@@ -56,13 +58,14 @@ public class LoginDAO {
             return rs.getString("Email");
         } catch (SQLServerException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't get a password from students table");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't get a password from students table");
         }
-        return null;
     }
 
-    public boolean emailExists(String email, UserType userType) {
+    public boolean emailExists(String email, UserType userType) throws DALexception {
         if(userType== UserType.STUDENT)
             return studentExists(email);
         else if(userType == UserType.TEACHER)
@@ -71,7 +74,7 @@ public class LoginDAO {
             throw new IllegalArgumentException("This user type doesn't exist");
     }
 
-    private boolean teacherExists(String email) {
+    private boolean teacherExists(String email) throws DALexception{
         String query = "SELECT COUNT(Email) as total FROM Teachers WHERE Email = ?;";
         try(Connection connection = dbConnector.getConnection()) {
             PreparedStatement pstat = connection.prepareStatement(query);
@@ -84,14 +87,15 @@ public class LoginDAO {
             else return false;
         } catch (SQLServerException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't check if teacher exists");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't check if teacher exists");
         }
-        return false;
     }
 
 
-    private boolean studentExists(String email) {
+    private boolean studentExists(String email) throws DALexception {
         String query = "SELECT COUNT(Email) as total FROM Students WHERE Email = ?;";
         try(Connection connection = dbConnector.getConnection()) {
             PreparedStatement pstat = connection.prepareStatement(query);
@@ -104,9 +108,10 @@ public class LoginDAO {
             else return false;
         } catch (SQLServerException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't check if student exists");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't check if student exists");
         }
-        return false;
     }
 }

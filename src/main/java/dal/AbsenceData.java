@@ -7,6 +7,7 @@ import be.WeekDay;
 import bll.OverviewAbsenceCalculator;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dal.dataAccessObjects.StudentDAO;
+import dal.exception.DALexception;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -28,43 +29,43 @@ public class AbsenceData implements IAbsenceData {
     }
 
     @Override
-    public int getNumberOfPresentDays(Student student, Months month) {
+    public int getNumberOfPresentDays(Student student, Months month) throws DALexception {
         return getNumberOfDays(1, student, month);
     }
 
     @Override
-    public int getNumberOfAbsentDays(Student student, Months month) {
+    public int getNumberOfAbsentDays(Student student, Months month) throws DALexception {
         return getNumberOfDays(0, student, month);
     }
 
     @Override
-    public List<Student> getAllStudents() {
+    public List<Student> getAllStudents() throws DALexception {
         return studentDAO.getAll();
     }
 
     @Override
-    public List<Student> getAbsentToday(ScheduleEntity scheduleEntity) {
+    public List<Student> getAbsentToday(ScheduleEntity scheduleEntity) throws DALexception {
         return getStudentsToday(scheduleEntity, 0);
     }
 
     @Override
-    public List<Student> getPresentToday(ScheduleEntity scheduleEntity) {
+    public List<Student> getPresentToday(ScheduleEntity scheduleEntity) throws DALexception {
         return getStudentsToday(scheduleEntity, 1);
     }
 
     @Override
-    public int getNumberOfPresentToday(ScheduleEntity scheduleEntity) {
+    public int getNumberOfPresentToday(ScheduleEntity scheduleEntity) throws DALexception {
         return getNumberOfToday(scheduleEntity, 1);
     }
 
     @Override
-    public int getNumberOfAbsentToday(ScheduleEntity scheduleEntity) {
+    public int getNumberOfAbsentToday(ScheduleEntity scheduleEntity) throws DALexception {
         return getNumberOfToday(scheduleEntity, 0);
     }
-    public int getAbsForDay(Enum dayOfWeek){
+    public int getAbsForDay(Enum dayOfWeek) throws DALexception {
         return getAllDays(false, dayOfWeek);
     }
-    public int getPresentForDay(Enum dayOfWeek){
+    public int getPresentForDay(Enum dayOfWeek) throws DALexception {
         return getAllDays(true, dayOfWeek);
     }
 
@@ -73,7 +74,7 @@ public class AbsenceData implements IAbsenceData {
      * @param isPresent 1 - present days, 0 - absent days
      * @return number of those days
      */
-    private int getNumberOfDays(int isPresent, Student student, Months month) {
+    private int getNumberOfDays(int isPresent, Student student, Months month) throws DALexception {
         int number = 0;
 
         try(Connection connection = dbConnector.getConnection()) {
@@ -90,6 +91,7 @@ public class AbsenceData implements IAbsenceData {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't get number of days per month");
         }
         return number;
     }
@@ -100,7 +102,7 @@ public class AbsenceData implements IAbsenceData {
      * @param isPresent 1 - present, 0 - absent
      * @return list of all students that are absent / present during current lesson
      */
-    private List<Student> getStudentsToday(ScheduleEntity scheduleEntity, int isPresent) {
+    private List<Student> getStudentsToday(ScheduleEntity scheduleEntity, int isPresent) throws DALexception {
         List<Student> students = new ArrayList<>();
         try(Connection connection = dbConnector.getConnection()) {
             String sql = "SELECT s.* " +
@@ -123,8 +125,10 @@ public class AbsenceData implements IAbsenceData {
             }
         } catch (SQLServerException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't get a list of all students that are absent / present during current lesson");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't get a list of all students that are absent / present during current lesson");
         }
         return students;
     }
@@ -134,7 +138,7 @@ public class AbsenceData implements IAbsenceData {
      * @param isPresent 1 - present, 0 - absent
      * @return number of present / absent students during current lesson
      */
-    private int getNumberOfToday(ScheduleEntity scheduleEntity, int isPresent) {
+    private int getNumberOfToday(ScheduleEntity scheduleEntity, int isPresent) throws DALexception {
         int number = 0;
         try(Connection connection = dbConnector.getConnection()) {
             String sql = "SELECT COUNT(s.id) AS NumberOfStudents" +
@@ -151,13 +155,15 @@ public class AbsenceData implements IAbsenceData {
             }
         } catch (SQLServerException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't get number of present / absent students during current lesson");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't get number of present / absent students during current lesson");
         }
         return number;
     }
 
-    private int getAllDays(Boolean isPresent,Enum dayOfWeek) {
+    private int getAllDays(Boolean isPresent,Enum dayOfWeek) throws DALexception {
         int number = 0;
         String temp = String.valueOf(dayOfWeek).toLowerCase();
         temp = temp.substring(0,1).toUpperCase() + String.valueOf(dayOfWeek).toLowerCase().substring(1);
@@ -177,8 +183,10 @@ public class AbsenceData implements IAbsenceData {
             }
         } catch (SQLServerException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't get number of days of a weekday");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't get number of days of a weekday");
         }
         return number;
     }

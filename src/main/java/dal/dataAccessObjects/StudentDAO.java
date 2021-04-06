@@ -2,6 +2,7 @@ package dal.dataAccessObjects;
 
 import be.Student;
 import dal.DBConnector;
+import dal.exception.DALexception;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class StudentDAO {
         dbConnector = new DBConnector();
     }
 
-    public List<Student> getAll() {
+    public List<Student> getAll() throws DALexception {
         List<Student> students = new ArrayList<>();
 
         try(Connection connection = dbConnector.getConnection()) {
@@ -34,11 +35,12 @@ public class StudentDAO {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't get all students");
         }
         return students;
     }
 
-    public void create(Student student) {
+    public void create(Student student) throws DALexception{
         try(Connection connection = dbConnector.getConnection()) {
             String sql = "INSERT INTO Students([name], email, courseId, semester, photoPath) VALUES(?,?,?,?,?)";
             PreparedStatement pstat = connection.prepareStatement(sql);
@@ -50,10 +52,11 @@ public class StudentDAO {
             pstat.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't create a student");
         }
     }
 
-    public void delete(Student student) {
+    public void delete(Student student) throws DALexception{
         try(Connection connection = dbConnector.getConnection()) {
             String sql = "DELETE FROM Students WHERE id = ?";
             PreparedStatement pstat = connection.prepareStatement(sql);
@@ -61,6 +64,7 @@ public class StudentDAO {
             pstat.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't delete a student");
         }
     }
 
@@ -69,7 +73,7 @@ public class StudentDAO {
      * @param oldStudent student to be updated
      * @param newStudent values to use in an update
      */
-    public void update(Student oldStudent, Student newStudent) {
+    public void update(Student oldStudent, Student newStudent) throws DALexception{
         try (Connection connection = dbConnector.getConnection()) {
             String sql = "UPDATE Students SET [name]=?, email=?, courseId=?, semester=?, photoPath=? WHERE id=?";
             PreparedStatement pstat = connection.prepareStatement(sql);
@@ -82,10 +86,11 @@ public class StudentDAO {
             pstat.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't update a student");
         }
     }
 
-    public Student getStudent(String email) {
+    public Student getStudent(String email) throws DALexception{
         Student student =null;
         try(Connection connection = dbConnector.getConnection()) {
             String sql = "SELECT FROM Students WHERE email=?";
@@ -105,11 +110,12 @@ public class StudentDAO {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't get a student");
         }
         return student;
     }
 
-    public Student getStudent(int id) {
+    public Student getStudent(int id) throws DALexception{
         Student student = null;
         try(Connection connection = dbConnector.getConnection()) {
             String sql = "SELECT * FROM Students WHERE id=?";
@@ -128,6 +134,7 @@ public class StudentDAO {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't get a student");
         }
         return student;
     }

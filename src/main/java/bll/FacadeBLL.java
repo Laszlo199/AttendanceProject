@@ -1,11 +1,13 @@
 package bll;
 
-import be.Student;
-import be.UserType;
+import be.*;
+import be.Record;
+import bll.exception.BLLexception;
 import bll.util.Operations;
 import bll.util.PasswordHasher;
 import dal.FacadeDAL;
 import dal.IFacadeDAL;
+import dal.exception.DALexception;
 
 import java.util.Arrays;
 import java.util.List;
@@ -40,13 +42,78 @@ public class FacadeBLL implements IFacadeBLL{
     }
 
     @Override
-    public boolean verifyPassword(String email, String password, UserType userType) {
+    public boolean verifyPassword(String email, String password, UserType userType) throws BLLexception {
         return operations.verifyPassword(email, password, userType);
     }
 
     @Override
-    public Student getStudent(String email) {
-        return facadeDAL.getStudent(email);
+    public Student getStudent(String email) throws BLLexception {
+        try {
+            return facadeDAL.getStudent(email);
+        } catch (DALexception daLexception) {
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't get a student");
+        }
+    }
+
+    @Override
+    public ScheduleEntity getCurrentLesson(int courseId) throws BLLexception {
+        try {
+            return facadeDAL.getCurrentLesson(courseId);
+        } catch (DALexception daLexception) {
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't get a current lesson");
+        }
+    }
+
+    @Override
+    public Subject getSubject(int subjectId) throws BLLexception {
+        try {
+            return facadeDAL.getSubject(subjectId);
+        } catch (DALexception daLexception) {
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't get a subject");
+        }
+    }
+
+    @Override
+    public Teacher getTeacher(int teacherId) throws BLLexception {
+        try {
+            return facadeDAL.getTeacher(teacherId);
+        } catch (DALexception daLexception) {
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't get a teacher");
+        }
+    }
+
+    @Override
+    public void createRecord(Record record) throws BLLexception {
+        try {
+            facadeDAL.createRecord(record);
+        } catch (DALexception daLexception) {
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't create a record");
+        }
+    }
+
+    @Override
+    public List<Record> getAbsentDays(int studentId) throws BLLexception {
+        try {
+            return facadeDAL.getAbsentDays(studentId);
+        } catch (DALexception daLexception) {
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't get absent days");
+        }
+    }
+
+    @Override
+    public void createChangeRequest(ChangeRequest newRequest) throws BLLexception {
+        try {
+            facadeDAL.createChangeRequest(newRequest);
+        } catch (DALexception daLexception) {
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't create a change request");
+        }
     }
 
     /**
