@@ -1,5 +1,6 @@
 package bll;
 
+import be.Months;
 import be.Student;
 import be.Subject;
 import be.WeekDay;
@@ -27,14 +28,14 @@ public class OverviewAbsenceCalculator implements ICalculationsOverview{
      * @return HashMap<String, OverviewEntity>
      */
     @Override
-    public HashMap<String, OverviewEntity> getOverviewClassAttendance(Timeframe timeframe) {
+    public HashMap<String, OverviewEntity> getOverviewClassAttendance(Months month) {
         HashMap<String, OverviewEntity> mapStudents = new HashMap<>();
 
         for (Student s: dal.getAllStudents() ) {
             OverviewEntity overviewEntity = new OverviewEntity();
-            overviewEntity.setMostAbs(getMostAbsWeekday(timeframe, s));
-            overviewEntity.setPresenceThisMonth(getPresence(s, Timeframe.MONTH));
-            overviewEntity.setPresenceThisSem(getPresence(s, Timeframe.SEMESTER ));
+            overviewEntity.setMostAbs(getMostAbsWeekday(month, s));
+            overviewEntity.setPresenceThisMonth(getPresence(s, month));
+            //overviewEntity.setPresenceThisSem(getPresence(s, Timeframe.SEMESTER ));
             mapStudents.put(s.getName(), overviewEntity);
         }
         return mapStudents;
@@ -46,9 +47,9 @@ public class OverviewAbsenceCalculator implements ICalculationsOverview{
      * @return
      */
     @Override
-    public int getPresence(Student student, Timeframe timeframe) {
-        int presentDays = dal.getNumberOfPresentDays(student, timeframe);
-        int upsentDats  = dal.getNumberOfAbsentDays(student, timeframe);
+    public int getPresence(Student student, Months month) {
+        int presentDays = dal.getNumberOfPresentDays(student, month);
+        int upsentDats  = dal.getNumberOfAbsentDays(student, month);
         return presentDays/(presentDays+upsentDats);
     }
 
@@ -64,13 +65,13 @@ public class OverviewAbsenceCalculator implements ICalculationsOverview{
      * @return
      */
     @Override
-    public WeekDay getMostAbsWeekday(Timeframe timeframe, Student student) {
+    public WeekDay getMostAbsWeekday(Months month, Student student) {
         //key is weekday value is the present days in percents
         Map<WeekDay, Integer> weekDayIntegerMap = new HashMap<>();
 
         for (WeekDay day: WeekDay.values()) {
-            int presentDays = dal.getNumberOfPresentDays(student, timeframe);
-            int absDays = dal.getNumberOfAbsentDays(student, timeframe);
+            int presentDays = dal.getNumberOfPresentDays(student, month);
+            int absDays = dal.getNumberOfAbsentDays(student, month);
             int avg = presentDays / (presentDays + absDays );
             weekDayIntegerMap.put(day, avg);
         }

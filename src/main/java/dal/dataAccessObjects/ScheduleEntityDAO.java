@@ -10,6 +10,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -116,7 +117,7 @@ public class ScheduleEntityDAO {
                         entity = new ScheduleEntity(id, subjectId, WeekDay.WEDNESDAY, startTime, endTime);
                     case "thursday":
                         entity = new ScheduleEntity(id, subjectId, WeekDay.THURSDAY, startTime, endTime);
-                    case "fiday":
+                    case "friday":
                         entity = new ScheduleEntity(id, subjectId, WeekDay.FRIDAY, startTime, endTime);
                 }
             }
@@ -135,8 +136,7 @@ public class ScheduleEntityDAO {
         ScheduleEntity currentLesson = null;
         LocalDate currentDate = LocalDate.now();
         String day = currentDate.getDayOfWeek().toString();
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-        String currentTime = dateFormat.format(LocalTime.now());
+        String currentTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
 
         try(Connection connection = dbConnector.getConnection()) {
             String sql = "SELECT se.* " +
@@ -150,7 +150,7 @@ public class ScheduleEntityDAO {
             ResultSet rs = pstat.executeQuery();
             while(rs.next()) {
                 int id = rs.getInt("id");
-                String weekday = rs.getString("weekday");
+                String weekday = rs.getString("weekday").toLowerCase();
                 Time startTime = rs.getTime("startTime");
                 Time endTime = rs.getTime("endTime");
                 int subjectId = rs.getInt("subjectId");

@@ -2,10 +2,8 @@ be\UserType.class
 gui\controller\StudentDashboardController$2.class
 gui\util\DonutChart.class
 gui\controller\TeacherViewController.class
-gui\util\Resizer.class
 gui\model\StudentDashboardModel.class
 be\Months.class
-gui\util\Resizer$SceneSizeChangeListener.class
 gui\controller\StudentDashboardController$RecordCell$1.class
 dal\dataAccessObjects\LoginDAO.class
 bll\managers\RecordManager.class
@@ -13,6 +11,8 @@ gui\controller\LogInWindowController$Opener.class
 gui\controller\StudentDashboardController$1.class
 bll\managers\ChangeRequestManager.class
 bll\util\PasswordHasher.class
+gui\controller\StudentDashboardController$4.class
+gui\controller\StudentDashboardController$3.class
 gui\command\LogInStudent.class
 gui\controller\StudentDashboardController.class
 bll\managers\ScheduleEntityManager.class

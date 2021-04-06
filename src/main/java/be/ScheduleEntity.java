@@ -31,6 +31,17 @@ public class ScheduleEntity {
         return subjectId;
     }
 
+    @Override
+    public String toString() {
+        return "ScheduleEntity{" +
+                "id=" + id +
+                ", subjectId=" + subjectId +
+                ", weekDay=" + weekDay +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                '}';
+    }
+
     public void setSubjectId(int subjectId) {
         this.subjectId = subjectId;
     }

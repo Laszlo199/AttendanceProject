@@ -1,5 +1,6 @@
 package dal;
 
+import be.Months;
 import be.ScheduleEntity;
 import be.Student;
 import be.UserType;
@@ -51,13 +52,13 @@ public class FacadeDAL implements IFacadeDAL, IAbsenceData{
     }
 
     @Override
-    public int getNumberOfPresentDays(Student student, OverviewAbsenceCalculator.Timeframe timeframe) {
-        return absenceData.getNumberOfPresentDays(student, timeframe);
+    public int getNumberOfPresentDays(Student student, Months month) {
+        return absenceData.getNumberOfPresentDays(student, month);
     }
 
     @Override
-    public int getNumberOfAbsentDays(Student student, OverviewAbsenceCalculator.Timeframe timeframe) {
-        return absenceData.getNumberOfAbsentDays(student, timeframe);
+    public int getNumberOfAbsentDays(Student student, Months month) {
+        return absenceData.getNumberOfAbsentDays(student, month);
     }
 
     @Override
