@@ -71,7 +71,7 @@
          <children>
             <Label fx:id="subjectName" prefHeight="95.0" prefWidth="145.0" text="">
                <font>
-                  <Font size="76.0" />
+                  <Font size="70.0" />
                </font>
             </Label>
             <Label fx:id="lessonDuration" text="">

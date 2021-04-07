@@ -88,7 +88,7 @@ public class OverviewAbsenceCalculator implements ICalculationsOverview{
         //key is weekday value is the present days in percents
         Map<WeekDay, Integer> weekDayIntegerMap = new HashMap<>();
 
-        for (WeekDay day: WeekDay.values()) {
+        //for (WeekDay day: WeekDay.values()) {
 
         try {
             for (WeekDay day : WeekDay.values()) {

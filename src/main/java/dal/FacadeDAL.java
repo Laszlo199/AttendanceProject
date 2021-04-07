@@ -51,7 +51,7 @@ public class FacadeDAL implements IFacadeDAL, IAbsenceData{
     public Student getStudent(String email) throws DALexception {
         return studentDAO.getStudent(email);
     }
-/*
+
     @Override
     public void createChangeRequest(ChangeRequest newRequest) throws DALexception {
         changeRequestDAO.create(newRequest);
@@ -92,7 +92,7 @@ public class FacadeDAL implements IFacadeDAL, IAbsenceData{
         return absenceData.getNumberOfAbsentDays(student, month);
     }
 
- */
+    /*
 
     @Override
     public int getNumberOfPresentDays(Student student, Months month) {
@@ -103,6 +103,8 @@ public class FacadeDAL implements IFacadeDAL, IAbsenceData{
     public int getNumberOfAbsentDays(Student student, Months month) {
         return 0;
     }
+
+     */
 
     @Override
     public List<Student> getAllStudents() throws DALexception {
