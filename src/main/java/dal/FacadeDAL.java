@@ -1,13 +1,9 @@
 package dal;
 
-import be.Months;
-import be.ScheduleEntity;
-import be.Student;
-import be.UserType;
-import bll.FacadeBLL;
-import bll.OverviewAbsenceCalculator;
-import dal.dataAccessObjects.LoginDAO;
-import dal.dataAccessObjects.StudentDAO;
+import be.*;
+import be.Record;
+import dal.dataAccessObjects.*;
+import dal.exception.DALexception;
 
 import java.util.List;
 
@@ -17,12 +13,17 @@ import java.util.List;
  */
 public class FacadeDAL implements IFacadeDAL, IAbsenceData{
     private static FacadeDAL facadeDAL;
- private DBConnector dbConnector = new DBConnector();
- private LoginDAO loginDAO = new LoginDAO();
- private StudentDAO studentDAO = new StudentDAO();
- private IAbsenceData absenceData = new AbsenceData();
+    private DBConnector dbConnector = new DBConnector();
+    private LoginDAO loginDAO = new LoginDAO();
+    private StudentDAO studentDAO = new StudentDAO();
+    private IAbsenceData absenceData = new AbsenceData();
+    private ChangeRequestDAO changeRequestDAO = new ChangeRequestDAO();
+    private RecordDAO recordDAO = new RecordDAO();
+    private ScheduleEntityDAO scheduleEntityDAO = new ScheduleEntityDAO();
+    private SubjectDAO subjectDAO = new SubjectDAO();
+    private TeacherDAO teacherDAO = new TeacherDAO();
 
-    public static IFacadeDAL getInstance(){
+    public static FacadeDAL getInstance(){
         if(facadeDAL==null)
             facadeDAL = new FacadeDAL();
         return facadeDAL;
@@ -37,27 +38,57 @@ public class FacadeDAL implements IFacadeDAL, IAbsenceData{
     }
 
     @Override
-    public String getPassword(String email, UserType userType) {
+    public String getPassword(String email, UserType userType) throws DALexception {
         return loginDAO.getPassword(email,userType);
     }
 
     @Override
-    public boolean emailExists(String email, UserType userType) {
+    public boolean emailExists(String email, UserType userType) throws DALexception {
         return loginDAO.emailExists(email, userType);
     }
 
     @Override
-    public Student getStudent(String email) {
+    public Student getStudent(String email) throws DALexception {
         return studentDAO.getStudent(email);
     }
 /*
     @Override
-    public int getNumberOfPresentDays(Student student, Months month) {
+    public void createChangeRequest(ChangeRequest newRequest) throws DALexception {
+        changeRequestDAO.create(newRequest);
+    }
+
+    @Override
+    public void createRecord(Record record) throws DALexception {
+        recordDAO.create(record);
+    }
+
+    @Override
+    public List<Record> getAbsentDays(int studentId) throws DALexception {
+        return recordDAO.getAbsentDays(studentId);
+    }
+
+    @Override
+    public ScheduleEntity getCurrentLesson(int courseId) throws DALexception {
+        return scheduleEntityDAO.getCurrentEntity(courseId);
+    }
+
+    @Override
+    public Subject getSubject(int id) throws DALexception {
+        return subjectDAO.getSubject(id);
+    }
+
+    @Override
+    public Teacher getTeacher(int id) throws DALexception {
+        return teacherDAO.getTeacher(id);
+    }
+
+    @Override
+    public int getNumberOfPresentDays(Student student, Months month) throws DALexception {
         return absenceData.getNumberOfPresentDays(student, month);
     }
 
     @Override
-    public int getNumberOfAbsentDays(Student student, Months month) {
+    public int getNumberOfAbsentDays(Student student, Months month) throws DALexception {
         return absenceData.getNumberOfAbsentDays(student, month);
     }
 
@@ -74,37 +105,37 @@ public class FacadeDAL implements IFacadeDAL, IAbsenceData{
     }
 
     @Override
-    public List<Student> getAllStudents() {
-        return null;
+    public List<Student> getAllStudents() throws DALexception {
+        return studentDAO.getAll();
     }
 
     @Override
-    public List<Student> getAbsentToday(ScheduleEntity scheduleEntity) {
-        return null;
+    public List<Student> getAbsentToday(ScheduleEntity scheduleEntity) throws DALexception {
+        return absenceData.getAbsentToday(scheduleEntity);
     }
 
     @Override
-    public List<Student> getPresentToday(ScheduleEntity scheduleEntity) {
-        return null;
+    public List<Student> getPresentToday(ScheduleEntity scheduleEntity) throws DALexception {
+        return absenceData.getPresentToday(scheduleEntity);
     }
 
     @Override
-    public int getNumberOfPresentToday(ScheduleEntity scheduleEntity) {
-        return 0;
+    public int getNumberOfPresentToday(ScheduleEntity scheduleEntity) throws DALexception {
+        return absenceData.getNumberOfPresentToday(scheduleEntity);
     }
 
     @Override
-    public int getNumberOfAbsentToday(ScheduleEntity scheduleEntity) {
-        return 0;
+    public int getNumberOfAbsentToday(ScheduleEntity scheduleEntity) throws DALexception {
+        return absenceData.getNumberOfAbsentToday(scheduleEntity);
     }
 
     @Override
-    public int getAbsForDay(Enum dayOfWeek) {
-        return 0;
+    public int getAbsForDay(Enum dayOfWeek) throws DALexception {
+        return absenceData.getAbsForDay(dayOfWeek);
     }
 
     @Override
-    public int getPresentForDay(Enum dayOfWeek) {
-        return 0;
+    public int getPresentForDay(Enum dayOfWeek) throws DALexception {
+        return absenceData.getPresentForDay(dayOfWeek);
     }
 }

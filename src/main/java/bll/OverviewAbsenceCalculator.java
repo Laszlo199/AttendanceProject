@@ -4,7 +4,9 @@ import be.Months;
 import be.Student;
 import be.Subject;
 import be.WeekDay;
+import bll.exception.BLLexception;
 import dal.IAbsenceData;
+import dal.exception.DALexception;
 
 import java.time.DayOfWeek;
 import java.util.HashMap;
@@ -28,15 +30,20 @@ public class OverviewAbsenceCalculator implements ICalculationsOverview{
      * @return HashMap<String, OverviewEntity>
      */
     @Override
-    public HashMap<String, OverviewEntity> getOverviewClassAttendance(Months month) {
+    public HashMap<String, OverviewEntity> getOverviewClassAttendance(Months month) throws BLLexception {
         HashMap<String, OverviewEntity> mapStudents = new HashMap<>();
 
-        for (Student s: dal.getAllStudents() ) {
-            OverviewEntity overviewEntity = new OverviewEntity();
-            overviewEntity.setMostAbs(getMostAbsWeekday(month, s));
-            overviewEntity.setPresenceThisMonth(getPresence(s, month));
-            //overviewEntity.setPresenceThisSem(getPresence(s, Timeframe.SEMESTER ));
-            mapStudents.put(s.getName(), overviewEntity);
+        try {
+            for (Student s: dal.getAllStudents() ) {
+                OverviewEntity overviewEntity = new OverviewEntity();
+                overviewEntity.setMostAbs(getMostAbsWeekday(month, s));
+                overviewEntity.setPresenceThisMonth(getPresence(s, month));
+                //overviewEntity.setPresenceThisSem(getPresence(s, Timeframe.SEMESTER ));
+                mapStudents.put(s.getName(), overviewEntity);
+            }
+        } catch (DALexception daLexception) {
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't get overview class attendance");
         }
         return mapStudents;
     }
@@ -47,10 +54,22 @@ public class OverviewAbsenceCalculator implements ICalculationsOverview{
      * @return
      */
     @Override
-    public int getPresence(Student student, Months month) {
-        int presentDays = dal.getNumberOfPresentDays(student, month);
-        int upsentDats  = dal.getNumberOfAbsentDays(student, month);
-        return presentDays/(presentDays+upsentDats);
+    public int getPresence(Student student, Months month) throws BLLexception {
+        int presentDays = 0;
+        try {
+            presentDays = dal.getNumberOfPresentDays(student, month);
+        } catch (DALexception daLexception) {
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't get number of present days");
+        }
+        int absentDats  = 0;
+        try {
+            absentDats = dal.getNumberOfAbsentDays(student, month);
+        } catch (DALexception daLexception) {
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't get number of present days");
+        }
+        return presentDays/(presentDays+absentDats);
     }
 
     //overall we need to get present and unpresent days
@@ -65,16 +84,22 @@ public class OverviewAbsenceCalculator implements ICalculationsOverview{
      * @return
      */
     @Override
-    public WeekDay getMostAbsWeekday(Months month, Student student) {
+    public WeekDay getMostAbsWeekday(Months month, Student student) throws BLLexception{
         //key is weekday value is the present days in percents
         Map<WeekDay, Integer> weekDayIntegerMap = new HashMap<>();
 
         for (WeekDay day: WeekDay.values()) {
 
-            int presentDays = dal.getNumberOfPresentDays(student, month);
-            int absDays = dal.getNumberOfAbsentDays(student, month);
-            int avg = presentDays / (presentDays + absDays );
-            weekDayIntegerMap.put(day, avg);
+        try {
+            for (WeekDay day : WeekDay.values()) {
+                int presentDays = dal.getNumberOfPresentDays(student, month);
+                int absDays = dal.getNumberOfAbsentDays(student, month);
+                int avg = presentDays / (presentDays + absDays);
+                weekDayIntegerMap.put(day, avg);
+            }
+        } catch (DALexception ex){
+            ex.printStackTrace();
+            throw new BLLexception("Couldn't get number of pres/abs days");
         }
 
         //get the smallest value
@@ -87,15 +112,21 @@ public class OverviewAbsenceCalculator implements ICalculationsOverview{
 
         return min.getKey();
     }
-    public DayOfWeek getAbsORPresentForDay() {
+
+    public DayOfWeek getAbsORPresentForDay() throws BLLexception {
 
        HashMap<DayOfWeek, Integer> hasmap= new HashMap<>();
-        for (DayOfWeek day: DayOfWeek.values()) {
-            int present = dal.getPresentForDay(day);
-            int abs = dal.getAbsForDay(day);
-            int pr = present / (present + abs );
-            hasmap.put(day, pr);
-        }
+       try {
+           for (DayOfWeek day : DayOfWeek.values()) {
+               int present = dal.getPresentForDay(day);
+               int abs = dal.getAbsForDay(day);
+               int pr = present / (present + abs);
+               hasmap.put(day, pr);
+           }
+       } catch (DALexception ex) {
+           ex.printStackTrace();
+           throw new BLLexception("Couldn't get number of present days");
+       }
 
         HashMap.Entry<DayOfWeek, Integer> min = null;
         for (HashMap.Entry<DayOfWeek, Integer> entry : hasmap.entrySet()) {
@@ -105,11 +136,6 @@ public class OverviewAbsenceCalculator implements ICalculationsOverview{
         }
 
         return min.getKey();
-    }
-
-    public enum Timeframe{
-        MONTH,
-        SEMESTER
     }
 
     /**

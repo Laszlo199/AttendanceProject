@@ -4,6 +4,7 @@ import be.Student;
 import be.UserType;
 import bll.FacadeBLL;
 import bll.IFacadeBLL;
+import bll.exception.BLLexception;
 
 /**
  * @author Kuba
@@ -30,12 +31,21 @@ public class LoginModel {
       return   facadeBLL.getHashedPassword( password);
     }
 
-    public boolean verifyPassword(String email, String password,
-                                  UserType userType) {
-        return facadeBLL.verifyPassword(email, password, userType);
+    public boolean verifyPassword(String email, String password, UserType userType) {
+        try {
+            return facadeBLL.verifyPassword(email, password, userType);
+        } catch (BLLexception blLexception) {
+            blLexception.printStackTrace();
+            return false;
+        }
     }
 
     public Student getStudent(String email) {
-        return facadeBLL.getStudent(email);
+        try {
+            return facadeBLL.getStudent(email);
+        } catch (BLLexception blLexception) {
+            blLexception.printStackTrace();
+            return null;
+        }
     }
 }

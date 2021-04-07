@@ -2,6 +2,7 @@ package dal.dataAccessObjects;
 
 import be.Record;
 import dal.DBConnector;
+import dal.exception.DALexception;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class RecordDAO {
         dbConnector = new DBConnector();
     }
 
-    public List<Record> getAll() {
+    public List<Record> getAll() throws DALexception {
         List<Record> records = new ArrayList<>();
 
         try(Connection connection = dbConnector.getConnection()) {
@@ -34,11 +35,12 @@ public class RecordDAO {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't get all records");
         }
         return records;
     }
 
-    public void create(Record record) {
+    public void create(Record record) throws DALexception{
         try(Connection connection = dbConnector.getConnection()) {
             String sql = "INSERT INTO Records(studentId, scheduleEntityId, isPresent, [date]) VALUES (?,?,?,?)";
             PreparedStatement pstat = connection.prepareStatement(sql);
@@ -50,10 +52,11 @@ public class RecordDAO {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't create a record");
         }
     }
 
-    public void delete(Record record) {
+    public void delete(Record record) throws DALexception{
         try(Connection connection = dbConnector.getConnection()) {
             String sql = "DELETE FROM Records WHERE id=?";
             PreparedStatement pstat = connection.prepareStatement(sql);
@@ -61,10 +64,11 @@ public class RecordDAO {
             pstat.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't delete a record");
         }
     }
 
-    public void update(Record oldRecord, Record newRecord) {
+    public void update(Record oldRecord, Record newRecord) throws DALexception{
         try(Connection connection = dbConnector.getConnection()) {
             String sql = "UPDATE Records SET studentId=?, scheduleEntityId=?, isPresent=?, [date]=? WHERE id=?";
             PreparedStatement pstat = connection.prepareStatement(sql);
@@ -76,10 +80,11 @@ public class RecordDAO {
             pstat.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't update a record");
         }
     }
 
-    public Record getRecord(int id) {
+    public Record getRecord(int id) throws DALexception{
         Record record = null;
         try(Connection connection = dbConnector.getConnection()) {
             String sql = "SELECT * FROM Records WHERE id=?";
@@ -96,11 +101,12 @@ public class RecordDAO {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't get a record");
         }
         return record;
     }
 
-    public List<Record> getAbsentDays(int studentId) {
+    public List<Record> getAbsentDays(int studentId) throws DALexception{
         List<Record> records = new ArrayList<>();
 
         try(Connection connection = dbConnector.getConnection()) {
@@ -119,6 +125,7 @@ public class RecordDAO {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DALexception("Couldn't get absent days");
         }
         return records;
     }

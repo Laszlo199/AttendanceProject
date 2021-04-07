@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.AdminViewController">
+   <bottom>
+      <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
+         <children>
+            <JFXButton onAction="#btnLogout" style="-fx-background-color: #00d6ee;" text="Log out" textFill="WHITE">
+               <HBox.margin>
+                  <Insets right="30.0" />
+               </HBox.margin></JFXButton>
+         </children>
+      </HBox>
+   </bottom>
+   <center>
+      <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <JFXTabPane>
+               <tabs>
+                  <Tab text="Teachers">
+                     <content>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" />
+                     </content>
+                     <content>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="423.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="0.0">
+                                 <content>
+                                    <TableView fx:id="teacherTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#readTeacher" prefHeight="421.0" prefWidth="830.0">
+                                      <columns>
+                                        <TableColumn fx:id="columnTeachersID" prefWidth="51.33334231376648" text="ID" />
+                                        <TableColumn fx:id="columnName" prefWidth="183.33330917358398" text="Name" />
+                                          <TableColumn fx:id="columnEmail" prefWidth="195.33338928222656" text="Email" />
+                                          <TableColumn fx:id="columnDepartment" prefWidth="79.33328247070312" text="Department" />
+                                          <TableColumn fx:id="photopath" prefWidth="160.66668701171875" text="PhotoPath" />
+                                          <TableColumn fx:id="columnPassword" prefWidth="124.6666259765625" text="Password" />
+                                      </columns>
+                                    </TableView>
+                                 </content>
+                              </ScrollPane>
+                              <JFXButton layoutX="839.0" layoutY="211.0" onAction="#btnTeacherAdd" prefHeight="46.0" prefWidth="117.0" style="-fx-background-color: #00d6ee;" text="Add" textFill="WHITE" AnchorPane.rightAnchor="43.66666666666663">
+                                 <effect>
+                                    <Shadow />
+                                 </effect></JFXButton>
+                              <JFXButton layoutX="839.0" layoutY="363.0" onAction="#btnTeacherDelete" prefHeight="46.0" prefWidth="117.0" style="-fx-background-color: #00d6ee;" text="Delete" textFill="WHITE" AnchorPane.rightAnchor="43.66666666666663">
+                                 <effect>
+                                    <Shadow />
+                                 </effect></JFXButton>
+                              <JFXTextField fx:id="nameFieldTeacher" focusColor="#00ff37" layoutX="831.0" layoutY="14.0" promptText="Name" unFocusColor="#04ebf3" AnchorPane.rightAnchor="34.33333333333334" />
+                              <JFXTextField fx:id="emailFieldTeacher" focusColor="#00ff37" layoutX="831.0" layoutY="46.0" promptText="Email" unFocusColor="#04ebf3" AnchorPane.rightAnchor="34.33333333333334" />
+                              <JFXTextField fx:id="departmenFieldTeacher" focusColor="#00ff37" layoutX="831.0" layoutY="79.0" promptText="Department" unFocusColor="#04ebf3" AnchorPane.rightAnchor="34.33333333333334" />
+                              <JFXTextField fx:id="passwordFieldTeacher" focusColor="#00ff37" layoutX="831.0" layoutY="143.0" promptText="Password" unFocusColor="#04ebf3" AnchorPane.rightAnchor="34.33333333333337" />
+                              <JFXTextField fx:id="photopathFieldTeacher" focusColor="#00ff37" layoutX="831.0" layoutY="111.0" promptText="PhotoPath" unFocusColor="#04ebf3" AnchorPane.rightAnchor="34.33333333333337" />
+                              <JFXButton layoutX="839.0" layoutY="286.0" onAction="#btnTeacherEdit" prefHeight="46.0" prefWidth="117.0" style="-fx-background-color: #00d6ee;" text="Update" textFill="WHITE">
+                                 <effect>
+                                    <Shadow />
+                                 </effect>
+                              </JFXButton>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Studenst">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <JFXButton layoutX="839.0" layoutY="243.0" onAction="#btnStudentAdd" prefHeight="46.0" prefWidth="112.0" style="-fx-background-color: #00d6ee;" text="Add" textFill="WHITE" AnchorPane.rightAnchor="49.0">
+                                 <effect>
+                                    <Shadow />
+                                 </effect></JFXButton>
+                              <JFXButton layoutX="839.0" layoutY="363.0" onAction="#btnStudentDelete" prefHeight="46.0" prefWidth="112.0" style="-fx-background-color: #00d6ee;" text="Delete" textFill="WHITE" AnchorPane.rightAnchor="49.0">
+                                 <effect>
+                                    <Shadow />
+                                 </effect></JFXButton>
+                              <ScrollPane fitToHeight="true" fitToWidth="true" layoutX="1.0" layoutY="2.0" prefHeight="423.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="0.0">
+                                 <content>
+                                    <TableView fx:id="studentTable" onMouseClicked="#readStudent" prefHeight="200.0" prefWidth="200.0">
+                                      <columns>
+                                        <TableColumn fx:id="columnStudentID" prefWidth="35.33343505859375" text="ID" />
+                                        <TableColumn fx:id="columnStudentName" prefWidth="191.3333740234375" text="Name" />
+                                          <TableColumn fx:id="columnStudentEmail" prefWidth="215.333251953125" text="Email" />
+                                          <TableColumn fx:id="columnCourseID" prefWidth="53.3333740234375" text="coursID" />
+                                          <TableColumn fx:id="columnSemester" prefWidth="63.3333740234375" text="Semester" />
+                                          <TableColumn fx:id="Studentphotopath" prefWidth="103.333251953125" text="Photopath" />
+                                          <TableColumn fx:id="columnStudentPassword" prefWidth="135.333251953125" text="Password" />
+                                      </columns>
+                                    </TableView>
+                                 </content>
+                              </ScrollPane>
+                              <JFXTextField fx:id="nameFieldStudent" focusColor="#fff200" layoutX="828.0" layoutY="14.0" promptText="Name" unFocusColor="#04ebf3" AnchorPane.rightAnchor="37.33333333333334" />
+                              <JFXTextField fx:id="EmailFieldStudent" focusColor="#bdb600" layoutX="828.0" layoutY="49.0" promptText="Email" unFocusColor="#04ebf3" AnchorPane.rightAnchor="37.33333333333334" />
+                              <JFXTextField fx:id="coursIDFieldStudent" focusColor="#bdb600" layoutX="828.0" layoutY="84.0" promptText="Course ID" unFocusColor="#04ebf3" AnchorPane.rightAnchor="37.33333333333334" />
+                              <JFXTextField fx:id="semesterFieldStudent" focusColor="#bdb600" layoutX="828.0" layoutY="118.0" promptText="Semester" unFocusColor="#04ebf3" AnchorPane.rightAnchor="37.33333333333334" />
+                              <JFXTextField fx:id="photoPathFieldStudent" focusColor="#bdb600" layoutX="828.0" layoutY="150.0" promptText="PhotoPath" unFocusColor="#04ebf3" />
+                              <JFXTextField fx:id="passwordFieldStudent" focusColor="#bdb600" layoutX="828.0" layoutY="185.0" promptText="Password" unFocusColor="#04ebf3" />
+                              <JFXButton layoutX="839.0" layoutY="304.0" onAction="#btnStudentEdit" prefHeight="46.0" prefWidth="112.0" style="-fx-background-color: #00d6ee;" text="Update" textFill="WHITE">
+                                 <effect>
+                                    <Shadow />
+                                 </effect>
+                              </JFXButton>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </Tab>
+                  <Tab text="Subjects">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="423.0" prefWidth="800.0">
+                           <children>
+                              <JFXButton layoutX="842.0" layoutY="211.0" onAction="#btnSubjectAdd" prefHeight="46.0" prefWidth="117.0" style="-fx-background-color: #00d6ee;" text="Add" textFill="WHITE" AnchorPane.rightAnchor="40.66666666666663">
+                                 <effect>
+                                    <Shadow />
+                                 </effect></JFXButton>
+                              <JFXButton layoutX="843.0" layoutY="352.0" onAction="#btnSubjectDelete" prefHeight="46.0" prefWidth="117.0" style="-fx-background-color: #00d6ee;" text="Delete" textFill="WHITE" AnchorPane.rightAnchor="39.66666666666663">
+                                 <effect>
+                                    <Shadow />
+                                 </effect></JFXButton>
+                              <ScrollPane fitToHeight="true" fitToWidth="true" layoutY="1.0" prefHeight="423.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="0.0">
+                                 <content>
+                                    <TableView fx:id="subjectTable" onMouseClicked="#readSubject" prefHeight="421.0" prefWidth="799.0">
+                                      <columns>
+                                        <TableColumn fx:id="columnSubjectID" prefWidth="59.9998779296875" text="ID" />
+                                        <TableColumn fx:id="columnSubjectName" prefWidth="252.666748046875" text="Name" />
+                                          <TableColumn fx:id="columnTeacherID" prefWidth="75.0" text="Teacher ID" />
+                                          <TableColumn fx:id="SubjectColumnCourseID" prefWidth="75.0" text="Course ID" />
+                                      </columns>
+                                    </TableView>
+                                 </content>
+                              </ScrollPane>
+                              <JFXTextField fx:id="nameFieldSubject" focusColor="#fff200" layoutX="834.0" layoutY="14.0" promptText="Name" unFocusColor="#04ebf3" AnchorPane.rightAnchor="31.333333333333343" />
+                              <JFXTextField fx:id="teacherIDFieldSubject" focusColor="#fff200" layoutX="834.0" layoutY="58.0" promptText="Teacher ID" unFocusColor="#04ebf3" AnchorPane.rightAnchor="31.333333333333343" />
+                              <JFXTextField fx:id="courseIDFieldSubject" focusColor="#fff200" layoutX="834.0" layoutY="99.0" promptText="Course ID" unFocusColor="#04ebf3" AnchorPane.rightAnchor="31.333333333333343" />
+                              <JFXButton layoutX="843.0" layoutY="279.0" onAction="#btnSubjectEdit" prefHeight="46.0" prefWidth="117.0" style="-fx-background-color: #00d6ee;" text="Update" textFill="WHITE">
+                                 <effect>
+                                    <Shadow />
+                                 </effect>
+                              </JFXButton>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </Tab>
+                  <Tab text="Courses">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <JFXButton layoutX="848.0" layoutY="129.0" onAction="#btnCourseAdd" prefHeight="46.0" prefWidth="117.0" style="-fx-background-color: #00d6ee;" text="Add" textFill="WHITE" wrapText="true" AnchorPane.rightAnchor="34.66666666666663">
+                                 <effect>
+                                    <Shadow />
+                                 </effect></JFXButton>
+                              <JFXButton layoutX="848.0" layoutY="363.0" onAction="#btnCourseDelete" prefHeight="46.0" prefWidth="117.0" style="-fx-background-color: #00d6ee;" text="Delete" textFill="WHITE" AnchorPane.rightAnchor="34.66666666666663">
+                                 <effect>
+                                    <Shadow />
+                                 </effect></JFXButton>
+                              <ScrollPane fitToHeight="true" fitToWidth="true" layoutY="2.0" prefHeight="423.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="0.0">
+                                 <content>
+                                    <TableView fx:id="courseTableView" onMouseClicked="#readCourse" prefHeight="421.0" prefWidth="799.0">
+                                      <columns>
+                                        <TableColumn fx:id="columnID" prefWidth="94.000244140625" text="ID" />
+                                        <TableColumn fx:id="columnCourseName" minWidth="6.66650390625" prefWidth="702.0" text="Name" />
+                                      </columns>
+                                    </TableView>
+                                 </content>
+                              </ScrollPane>
+                              <JFXTextField fx:id="nameFieldCourse" focusColor="#fff200" layoutX="840.0" layoutY="53.0" promptText="Name" unFocusColor="#04ebf3" AnchorPane.rightAnchor="25.333333333333343" />
+                              <JFXButton layoutX="848.0" layoutY="283.0" onAction="#btnCourseEdit" prefHeight="46.0" prefWidth="117.0" style="-fx-background-color: #00d6ee;" text="Update" textFill="WHITE" wrapText="true">
+                                 <effect>
+                                    <Shadow />
+                                 </effect>
+                              </JFXButton>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </Tab>
+               </tabs>
+            </JFXTabPane>
+         </children>
+      </StackPane>
+   </center>
+</BorderPane>

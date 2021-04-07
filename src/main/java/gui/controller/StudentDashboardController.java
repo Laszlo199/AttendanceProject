@@ -53,30 +53,20 @@ import java.util.ResourceBundle;
 
 public class StudentDashboardController implements Initializable {
 
-    @FXML
-    private ImageView studentImage;
-    @FXML
-    private Text studentName;
-    @FXML
-    private Text studentProgram;
-    @FXML
-    private  Label subject;
-    @FXML
-    private  VBox vBox;
-    @FXML
-    private JFXRadioButton presentRadioButton;
-    @FXML
-    private JFXRadioButton absentRadioButton;
-    @FXML
-    private Text dayLabel;
-    @FXML
-    private Text dateLabel;
-    @FXML
-    private Text hourLabel;
-    @FXML
-    private AnchorPane anchorChart;
-    @FXML
-    private ListView<Record> listView;
+    @FXML private ImageView studentImage;
+    @FXML private Text studentName;
+    @FXML private Text studentProgram;
+    @FXML private Label teacherName;
+    @FXML private Label lessonDuration;
+    @FXML private  Label subjectName;
+    @FXML private  VBox vBox;
+    @FXML private JFXRadioButton presentRadioButton;
+    @FXML private JFXRadioButton absentRadioButton;
+    @FXML private Text dayLabel;
+    @FXML private Text dateLabel;
+    @FXML private Text hourLabel;
+    @FXML private AnchorPane anchorChart;
+    @FXML private ListView<Record> listView;
 
     private final ToggleGroup groupRadioButtons = new ToggleGroup();
     StackPane stackPane = new StackPane();
@@ -106,7 +96,7 @@ public class StudentDashboardController implements Initializable {
         this.loggedStudent = student;
         model.setAbsentDays(loggedStudent.getId());
         this.currentLesson = model.getCurrentLesson(loggedStudent.getCourseID());
-       if(this.currentLesson==null)
+        if(this.currentLesson==null)
            System.out.println("current lesson is null");
         showInfoStudent();
     }
@@ -137,6 +127,12 @@ public class StudentDashboardController implements Initializable {
     private void showInfoStudent() {
         studentName.setText(this.loggedStudent.getName());
         studentProgram.setText("Semester: "  + String.valueOf(this.loggedStudent.getSemester()));
+        if(currentLesson!=null) {
+            Subject currentSubject = model.getSubject(currentLesson.getSubjectId());
+            subjectName.setText(currentSubject.getName());
+            teacherName.setText("with " + model.getTeacher(currentSubject.getTeacherId()).getName());
+            lessonDuration.setText(currentLesson.getStartTime() + " - " + currentLesson.getEndTime());
+        }
     }
 
     private void listenerPieChart() {

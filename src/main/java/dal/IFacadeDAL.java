@@ -1,7 +1,10 @@
 package dal;
 
-import be.Student;
-import be.UserType;
+import be.*;
+import be.Record;
+import dal.exception.DALexception;
+
+import java.util.List;
 
 /**
  * @author Kuba
@@ -10,9 +13,16 @@ import be.UserType;
 public interface IFacadeDAL {
     boolean establishedConnection();
 
-    String getPassword(String email, UserType userType);
+    String getPassword(String email, UserType userType) throws DALexception;
 
-    boolean emailExists(String email, UserType userType);
+    boolean emailExists(String email, UserType userType) throws DALexception;
 
-    Student getStudent(String email);
+    Student getStudent(String email) throws DALexception;
+
+    void createChangeRequest(ChangeRequest newRequest) throws DALexception;
+    void createRecord(Record record) throws DALexception;
+    List<Record> getAbsentDays(int studentId)throws DALexception;
+    ScheduleEntity getCurrentLesson(int courseId) throws DALexception;
+    Subject getSubject(int id) throws DALexception;
+    Teacher getTeacher(int id) throws DALexception;
 }
