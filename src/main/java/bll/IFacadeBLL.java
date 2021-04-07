@@ -25,6 +25,7 @@ public interface IFacadeBLL {
     ScheduleEntity getCurrentLesson(int courseId) throws BLLexception;
     Subject getSubject(int subjectId) throws BLLexception;
     Teacher getTeacher(int teacherId) throws BLLexception;
+    Teacher getTeacher(String email) throws BLLexception;
     void createRecord(Record record) throws BLLexception;
     List<Record> getAbsentDays(int studentId) throws BLLexception;
     void createChangeRequest(ChangeRequest newRequest) throws BLLexception;

@@ -25,4 +25,5 @@ public interface IFacadeDAL {
     ScheduleEntity getCurrentLesson(int courseId) throws DALexception;
     Subject getSubject(int id) throws DALexception;
     Teacher getTeacher(int id) throws DALexception;
+    Teacher getTeacher(String email) throws DALexception;
 }

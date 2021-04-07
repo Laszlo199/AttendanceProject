@@ -9,6 +9,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import gui.command.Command;
 import gui.command.LogInStudent;
+import gui.command.LogInTeacher;
 import gui.controller.ILogIn;
 import gui.model.LoginModel;
 import gui.util.AlertDisplay;
@@ -85,7 +86,7 @@ public class LogInWindowController implements Initializable, ILogIn {
 
 
         String salt = PasswordHasher.generateSalt(512).get();
-        String testPass = "pumpkin";
+        String testPass = "pass";
 
         String key =  PasswordHasher.hashPassword(testPass, salt).get();
         System.out.println(" hashed: " + key);
@@ -130,23 +131,7 @@ public class LogInWindowController implements Initializable, ILogIn {
     }
 
 
-    /**
-     * event handler for button
-     *
-     * if password is from preferences there is another way because we have password
-     * in the hased version but we don't have in unhashed version but we need that!!
-     * lets leave it as it is for now
-     * @param actionEvent
-     */
-    public void logTeacherButton(ActionEvent actionEvent) {
-        //if preferences are set remember to check the value from preferences
-        // not test because it actually not exists
-        if(loginModel.verifyPassword(emailField.getText(),
-                emailField.getText(), UserType.TEACHER)){
-            //add it when we  have full teacher gui
-        }
 
-    }
 
     /**
      * method is responsible for handling logging in
@@ -193,6 +178,7 @@ public class LogInWindowController implements Initializable, ILogIn {
             //we need to get student
            executeLogIn(actionEvent, new LogInStudent(loginModel.
                    getStudent(emailField.getText())));
+           logInStudent.setDisable(true);
         }
         else {
             System.out.println("verification not successful");
@@ -200,6 +186,32 @@ public class LogInWindowController implements Initializable, ILogIn {
             System.out.println(passwordField.getText());
             System.out.println("end of that");
         }
+    }
+
+    /**
+     * event handler for button
+     *
+     * if password is from preferences there is another way because we have password
+     * in the hased version but we don't have in unhashed version but we need that!!
+     * lets leave it as it is for now
+     * @param actionEvent
+     */
+    public void logTeacherButton(ActionEvent actionEvent) {
+        //if preferences are set remember to check the value from preferences
+        // not test because it actually not exists
+        if(loginModel.verifyPassword(emailField.getText(),
+                passwordField.getText(), UserType.TEACHER)){
+            executeLogIn(actionEvent, new LogInTeacher(loginModel.
+                    getTeacher(emailField.getText())));
+            logInStudent.setDisable(true);
+        }
+        else{
+            System.out.println("verification not successful");
+            System.out.println(emailField.getText());
+            System.out.println(passwordField.getText());
+            System.out.println("end of that");
+        }
+
     }
 
     /**

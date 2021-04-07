@@ -2,6 +2,7 @@ be\UserType.class
 gui\controller\StudentDashboardController$2.class
 gui\util\DonutChart.class
 gui\controller\TeacherViewController.class
+gui\command\LogInTeacher.class
 gui\model\StudentDashboardModel.class
 be\Months.class
 gui\controller\StudentDashboardController$RecordCell$1.class

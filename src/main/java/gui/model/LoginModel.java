@@ -1,6 +1,7 @@
 package gui.model;
 
 import be.Student;
+import be.User;
 import be.UserType;
 import bll.FacadeBLL;
 import bll.IFacadeBLL;
@@ -47,5 +48,14 @@ public class LoginModel {
             blLexception.printStackTrace();
             return null;
         }
+    }
+
+    public User getTeacher(String email) {
+        try {
+            return facadeBLL.getTeacher(email);
+        } catch (BLLexception blLexception) {
+            blLexception.printStackTrace();
+        }
+        return null;
     }
 }

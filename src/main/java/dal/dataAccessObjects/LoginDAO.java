@@ -26,7 +26,7 @@ public class LoginDAO {
     public PasswordObject getPassword(String email, UserType userType) throws DALexception {
         if(userType== UserType.STUDENT)
             return getPasswordFromStudentTable(email);
-       else if(userType == UserType.TEACHER)
+        if(userType == UserType.TEACHER)
            return getPasswordFromTeacherTable(email);
        else
            throw new IllegalArgumentException("This user type doesn't exist");

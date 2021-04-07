@@ -87,6 +87,16 @@ public class FacadeBLL implements IFacadeBLL{
     }
 
     @Override
+    public Teacher getTeacher(String email) throws BLLexception {
+        try {
+            return facadeDAL.getTeacher(email);
+        } catch (DALexception daLexception) {
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't get a teacher");
+        }
+    }
+
+    @Override
     public void createRecord(Record record) throws BLLexception {
         try {
             facadeDAL.createRecord(record);

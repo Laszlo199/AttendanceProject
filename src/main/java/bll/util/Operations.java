@@ -26,13 +26,18 @@ public class Operations {
             PasswordObject passwordObject = null;
             try {
                 passwordObject = facadeDAL.getPassword(email, userType);
-                System.out.println("hashed password: "+ passwordObject.toString());
+                System.out.println("we got into email exists");
+
+                System.out.println("password verification: " +PasswordHasher.verifyPassword(password, passwordObject.getHashedPassword(),
+                        passwordObject.getSalt()));
+
+                return PasswordHasher.verifyPassword(password, passwordObject.getHashedPassword(),
+                        passwordObject.getSalt());
             } catch (DALexception daLexception) {
                 daLexception.printStackTrace();
                 throw new BLLexception("Couldn't get a password");
             }
-            return PasswordHasher.verifyPassword(password, passwordObject.getHashedPassword(),
-                    passwordObject.getSalt());
+
         }
         else return false;
     }

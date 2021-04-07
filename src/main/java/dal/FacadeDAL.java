@@ -83,6 +83,11 @@ public class FacadeDAL implements IFacadeDAL, IAbsenceData{
     }
 
     @Override
+    public Teacher getTeacher(String email) throws DALexception {
+        return teacherDAO.getTeacher(email);
+    }
+
+    @Override
     public int getNumberOfPresentDays(Student student, Months month) throws DALexception {
         return absenceData.getNumberOfPresentDays(student, month);
     }

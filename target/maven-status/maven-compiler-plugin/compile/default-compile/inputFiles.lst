@@ -24,6 +24,8 @@ D:\onedrive2\github\Attendance-project-2\src\main\java\gui\controller\LogInWindo
 D:\onedrive2\github\Attendance-project-2\src\main\java\bll\ICalculationsOverview.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\gui\util\DonutChart.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\be\User.java
+D:\onedrive2\github\Attendance-project-2\src\main\java\gui\command\LogInTeacher.java
+D:\onedrive2\github\Attendance-project-2\src\main\java\be\PasswordObject.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\be\StatusType.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\be\Teacher.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\gui\util\AlertDisplay.java
