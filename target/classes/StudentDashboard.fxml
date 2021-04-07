@@ -69,17 +69,17 @@
             <Insets bottom="20.0" left="40.0" right="40.0" />
          </GridPane.margin>
          <children>
-            <Label fx:id="subject" prefHeight="95.0" prefWidth="145.0" text="SCO">
+            <Label fx:id="subjectName" prefHeight="95.0" prefWidth="145.0" text="">
                <font>
-                  <Font size="76.0" />
+                  <Font size="70.0" />
                </font>
             </Label>
-            <Label text="8:45  - 12:30">
+            <Label fx:id="lessonDuration" text="">
                <font>
                   <Font size="21.0" />
                </font>
             </Label>
-            <Label text="with Jeppe Motiz Led">
+            <Label fx:id="teacherName" text="">
                <font>
                   <Font name="System Bold" size="19.0" />
                </font>

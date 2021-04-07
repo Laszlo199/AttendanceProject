@@ -26,8 +26,7 @@ public class LogInStudent extends Command{
 
     @Override
     public boolean logIn() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().
-                getResource("StudentDashboard.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/StudentDashboard.fxml"));
         Parent root = loader.load();
         //for the student dashboard in the stage of development
         StudentDashboardController studentDashboardController =
@@ -40,6 +39,6 @@ public class LogInStudent extends Command{
         scene.getStylesheets().add("/css/style.css");
         stage.setScene(scene);
         stage.show();
-        return false;
+        return true;
     }
 }

@@ -13,7 +13,7 @@ import java.util.List;
 public interface IFacadeDAL {
     boolean establishedConnection();
 
-    String getPassword(String email, UserType userType) throws DALexception;
+    PasswordObject getPassword(String email, UserType userType) throws DALexception;
 
     boolean emailExists(String email, UserType userType) throws DALexception;
 

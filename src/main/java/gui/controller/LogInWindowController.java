@@ -83,18 +83,26 @@ public class LogInWindowController implements Initializable, ILogIn {
         checkPreferences();
         rememberMe.setDisable(false);
 
-/*
+
         String salt = PasswordHasher.generateSalt(512).get();
-        String testPass = "blabla";
+        String testPass = "pumpkin";
 
         String key =  PasswordHasher.hashPassword(testPass, salt).get();
         System.out.println(" hashed: " + key);
 
-        boolean verify = PasswordHasher.verifyPassword(testPass,
-                key, salt);
-        System.out.println("password is:" +verify);
 
- */
+       // String testPass = "pumpkin";
+       // String hashed = PasswordHasher.getHashedPassword(testPass);
+
+        boolean verify = PasswordHasher.verifyPassword(testPass, key, salt);
+        System.out.println("password is:" +verify);
+        System.out.println("below hashed");
+        System.out.println(key);
+        System.out.println("below salt");
+        System.out.println(salt);
+
+
+
     }
 
     /**
@@ -147,11 +155,17 @@ public class LogInWindowController implements Initializable, ILogIn {
      * @param command
      */
     private void executeLogIn(ActionEvent actionEvent, Command command){
+        System.out.println("we got to execute log in method");
         //close this stage
         Node node = (Node) actionEvent.getSource();
         Stage thisStage = (Stage) node.getScene().getWindow();
         command.closeCurrentStage(thisStage);
         //open new stage
+        try {
+            command.logIn();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         try {
             if(!command.logIn()){
                 //show information that we couldn't log in
@@ -175,10 +189,16 @@ public class LogInWindowController implements Initializable, ILogIn {
      */
     public void logStudentButton(ActionEvent actionEvent) {
         if(loginModel.verifyPassword(emailField.getText(),
-                emailField.getText(), UserType.STUDENT)){
+                passwordField.getText(), UserType.STUDENT)){
             //we need to get student
            executeLogIn(actionEvent, new LogInStudent(loginModel.
                    getStudent(emailField.getText())));
+        }
+        else {
+            System.out.println("verification not successful");
+            System.out.println(emailField.getText());
+            System.out.println(passwordField.getText());
+            System.out.println("end of that");
         }
     }
 

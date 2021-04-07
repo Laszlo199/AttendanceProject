@@ -1,5 +1,6 @@
 package dal.dataAccessObjects;
 
+import be.PasswordObject;
 import be.UserType;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dal.DBConnector;
@@ -22,7 +23,7 @@ public class LoginDAO {
      * @param userType
      * @return
      */
-    public String getPassword(String email, UserType userType) throws DALexception {
+    public PasswordObject getPassword(String email, UserType userType) throws DALexception {
         if(userType== UserType.STUDENT)
             return getPasswordFromStudentTable(email);
        else if(userType == UserType.TEACHER)
@@ -31,14 +32,16 @@ public class LoginDAO {
            throw new IllegalArgumentException("This user type doesn't exist");
     }
 
-    private String getPasswordFromTeacherTable(String email) throws DALexception {
+    private PasswordObject getPasswordFromTeacherTable(String email) throws DALexception {
         try(Connection connection = dbConnector.getConnection()) {
-            String query = "Select Password FROM Teachers Where Email=?;";
+            String query = "Select Password, Salt FROM Teachers Where Email=?;";
             PreparedStatement pstat = connection.prepareStatement(query);
             pstat.setString(1, email);
             ResultSet rs = pstat.executeQuery();
             rs.next();
-            return rs.getString("Email");
+            String pass  =rs.getString("Password");
+            String salt = rs.getString("Salt");
+            return new PasswordObject(pass, salt);
         } catch (SQLServerException throwables) {
             throwables.printStackTrace();
             throw new DALexception("Couldn't get a password from teachers table");
@@ -48,14 +51,16 @@ public class LoginDAO {
         }
     }
 
-    private String getPasswordFromStudentTable(String email) throws DALexception{
+    private PasswordObject getPasswordFromStudentTable(String email) throws DALexception{
         try(Connection connection = dbConnector.getConnection()) {
-            String query = "Select Password FROM Students Where Email=?;";
+            String query = "Select Password, Salt FROM Students Where Email=?;";
             PreparedStatement pstat = connection.prepareStatement(query);
             pstat.setString(1, email);
             ResultSet rs = pstat.executeQuery();
             rs.next();
-            return rs.getString("Email");
+            String pass  =rs.getString("Password");
+            String salt = rs.getString("Salt");
+            return new PasswordObject(pass, salt);
         } catch (SQLServerException throwables) {
             throwables.printStackTrace();
             throw new DALexception("Couldn't get a password from students table");

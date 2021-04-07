@@ -93,7 +93,7 @@ public class StudentDAO {
     public Student getStudent(String email) throws DALexception{
         Student student =null;
         try(Connection connection = dbConnector.getConnection()) {
-            String sql = "SELECT FROM Students WHERE email=?";
+            String sql = "SELECT * FROM Students WHERE email=?";
             PreparedStatement pstat = connection.prepareStatement(sql);
             pstat.setString(1, email);
              ResultSet rs = pstat.executeQuery();
@@ -101,11 +101,11 @@ public class StudentDAO {
             while(rs.next()) {
                 int  id = rs.getInt("id");
                 String name = rs.getString("name");
-                String email1 = rs.getString("email");
+               // String email1 = rs.getString("email");
                 int courseId = rs.getInt("courseID");
                 int semester = rs.getInt("semester");
                 String photoPath = rs.getString("photoPath");
-                student = new Student(id, name, email1, photoPath, semester, courseId);
+                student = new Student(id, name, email, photoPath, semester, courseId);
             }
 
         } catch (SQLException throwables) {

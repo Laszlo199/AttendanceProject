@@ -65,7 +65,7 @@ public class PasswordHasher {
      * @param salt
      * @return
      */
-    private static boolean verifyPassword (String password, String key, String salt) {
+    public static boolean verifyPassword (String password, String key, String salt) {
         Optional<String> optEncrypted = hashPassword(password, salt);
         if (!optEncrypted.isPresent()) return false;
         return optEncrypted.get().equals(key);

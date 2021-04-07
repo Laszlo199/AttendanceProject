@@ -111,6 +111,7 @@ public class StudentDashboardController implements Initializable {
         initGroupRadioButtons();
         listenForShowingQuote();
         listenerPieChart();
+       // listenForShowingSecondDiagram();
     }
 
     private void comboBoxListener() {

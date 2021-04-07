@@ -38,7 +38,7 @@ public class FacadeDAL implements IFacadeDAL, IAbsenceData{
     }
 
     @Override
-    public String getPassword(String email, UserType userType) throws DALexception {
+    public PasswordObject getPassword(String email, UserType userType) throws DALexception {
         return loginDAO.getPassword(email,userType);
     }
 
