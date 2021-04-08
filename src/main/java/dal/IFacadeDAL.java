@@ -26,4 +26,9 @@ public interface IFacadeDAL {
     Subject getSubject(int id) throws DALexception;
     Teacher getTeacher(int id) throws DALexception;
     Teacher getTeacher(String email) throws DALexception;
+    List<ChangeRequest> getRequestsForTeacher(int teacherId) throws DALexception;
+
+    void requestAccepted(ChangeRequest changeRequest) throws DALexception;
+
+    void requestDeclined(ChangeRequest changeRequest) throws DALexception;
 }

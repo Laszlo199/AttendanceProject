@@ -126,6 +126,36 @@ public class FacadeBLL implements IFacadeBLL{
         }
     }
 
+    @Override
+    public List<ChangeRequest> getRequestsForTeacher(int teacherId) throws BLLexception {
+        try {
+            return facadeDAL.getRequestsForTeacher(teacherId);
+        } catch (DALexception daLexception) {
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't get requests for a teacher");
+        }
+    }
+
+    @Override
+    public void requestAccepted(ChangeRequest changeRequest) throws BLLexception {
+        try {
+            facadeDAL.requestAccepted(changeRequest);
+        } catch (DALexception daLexception) {
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't accept the request");
+        }
+    }
+
+    @Override
+    public void requestDeclined(ChangeRequest changeRequest) throws BLLexception {
+        try {
+            facadeDAL.requestDeclined(changeRequest);
+        } catch (DALexception daLexception) {
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't decline the request");
+        }
+    }
+
     /**
      * we will pay a debt when refactoring
      * when moving this quotes to DB

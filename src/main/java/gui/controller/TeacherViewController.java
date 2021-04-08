@@ -1,5 +1,8 @@
 package gui.controller;
 
+import be.ChangeRequest;
+import be.Teacher;
+import gui.model.TeacherDashboardModel;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -20,13 +23,37 @@ import javafx.util.Duration;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
  * @author kamila
  */
-public class TeacherViewController{
+public class TeacherViewController implements Initializable {
 
+    private Teacher loggedTeacher;
+    private TeacherDashboardModel model;
+
+    public void setTeacher(Teacher teacher) {
+        this.loggedTeacher = teacher;
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.model = new TeacherDashboardModel();
+        //list of requests to display in the table view
+        List<ChangeRequest> requests = model.getAllRequests(loggedTeacher.getId());
+    }
+
+    //when teacher clicks accept button
+    private void requestAccepted(ChangeRequest request) {
+        model.requestAccepted(request);
+    }
+
+    //when teacher clicks decline button
+    private void requestDeclined(ChangeRequest request) {
+        model.requestDeclined(request);
+    }
 }
 //public class TeacherViewController implements Initializable {}
 /*

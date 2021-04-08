@@ -20,6 +20,8 @@ public interface IFacadeBLL {
 
     Student getStudent(String email) throws BLLexception;
 
+    void requestDeclined(ChangeRequest changeRequest) throws BLLexception;
+
     String getRandomQuote();
 
     ScheduleEntity getCurrentLesson(int courseId) throws BLLexception;
@@ -29,4 +31,6 @@ public interface IFacadeBLL {
     void createRecord(Record record) throws BLLexception;
     List<Record> getAbsentDays(int studentId) throws BLLexception;
     void createChangeRequest(ChangeRequest newRequest) throws BLLexception;
+    List<ChangeRequest> getRequestsForTeacher(int teacherId) throws BLLexception;
+    void requestAccepted(ChangeRequest changeRequest) throws BLLexception;
 }

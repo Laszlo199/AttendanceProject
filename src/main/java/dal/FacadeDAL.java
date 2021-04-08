@@ -88,6 +88,26 @@ public class FacadeDAL implements IFacadeDAL, IAbsenceData{
     }
 
     @Override
+    public List<ChangeRequest> getRequestsForTeacher(int teacherId) throws DALexception {
+        return changeRequestDAO.getRequestsForTeacher(teacherId);
+    }
+
+    @Override
+    public void requestAccepted(ChangeRequest changeRequest) throws DALexception {
+        ChangeRequest acceptedRequest = new ChangeRequest(changeRequest.getRecordId(), StatusType.ACCEPTED);
+        changeRequestDAO.update(changeRequest, acceptedRequest);
+        Record oldRecord = recordDAO.getRecord(changeRequest.getRecordId());
+        Record newRecord = new Record(oldRecord.getId(), oldRecord.getStudentId(), oldRecord.getDate(), oldRecord.getScheduleEntityId(), true);
+        recordDAO.update(oldRecord, newRecord);
+    }
+
+    @Override
+    public void requestDeclined(ChangeRequest changeRequest) throws DALexception {
+        ChangeRequest declinedRequest = new ChangeRequest(changeRequest.getRecordId(), StatusType.DECLINED);
+        changeRequestDAO.update(changeRequest, declinedRequest);
+    }
+
+    @Override
     public int getNumberOfPresentDays(Student student, Months month) throws DALexception {
         return absenceData.getNumberOfPresentDays(student, month);
     }
