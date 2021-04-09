@@ -45,8 +45,7 @@
                                         <TableColumn fx:id="columnName" prefWidth="183.33330917358398" text="Name" />
                                           <TableColumn fx:id="columnEmail" prefWidth="195.33338928222656" text="Email" />
                                           <TableColumn fx:id="columnDepartment" prefWidth="79.33328247070312" text="Department" />
-                                          <TableColumn fx:id="photopath" prefWidth="160.66668701171875" text="PhotoPath" />
-                                          <TableColumn fx:id="columnPassword" prefWidth="124.6666259765625" text="Password" />
+                                          <TableColumn fx:id="photopath" prefWidth="285.3333740234375" text="PhotoPath" />
                                       </columns>
                                     </TableView>
                                  </content>
@@ -62,7 +61,6 @@
                               <JFXTextField fx:id="nameFieldTeacher" focusColor="#00ff37" layoutX="831.0" layoutY="14.0" promptText="Name" unFocusColor="#04ebf3" AnchorPane.rightAnchor="34.33333333333334" />
                               <JFXTextField fx:id="emailFieldTeacher" focusColor="#00ff37" layoutX="831.0" layoutY="46.0" promptText="Email" unFocusColor="#04ebf3" AnchorPane.rightAnchor="34.33333333333334" />
                               <JFXTextField fx:id="departmenFieldTeacher" focusColor="#00ff37" layoutX="831.0" layoutY="79.0" promptText="Department" unFocusColor="#04ebf3" AnchorPane.rightAnchor="34.33333333333334" />
-                              <JFXTextField fx:id="passwordFieldTeacher" focusColor="#00ff37" layoutX="831.0" layoutY="143.0" promptText="Password" unFocusColor="#04ebf3" AnchorPane.rightAnchor="34.33333333333337" />
                               <JFXTextField fx:id="photopathFieldTeacher" focusColor="#00ff37" layoutX="831.0" layoutY="111.0" promptText="PhotoPath" unFocusColor="#04ebf3" AnchorPane.rightAnchor="34.33333333333337" />
                               <JFXButton layoutX="839.0" layoutY="286.0" onAction="#btnTeacherEdit" prefHeight="46.0" prefWidth="117.0" style="-fx-background-color: #00d6ee;" text="Update" textFill="WHITE">
                                  <effect>
@@ -94,8 +92,7 @@
                                           <TableColumn fx:id="columnStudentEmail" prefWidth="215.333251953125" text="Email" />
                                           <TableColumn fx:id="columnCourseID" prefWidth="53.3333740234375" text="coursID" />
                                           <TableColumn fx:id="columnSemester" prefWidth="63.3333740234375" text="Semester" />
-                                          <TableColumn fx:id="Studentphotopath" prefWidth="103.333251953125" text="Photopath" />
-                                          <TableColumn fx:id="columnStudentPassword" prefWidth="135.333251953125" text="Password" />
+                                          <TableColumn fx:id="Studentphotopath" prefWidth="235.3333740234375" text="Photopath" />
                                       </columns>
                                     </TableView>
                                  </content>
@@ -105,7 +102,6 @@
                               <JFXTextField fx:id="coursIDFieldStudent" focusColor="#bdb600" layoutX="828.0" layoutY="84.0" promptText="Course ID" unFocusColor="#04ebf3" AnchorPane.rightAnchor="37.33333333333334" />
                               <JFXTextField fx:id="semesterFieldStudent" focusColor="#bdb600" layoutX="828.0" layoutY="118.0" promptText="Semester" unFocusColor="#04ebf3" AnchorPane.rightAnchor="37.33333333333334" />
                               <JFXTextField fx:id="photoPathFieldStudent" focusColor="#bdb600" layoutX="828.0" layoutY="150.0" promptText="PhotoPath" unFocusColor="#04ebf3" />
-                              <JFXTextField fx:id="passwordFieldStudent" focusColor="#bdb600" layoutX="828.0" layoutY="185.0" promptText="Password" unFocusColor="#04ebf3" />
                               <JFXButton layoutX="839.0" layoutY="304.0" onAction="#btnStudentEdit" prefHeight="46.0" prefWidth="112.0" style="-fx-background-color: #00d6ee;" text="Update" textFill="WHITE">
                                  <effect>
                                     <Shadow />
