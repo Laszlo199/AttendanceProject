@@ -1,11 +1,15 @@
-package bll;
+package bll.util;
 
 import be.Months;
 import be.Student;
 import be.Subject;
 import be.WeekDay;
+import bll.ICalculationsOverview;
 import bll.exception.BLLexception;
+import dal.AbsenceData;
+import dal.FacadeDAL;
 import dal.IAbsenceData;
+import dal.IFacadeDAL;
 import dal.exception.DALexception;
 
 import java.time.DayOfWeek;
@@ -16,10 +20,11 @@ import java.util.Map;
  * @author Kuba
  * @date 3/22/2021 5:32 PM
  */
-public class OverviewAbsenceCalculator implements ICalculationsOverview{
+public class OverviewAbsenceCalculator implements ICalculationsOverview {
 
-    private IAbsenceData dal; // concrete class created by kamila that
+    //private IAbsenceData dal = new AbsenceData(); // concrete class created by kamila that
     //implements that interface
+    private IFacadeDAL dal  = FacadeDAL.getInstance();
 
     /**
      * Names are keys and Overview entities are values
@@ -92,9 +97,12 @@ public class OverviewAbsenceCalculator implements ICalculationsOverview{
 
         try {
             for (WeekDay day : WeekDay.values()) {
-                int presentDays = dal.getNumberOfPresentDays(student, month);
+                int presentDays = dal.getNumberOfPresentDays(student, month); //exception is inside this method
                 int absDays = dal.getNumberOfAbsentDays(student, month);
-                int avg = presentDays / (presentDays + absDays);
+               // int avg = presentDays / (presentDays + absDays);
+                int avg = 0;
+                if(presentDays + absDays!=0)
+                    avg = presentDays / (presentDays + absDays);
                 weekDayIntegerMap.put(day, avg);
             }
         } catch (DALexception ex){

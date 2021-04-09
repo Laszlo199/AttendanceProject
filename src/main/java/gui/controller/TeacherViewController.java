@@ -1,9 +1,6 @@
 package gui.controller;
 
-import be.ChangeRequest;
-import be.StatusType;
-import be.Student;
-import be.Teacher;
+import be.*;
 import bll.FacadeBLL;
 import bll.exception.BLLexception;
 import gui.model.LoginModel;
@@ -11,6 +8,8 @@ import gui.model.TeacherDashboardModel;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -36,6 +35,12 @@ import java.util.ResourceBundle;
  */
 public class TeacherViewController implements Initializable {
 
+    public TableView<Student> studentsOverviewTable;
+    public TableColumn<Student, String> nameCol;
+    public TableColumn<Student, String> presenceCol;
+    public TableColumn<Student, String> mostAbsDayCol;
+
+
     @FXML private Text dateLabel;
     @FXML private Text dayLabel;
     @FXML private TableColumn dateColumnn;
@@ -44,10 +49,6 @@ public class TeacherViewController implements Initializable {
     @FXML private TableColumn typeColumnn;
     @FXML private TableColumn acceptColumnn;
     @FXML private TableColumn declineColumnn;
-    @FXML private TableColumn nameColumn;
-    @FXML private TableColumn monthColumn;
-    @FXML private TableColumn semesterColumn;
-    @FXML private TableColumn dayColumn;
     @FXML private ListView absentList;
     @FXML private TableView studentsTable;
     @FXML private PieChart absenceChart;
@@ -56,18 +57,41 @@ public class TeacherViewController implements Initializable {
     private List<ChangeRequest> requests;
 
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.model = new TeacherDashboardModel();
         setChart();
-        setStudentsTable();
+        setStudentsTableView();
         setAbsentList();
         setChangeTable();
         setDate();
         //list of requests to display in the table view
         //requests = model.getAllRequests(loggedTeacher.getId());
 
+    }
+
+    private void setStudentsTableView() {
+        nameCol.setCellValueFactory(new PropertyValueFactory<Student, String>("name"));
+        presenceCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Student, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Student, String> student) {
+                return new ReadOnlyObjectWrapper<String>(model.getPresenceForStudent(student.getValue(), Timeframe.TOTAL));
+            }
+        });
+        mostAbsDayCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Student, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Student, String> student) {
+                return new ReadOnlyObjectWrapper<String>(model.getMostAbsentDay(student.getValue(), Timeframe.MONTH));
+            }
+        });
+        model.loadTableView();
+        studentsOverviewTable.setItems(model.getObsStudents());
+    }
+
+    public enum Timeframe {
+        TODAY,
+        MONTH,
+        TOTAL
     }
 
     public void setTeacher(Teacher teacher) {
@@ -197,16 +221,6 @@ public class TeacherViewController implements Initializable {
         absenceChart.setData(pieData);
     }
 
-
-    private void setStudentsTable() {
-        nameColumn.setCellValueFactory(new PropertyValueFactory<Student, String>("name"));
-        monthColumn.setCellValueFactory(new PropertyValueFactory<Student, Double>("p_month"));
-        semesterColumn.setCellValueFactory(new PropertyValueFactory<Student, Double>("p_semester"));
-        dayColumn.setCellValueFactory(new PropertyValueFactory<Student, String>("day"));
-
-        ObservableList<Student> students = FXCollections.observableArrayList(model.getAllStudents());
-        //studentsTable.setItems(students);
-    }
 
 
     public void logOut(ActionEvent actionEvent) {

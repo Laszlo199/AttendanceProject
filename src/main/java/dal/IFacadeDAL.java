@@ -10,7 +10,7 @@ import java.util.List;
  * @author Kuba
  * @date 3/24/2021 1:36 PM
  */
-public interface IFacadeDAL {
+public interface IFacadeDAL extends IAbsenceData {
     boolean establishedConnection();
 
     PasswordObject getPassword(String email, UserType userType) throws DALexception;
@@ -31,4 +31,10 @@ public interface IFacadeDAL {
     void requestAccepted(ChangeRequest changeRequest) throws DALexception;
 
     void requestDeclined(ChangeRequest changeRequest) throws DALexception;
+
+    boolean isStudentPresent(int id);
+
+    boolean isDataStudentPresent(int id) throws DALexception;
+
+   List<Student> getAllStudents() throws DALexception;
 }

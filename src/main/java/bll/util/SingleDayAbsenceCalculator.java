@@ -1,4 +1,4 @@
-package bll;
+package bll.util;
 
 import be.ScheduleEntity;
 import be.Student;

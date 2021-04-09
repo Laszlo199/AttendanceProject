@@ -3,10 +3,15 @@ package gui.model;
 import be.ChangeRequest;
 import be.ScheduleEntity;
 import be.Student;
+import be.WeekDay;
 import bll.FacadeBLL;
 import bll.IFacadeBLL;
-import bll.SingleDayAbsenceCalculator;
+import bll.util.SingleDayAbsenceCalculator;
 import bll.exception.BLLexception;
+import gui.controller.TeacherViewController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +20,7 @@ public class TeacherDashboardModel {
     private IFacadeBLL logic;
     private ScheduleEntity currentLesson;
     private SingleDayAbsenceCalculator singleDayAbsenceCalculator;
+    private ObservableList<Student> obsStudents = FXCollections.observableArrayList();
 
 
     public TeacherDashboardModel() {
@@ -90,5 +96,35 @@ public class TeacherDashboardModel {
 
     public ArrayList<Student> getAllStudents() {
         return new ArrayList<>();
+    }
+
+    public String getPresenceForStudent(Student student, TeacherViewController.Timeframe timeframe) {
+        try {
+            return logic.getPresenceForStudent(student, timeframe);
+        } catch (BLLexception blLexception) {
+            blLexception.printStackTrace();
+        }
+        return null;
+    }
+
+    public String getMostAbsentDay(Student student, TeacherViewController.Timeframe timeframe) {
+        try {
+            return logic.getMostAbsentDay(student, timeframe);
+        } catch (BLLexception blLexception) {
+            blLexception.printStackTrace();
+        }
+        return "nothing";
+    }
+
+    public void loadTableView() {
+        try {
+            obsStudents.addAll(logic.getAllStudents());
+        } catch (BLLexception blLexception) {
+            blLexception.printStackTrace();
+        }
+    }
+
+    public ObservableList<Student> getObsStudents() {
+        return obsStudents;
     }
 }

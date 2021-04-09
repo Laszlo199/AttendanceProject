@@ -5,9 +5,11 @@ import be.Record;
 import bll.exception.BLLexception;
 import bll.util.Operations;
 import bll.util.PasswordHasher;
+import bll.util.PresenceCalculator;
 import dal.FacadeDAL;
 import dal.IFacadeDAL;
 import dal.exception.DALexception;
+import gui.controller.TeacherViewController;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,6 +23,7 @@ public class FacadeBLL implements IFacadeBLL{
     private static FacadeBLL facadeBLL;
     private IFacadeDAL facadeDAL = FacadeDAL.getInstance();
     private Operations operations = new Operations();
+    private PresenceCalculator presenceCalculator = new PresenceCalculator();
 
     public static IFacadeBLL getInstance(){
         if(facadeBLL==null)
@@ -143,6 +146,35 @@ public class FacadeBLL implements IFacadeBLL{
         } catch (DALexception daLexception) {
             daLexception.printStackTrace();
             throw new BLLexception("Couldn't accept the request");
+        }
+    }
+
+    @Override
+    public String getPresenceForStudent(Student student, TeacherViewController.Timeframe timeframe) throws BLLexception {
+        try {
+            return presenceCalculator.getPresenceForStudent(student, timeframe);
+        } catch (DALexception daLexception) {
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't get presence for a student");
+        }
+    }
+
+    @Override
+    public String getMostAbsentDay(Student student, TeacherViewController.Timeframe timeframe) throws BLLexception {
+        try {
+            return presenceCalculator.getMostAbsentDay(student, timeframe);
+        } catch (BLLexception blLexception) {
+            throw new BLLexception("Couldn't get most absent day", blLexception);
+        }
+    }
+
+    @Override
+    public List<Student> getAllStudents() throws BLLexception {
+        try {
+            return facadeDAL.getAllStudents();
+        } catch (DALexception daLexception) {
+            throw new BLLexception("couldnt get all students", daLexception);
+
         }
     }
 

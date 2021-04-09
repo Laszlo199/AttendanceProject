@@ -108,6 +108,16 @@ public class FacadeDAL implements IFacadeDAL, IAbsenceData{
     }
 
     @Override
+    public boolean isStudentPresent(int id) {
+        return absenceData.isStudentPresent(id);
+    }
+
+    @Override
+    public boolean isDataStudentPresent(int id) throws DALexception {
+        return absenceData.isDataStudentPresent(id);
+    }
+
+    @Override
     public int getNumberOfPresentDays(Student student, Months month) throws DALexception {
         return absenceData.getNumberOfPresentDays(student, month);
     }
@@ -117,19 +127,16 @@ public class FacadeDAL implements IFacadeDAL, IAbsenceData{
         return absenceData.getNumberOfAbsentDays(student, month);
     }
 
-    /*
-
     @Override
-    public int getNumberOfPresentDays(Student student, Months month) {
-        return 0;
+    public int getTotalNumberOfPresentDays(Student student) throws DALexception {
+        return absenceData.getTotalNumberOfPresentDays(student);
     }
 
     @Override
-    public int getNumberOfAbsentDays(Student student, Months month) {
-        return 0;
+    public int getTotalNumberOfAbsentDays(Student student) throws DALexception {
+        return absenceData.getTotalNumberOfAbsentDays(student);
     }
 
-     */
 
     @Override
     public List<Student> getAllStudents() throws DALexception {

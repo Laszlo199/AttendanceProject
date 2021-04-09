@@ -3,7 +3,7 @@ package bll;
 import be.*;
 import be.Record;
 import bll.exception.BLLexception;
-import dal.exception.DALexception;
+import gui.controller.TeacherViewController;
 
 import java.util.List;
 
@@ -33,4 +33,10 @@ public interface IFacadeBLL {
     void createChangeRequest(ChangeRequest newRequest) throws BLLexception;
     List<ChangeRequest> getRequestsForTeacher(int teacherId) throws BLLexception;
     void requestAccepted(ChangeRequest changeRequest) throws BLLexception;
+
+    String getPresenceForStudent(Student student, TeacherViewController.Timeframe timeframe) throws BLLexception;
+
+    String getMostAbsentDay(Student student, TeacherViewController.Timeframe timeframe) throws BLLexception;
+
+    List<Student> getAllStudents() throws BLLexception;
 }
