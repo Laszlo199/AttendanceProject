@@ -24,7 +24,10 @@ public interface IFacadeBLL {
 
     String getRandomQuote();
 
-    ScheduleEntity getCurrentLesson(int courseId) throws BLLexception;
+    ScheduleEntity getCurrentLessonStudent(int courseId) throws BLLexception;
+
+    ScheduleEntity getCurrentLessonTeacher(int teacherId) throws BLLexception;
+
     Subject getSubject(int subjectId) throws BLLexception;
     Teacher getTeacher(int teacherId) throws BLLexception;
     Teacher getTeacher(String email) throws BLLexception;
@@ -34,9 +37,35 @@ public interface IFacadeBLL {
     List<ChangeRequest> getRequestsForTeacher(int teacherId) throws BLLexception;
     void requestAccepted(ChangeRequest changeRequest) throws BLLexception;
 
+
     String getPresenceForStudent(Student student, TeacherViewController.Timeframe timeframe) throws BLLexception;
 
     String getMostAbsentDay(Student student, TeacherViewController.Timeframe timeframe) throws BLLexception;
 
     List<Student> getAllStudents() throws BLLexception;
+
+    //Teacher
+    List<Teacher> getAllTeacher() throws BLLexception;
+    void updateTeacher(Teacher oldTeacher, Teacher newTeacher) throws BLLexception;
+    void createTeacher(Teacher teacher) throws BLLexception;
+    void deleteTeacher(Teacher teacher) throws BLLexception;
+
+    //Student
+    List<Student> getAllStudent() throws BLLexception;
+    void updateStudent(Student oldStudent, Student newStudent) throws BLLexception;
+    void createStudent(Student student) throws BLLexception;
+    void deleteStudent(Student student) throws BLLexception;
+
+    //Subject
+    List<Subject> getAllSubject() throws BLLexception;
+    void updateSubject(Subject oldSubject, Subject newSubject) throws BLLexception;
+    void createSubject(Subject subject) throws BLLexception;
+    void deleteSubject(Subject subject) throws BLLexception;
+
+    //Course
+    List<Course> getAllCourse() throws BLLexception;
+    void updateCourse(Course oldCourse, Course newCourse) throws BLLexception;
+    void createCourse(Course course) throws BLLexception;
+    void deleteCourse(Course course) throws BLLexception;
+
 }

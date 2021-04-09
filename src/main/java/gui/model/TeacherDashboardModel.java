@@ -53,6 +53,15 @@ public class TeacherDashboardModel {
         }
     }
 
+    public ScheduleEntity getCurrentLesson(int teacherId) {
+        try {
+            return logic.getCurrentLessonTeacher(teacherId);
+        } catch (BLLexception blLexception) {
+            blLexception.printStackTrace();
+            return null;
+        }
+    }
+
     //returns list of absent students on current lesson
     public List<Student> getAbsentToday(){
         try {

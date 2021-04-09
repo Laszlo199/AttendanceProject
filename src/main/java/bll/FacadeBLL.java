@@ -60,12 +60,22 @@ public class FacadeBLL implements IFacadeBLL{
     }
 
     @Override
-    public ScheduleEntity getCurrentLesson(int courseId) throws BLLexception {
+    public ScheduleEntity getCurrentLessonStudent(int courseId) throws BLLexception {
         try {
-            return facadeDAL.getCurrentLesson(courseId);
+            return facadeDAL.getCurrentLessonStudent(courseId);
         } catch (DALexception daLexception) {
             daLexception.printStackTrace();
-            throw new BLLexception("Couldn't get a current lesson");
+            throw new BLLexception("Couldn't get a current lesson (student)");
+        }
+    }
+
+    @Override
+    public ScheduleEntity getCurrentLessonTeacher(int teacherId) throws BLLexception {
+        try {
+            return facadeDAL.getCurrentLessonStudent(teacherId);
+        } catch (DALexception daLexception) {
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't get a current lesson (teacher)");
         }
     }
 
@@ -197,6 +207,151 @@ public class FacadeBLL implements IFacadeBLL{
     public String getRandomQuote() {
         Random rand = new Random();
         return quotes.get(rand.nextInt(quotes.size()));
+    }
+
+    //Teacher
+    public List<Teacher> getAllTeacher() throws BLLexception{
+        try {
+            return facadeDAL.getAllTeacher();
+        }catch (DALexception daLexception){
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't gat all teacher");
+        }
+    }
+    public void updateTeacher(Teacher oldTeacher, Teacher newTeacher) throws BLLexception {
+        try {
+            facadeDAL.updateTeacher(oldTeacher,newTeacher);
+        }catch (DALexception daLexception){
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't updated the teacher");
+        }
+
+    }
+    public void createTeacher(Teacher teacher) throws BLLexception{
+        try {
+            facadeDAL.createTeacher(teacher);
+        }catch (DALexception daLexception){
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't created teacher");
+        }
+    }
+
+    public void deleteTeacher(Teacher teacher) throws BLLexception{
+        try {
+            facadeDAL.deleteTeacher(teacher);
+        }catch (DALexception daLexception){
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't deleted teacher");
+        }
+    }
+
+    //Student
+    public List<Student> getAllStudent() throws BLLexception{
+        try {
+            return facadeDAL.getAllStudents();
+        } catch (DALexception daLexception) {
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't gat all Student");
+        }
+    }
+
+    public void updateStudent(Student oldStudent, Student newStudent) throws BLLexception{
+        try {
+            facadeDAL.updateStudent(oldStudent,newStudent);
+        }catch (DALexception daLexception){
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't updated Student");
+        }
+    }
+
+    public void createStudent(Student student) throws BLLexception{
+        try {
+            facadeDAL.createStudent(student);
+        }catch (DALexception daLexception){
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't created Student");
+        }
+    }
+
+    public void deleteStudent(Student student) throws BLLexception{
+        try {
+            facadeDAL.deleteStudent(student);
+        }catch (DALexception daLexception){
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't deleted Student");
+        }
+    }
+    //Subject
+    public List<Subject> getAllSubject() throws BLLexception{
+        try {
+            return facadeDAL.getAllSubject();
+        } catch (DALexception daLexception) {
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't gat all Subject");
+        }
+    }
+
+    public void updateSubject(Subject oldSubject, Subject newSubject) throws BLLexception{
+        try {
+            facadeDAL.updateSubject(oldSubject,newSubject);
+        }catch (DALexception daLexception){
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't updated Subject");
+        }
+    }
+
+    public void createSubject(Subject subject) throws BLLexception{
+        try {
+            facadeDAL.createSubject(subject);
+        }catch (DALexception daLexception){
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't created Subject");
+        }
+    }
+    public void deleteSubject(Subject subject) throws BLLexception{
+        try {
+            facadeDAL.deleteSubject(subject);
+        }catch (DALexception daLexception){
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't deleted Subject");
+        }
+    }
+
+    //Course
+    public List<Course> getAllCourse() throws BLLexception{
+        try {
+            return facadeDAL.getAllCourse();
+        } catch (DALexception daLexception) {
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't gat all Course");
+        }
+    }
+
+    public void updateCourse(Course oldCourse, Course newCourse) throws BLLexception{
+        try {
+            facadeDAL.updateCourse(oldCourse,newCourse);
+        }catch (DALexception daLexception){
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't updated Course");
+        }
+    }
+
+    public void createCourse(Course course) throws BLLexception{
+        try {
+            facadeDAL.createCourse(course);
+        }catch (DALexception daLexception){
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't created Course");
+        }
+    }
+
+    public void deleteCourse(Course course) throws BLLexception{
+        try {
+            facadeDAL.deleteCourse(course);
+        }catch (DALexception daLexception){
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't deleted Course");
+        }
     }
 
     List<String> quotes = Arrays.asList("“An investment in knowledge pays the best interest.”- Benjamin Franklin, writer and polymath.",

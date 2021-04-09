@@ -22,6 +22,7 @@ public class FacadeDAL implements IFacadeDAL, IAbsenceData{
     private ScheduleEntityDAO scheduleEntityDAO = new ScheduleEntityDAO();
     private SubjectDAO subjectDAO = new SubjectDAO();
     private TeacherDAO teacherDAO = new TeacherDAO();
+    private CourseDAO courseDAO = new CourseDAO();
 
     public static FacadeDAL getInstance(){
         if(facadeDAL==null)
@@ -68,8 +69,13 @@ public class FacadeDAL implements IFacadeDAL, IAbsenceData{
     }
 
     @Override
-    public ScheduleEntity getCurrentLesson(int courseId) throws DALexception {
-        return scheduleEntityDAO.getCurrentEntity(courseId);
+    public ScheduleEntity getCurrentLessonStudent(int courseId) throws DALexception {
+        return scheduleEntityDAO.getCurrentLessonStudent(courseId);
+    }
+
+    @Override
+    public ScheduleEntity getCurrentLessonTeacher(int teacherId) throws DALexception {
+        return scheduleEntityDAO.getCurrentLessonTeacher(teacherId);
     }
 
     @Override
@@ -171,5 +177,85 @@ public class FacadeDAL implements IFacadeDAL, IAbsenceData{
     @Override
     public int getPresentForDay(Enum dayOfWeek) throws DALexception {
         return absenceData.getPresentForDay(dayOfWeek);
+    }
+
+    //Teacher for AdminView
+    @Override
+    public void updateTeacher(Teacher oldTeacher, Teacher newTeacher) throws DALexception {
+        teacherDAO.update(oldTeacher, newTeacher);
+    }
+
+    @Override
+    public List<Teacher> getAllTeacher() throws DALexception{
+        return teacherDAO.getAll();
+    }
+
+    @Override
+    public void createTeacher(Teacher teacher) throws DALexception{
+        teacherDAO.create(teacher);
+    }
+
+    @Override
+    public  void deleteTeacher(Teacher teacher) throws DALexception{
+        teacherDAO.delete(teacher);
+    }
+
+    //Student for AdminView
+
+
+    @Override
+    public void updateStudent(Student oldStudent, Student newStudent) throws DALexception {
+        studentDAO.update(oldStudent,newStudent);
+    }
+
+    @Override
+    public void createStudent(Student student) throws DALexception{
+        studentDAO.create(student);
+    }
+
+    @Override
+    public void deleteStudent(Student student) throws DALexception{
+        studentDAO.delete(student);
+    }
+
+
+    //Subject for AdminView
+    @Override
+    public List<Subject> getAllSubject() throws DALexception {
+        return subjectDAO.getAll();
+    }
+
+
+    public void createSubject(Subject subject) throws DALexception{
+        subjectDAO.create(subject);
+    }
+
+    @Override
+    public void updateSubject(Subject oldSubject, Subject newSubject) throws DALexception{
+        subjectDAO.update(oldSubject, newSubject);
+    }
+
+    @Override
+    public void deleteSubject(Subject subject) throws DALexception{
+        subjectDAO.delete(subject);
+    }
+
+    //Course for AdminView
+    @Override
+    public List<Course> getAllCourse() throws DALexception {
+        return courseDAO.getAll();
+    }
+
+    public void createCourse(Course course) throws DALexception{
+        courseDAO.create(course);
+    }
+    @Override
+    public void updateCourse(Course oldCourse, Course newCourse) throws DALexception{
+        courseDAO.update(oldCourse,newCourse);
+    }
+
+    @Override
+    public void deleteCourse(Course course) throws DALexception{
+        courseDAO.delete(course);
     }
 }

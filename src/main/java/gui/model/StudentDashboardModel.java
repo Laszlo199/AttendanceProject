@@ -27,7 +27,7 @@ public class StudentDashboardModel {
 
     public ScheduleEntity getCurrentLesson(int courseId) {
         try {
-            return logic.getCurrentLesson(courseId);
+            return logic.getCurrentLessonStudent(courseId);
         } catch (BLLexception blLexception) {
             blLexception.printStackTrace();
             return null;

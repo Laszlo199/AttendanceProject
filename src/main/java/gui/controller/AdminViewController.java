@@ -38,12 +38,12 @@ public class AdminViewController implements Initializable {
     @FXML private TableColumn<Teacher, String> columnEmail;
     @FXML private TableColumn<Teacher, String> columnDepartment;
     @FXML private TableColumn<Teacher, ImageView> photopath;
-    @FXML private TableColumn<Teacher, String> columnPassword;
+
 
     @FXML private JFXTextField nameFieldTeacher;
     @FXML private JFXTextField emailFieldTeacher;
     @FXML private JFXTextField departmenFieldTeacher;
-    @FXML private JFXTextField passwordFieldTeacher;
+
     @FXML private JFXTextField photopathFieldTeacher;
 
     //StudentsTableView
@@ -54,14 +54,14 @@ public class AdminViewController implements Initializable {
     @FXML private TableColumn<Student, Integer> columnCourseID;
     @FXML private TableColumn<Student, Integer> columnSemester;
     @FXML private TableColumn<Student, ImageView> Studentphotopath;
-    @FXML private TableColumn<Student, String> columnStudentPassword;
+
 
     @FXML private JFXTextField nameFieldStudent;
     @FXML private JFXTextField EmailFieldStudent;
     @FXML private JFXTextField coursIDFieldStudent;
     @FXML private JFXTextField semesterFieldStudent;
     @FXML private JFXTextField photoPathFieldStudent;
-    @FXML private JFXTextField passwordFieldStudent;
+
 
     //SubjectsTableView
     @FXML private TableView<Subject> subjectTable;
@@ -98,7 +98,7 @@ public class AdminViewController implements Initializable {
         columnEmail.setCellValueFactory(new PropertyValueFactory<Teacher, String>("Email"));
         columnDepartment.setCellValueFactory(new PropertyValueFactory<Teacher, String>("Department"));
         photopath.setCellValueFactory(new PropertyValueFactory<Teacher, ImageView>("PhotoPath"));
-        columnPassword.setCellValueFactory(new PropertyValueFactory<Teacher, String>("Password"));
+
 
         adminModel.loadTeachers();
         teacherTable.setItems(adminModel.getAllTeachers());
@@ -111,7 +111,7 @@ public class AdminViewController implements Initializable {
         columnCourseID.setCellValueFactory(new PropertyValueFactory<Student, Integer>("Course ID"));
         columnSemester.setCellValueFactory(new PropertyValueFactory<Student, Integer>("Semester"));
         Studentphotopath.setCellValueFactory(new PropertyValueFactory<Student,ImageView>("PhotoPath"));
-        columnStudentPassword.setCellValueFactory(new PropertyValueFactory<Student,String>("Password"));
+        
 
         adminModel.loadStudents();
         studentTable.setItems(adminModel.getAllStudents());
