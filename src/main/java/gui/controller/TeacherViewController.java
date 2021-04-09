@@ -1,9 +1,6 @@
 package gui.controller;
 
-import be.ChangeRequest;
-import be.StatusType;
-import be.Student;
-import be.Teacher;
+import be.*;
 import bll.FacadeBLL;
 import bll.exception.BLLexception;
 import gui.model.LoginModel;
@@ -31,9 +28,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
 
-/**
- * @author kamila
- */
+
 public class TeacherViewController implements Initializable {
 
     @FXML private Text dateLabel;
@@ -52,6 +47,7 @@ public class TeacherViewController implements Initializable {
     @FXML private TableView studentsTable;
     @FXML private PieChart absenceChart;
     private Teacher loggedTeacher;
+    private ScheduleEntity currentLesson;
     private TeacherDashboardModel model;
     private List<ChangeRequest> requests;
 
@@ -67,11 +63,14 @@ public class TeacherViewController implements Initializable {
         setDate();
         //list of requests to display in the table view
         //requests = model.getAllRequests(loggedTeacher.getId());
-
     }
 
     public void setTeacher(Teacher teacher) {
         this.loggedTeacher = teacher;
+        this.currentLesson = model.getCurrentLesson(loggedTeacher.getId());
+        //just checking if works
+        System.out.println(loggedTeacher.getName());
+        System.out.println(currentLesson.getWeekDay());
     }
 
     public Teacher getLoggedTeacher() {

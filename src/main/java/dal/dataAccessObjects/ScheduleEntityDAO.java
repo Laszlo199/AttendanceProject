@@ -131,24 +131,37 @@ public class ScheduleEntityDAO {
         return entity;
     }
 
+    public ScheduleEntity getCurrentLessonStudent(int courseId) throws DALexception {
+        String sql = "SELECT se.* " +
+                "FROM ScheduleEntity se " +
+                "JOIN Subjects s ON se.SubjectID = s.ID " +
+                "WHERE s.courseId = ? AND se.WeekDay = ? AND (? BETWEEN se.StartTime AND se.EndTime)";
+        return getCurrentEntity(courseId, sql);
+    }
+
+    public ScheduleEntity getCurrentLessonTeacher(int teacherId) throws DALexception {
+        String sql = "SELECT se.* " +
+                "FROM ScheduleEntity se " +
+                "JOIN Subjects s ON se.SubjectID = s.ID " +
+                "WHERE s.teacherId = ? AND se.WeekDay = ? AND (? BETWEEN se.StartTime AND se.EndTime)";
+        return getCurrentEntity(teacherId, sql);
+    }
+
     /**
      *
-     * @param courseId course of the student that is currently logged in
-     * @return null if there isnt any current lesson, ScheduleEntity if there is a lesson at the moment
+     * @param input courseId of the student that is currently logged in / teacherId that is currently logged in
+     * @return null if there isn't any current lesson, ScheduleEntity if there is a lesson at the moment
      */
-    public ScheduleEntity getCurrentEntity(int courseId) throws DALexception{
+    private ScheduleEntity getCurrentEntity(int input, String sql) throws DALexception {
         ScheduleEntity currentLesson = null;
         LocalDate currentDate = LocalDate.now();
         String day = currentDate.getDayOfWeek().toString();
         String currentTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
 
         try(Connection connection = dbConnector.getConnection()) {
-            String sql = "SELECT se.* " +
-                    "FROM ScheduleEntity se " +
-                    "JOIN Subjects s ON se.SubjectID = s.ID " +
-                    "WHERE s.courseId = ? AND se.WeekDay = ? AND (? BETWEEN se.StartTime AND se.EndTime)";
+
             PreparedStatement pstat = connection.prepareStatement(sql);
-            pstat.setInt(1, courseId);
+            pstat.setInt(1, input);
             pstat.setString(2, day);
             pstat.setString(3, currentTime);
             ResultSet rs = pstat.executeQuery();

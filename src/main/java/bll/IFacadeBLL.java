@@ -24,7 +24,10 @@ public interface IFacadeBLL {
 
     String getRandomQuote();
 
-    ScheduleEntity getCurrentLesson(int courseId) throws BLLexception;
+    ScheduleEntity getCurrentLessonStudent(int courseId) throws BLLexception;
+
+    ScheduleEntity getCurrentLessonTeacher(int teacherId) throws BLLexception;
+
     Subject getSubject(int subjectId) throws BLLexception;
     Teacher getTeacher(int teacherId) throws BLLexception;
     Teacher getTeacher(String email) throws BLLexception;

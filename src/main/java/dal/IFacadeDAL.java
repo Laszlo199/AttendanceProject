@@ -22,7 +22,11 @@ public interface IFacadeDAL {
     void createChangeRequest(ChangeRequest newRequest) throws DALexception;
     void createRecord(Record record) throws DALexception;
     List<Record> getAbsentDays(int studentId)throws DALexception;
-    ScheduleEntity getCurrentLesson(int courseId) throws DALexception;
+
+    ScheduleEntity getCurrentLessonStudent(int courseId) throws DALexception;
+
+    ScheduleEntity getCurrentLessonTeacher(int teacherId) throws DALexception;
+
     Subject getSubject(int id) throws DALexception;
     Teacher getTeacher(int id) throws DALexception;
     Teacher getTeacher(String email) throws DALexception;

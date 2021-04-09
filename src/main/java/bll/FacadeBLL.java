@@ -57,12 +57,22 @@ public class FacadeBLL implements IFacadeBLL{
     }
 
     @Override
-    public ScheduleEntity getCurrentLesson(int courseId) throws BLLexception {
+    public ScheduleEntity getCurrentLessonStudent(int courseId) throws BLLexception {
         try {
-            return facadeDAL.getCurrentLesson(courseId);
+            return facadeDAL.getCurrentLessonStudent(courseId);
         } catch (DALexception daLexception) {
             daLexception.printStackTrace();
-            throw new BLLexception("Couldn't get a current lesson");
+            throw new BLLexception("Couldn't get a current lesson (student)");
+        }
+    }
+
+    @Override
+    public ScheduleEntity getCurrentLessonTeacher(int teacherId) throws BLLexception {
+        try {
+            return facadeDAL.getCurrentLessonStudent(teacherId);
+        } catch (DALexception daLexception) {
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't get a current lesson (teacher)");
         }
     }
 

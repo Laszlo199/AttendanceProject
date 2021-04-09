@@ -68,8 +68,13 @@ public class FacadeDAL implements IFacadeDAL, IAbsenceData{
     }
 
     @Override
-    public ScheduleEntity getCurrentLesson(int courseId) throws DALexception {
-        return scheduleEntityDAO.getCurrentEntity(courseId);
+    public ScheduleEntity getCurrentLessonStudent(int courseId) throws DALexception {
+        return scheduleEntityDAO.getCurrentLessonStudent(courseId);
+    }
+
+    @Override
+    public ScheduleEntity getCurrentLessonTeacher(int teacherId) throws DALexception {
+        return scheduleEntityDAO.getCurrentLessonTeacher(teacherId);
     }
 
     @Override
