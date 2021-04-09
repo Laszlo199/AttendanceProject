@@ -50,7 +50,7 @@ public interface IFacadeDAL extends IAbsenceData {
     void deleteTeacher(Teacher teacher) throws DALexception;
 
     //Student
-    List<Student> getAllStudents() throws DALexception;
+   // List<Student> getAllStudents() throws DALexception;
     void updateStudent(Student oldStudent, Student newStudent) throws DALexception;
     void createStudent(Student student) throws  DALexception;
     void deleteStudent(Student student) throws DALexception;
