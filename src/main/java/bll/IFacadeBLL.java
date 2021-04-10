@@ -37,6 +37,10 @@ public interface IFacadeBLL {
     List<ChangeRequest> getRequestsForTeacher(int teacherId) throws BLLexception;
     void requestAccepted(ChangeRequest changeRequest) throws BLLexception;
 
+    List<Student> getAbsentToday(ScheduleEntity scheduleEntity) throws BLLexception;
+    List<Student> getPresentToday(ScheduleEntity scheduleEntity) throws BLLexception;
+    int getNumberOfAbsentStudents(ScheduleEntity scheduleEntity) throws BLLexception;
+    int getNumberOfPresentStudents(ScheduleEntity scheduleEntity) throws BLLexception;
 
     String getPresenceForStudent(Student student, TeacherViewController.Timeframe timeframe) throws BLLexception;
 

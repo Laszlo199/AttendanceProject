@@ -6,7 +6,6 @@ import be.Student;
 import be.WeekDay;
 import bll.FacadeBLL;
 import bll.IFacadeBLL;
-import bll.util.SingleDayAbsenceCalculator;
 import bll.exception.BLLexception;
 import gui.controller.TeacherViewController;
 import javafx.collections.FXCollections;
@@ -18,14 +17,11 @@ import java.util.List;
 public class TeacherDashboardModel {
 
     private IFacadeBLL logic;
-    private ScheduleEntity currentLesson;
-    private SingleDayAbsenceCalculator singleDayAbsenceCalculator;
     private ObservableList<Student> obsStudents = FXCollections.observableArrayList();
 
 
     public TeacherDashboardModel() {
         logic = FacadeBLL.getInstance();
-        singleDayAbsenceCalculator = new SingleDayAbsenceCalculator(currentLesson);
     }
 
     public List<ChangeRequest> getAllRequests(int teacherId) {
@@ -63,9 +59,9 @@ public class TeacherDashboardModel {
     }
 
     //returns list of absent students on current lesson
-    public List<Student> getAbsentToday(){
+    public List<Student> getAbsentToday(ScheduleEntity scheduleEntity){
         try {
-            return singleDayAbsenceCalculator.getAbsentToday();
+            return logic.getAbsentToday(scheduleEntity);
         } catch (BLLexception blLexception) {
             blLexception.printStackTrace();
             return null;
@@ -73,9 +69,9 @@ public class TeacherDashboardModel {
     }
 
     //returns list of present students on current lesson
-    public List<Student> getPresentToday(){
+    public List<Student> getPresentToday(ScheduleEntity scheduleEntity){
         try {
-            return singleDayAbsenceCalculator.getPresentToday();
+            return logic.getPresentToday(scheduleEntity);
         } catch (BLLexception blLexception) {
             blLexception.printStackTrace();
             return null;
@@ -83,9 +79,9 @@ public class TeacherDashboardModel {
     }
 
     //returns number of absent students from current lesson
-    public int getNumberOfAbsent(){
+    public int getNumberOfAbsent(ScheduleEntity scheduleEntity){
         try {
-            return singleDayAbsenceCalculator.getNumberOfAbsentStudents();
+            return logic.getNumberOfAbsentStudents(scheduleEntity);
         } catch (BLLexception blLexception) {
             blLexception.printStackTrace();
             return Integer.parseInt(null);
@@ -94,9 +90,9 @@ public class TeacherDashboardModel {
     }
 
     //returns number of present students from current lesson
-    public int getNumberOfPresent(){
+    public int getNumberOfPresent(ScheduleEntity scheduleEntity){
         try {
-            return singleDayAbsenceCalculator.getNumberOfPresentStudents();
+            return logic.getNumberOfPresentStudents(scheduleEntity);
         } catch (BLLexception blLexception) {
             blLexception.printStackTrace();
             return Integer.parseInt(null);

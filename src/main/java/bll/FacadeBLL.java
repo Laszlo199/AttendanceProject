@@ -49,6 +49,42 @@ public class FacadeBLL implements IFacadeBLL{
         return operations.verifyPassword(email, password, userType);
     }
 
+    public List<Student> getAbsentToday(ScheduleEntity scheduleEntity) throws BLLexception {
+        try {
+            return facadeDAL.getAbsentToday(scheduleEntity);
+        } catch (DALexception daLexception) {
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't get a list of absent students today");
+        }
+    }
+
+    public List<Student> getPresentToday(ScheduleEntity scheduleEntity) throws BLLexception {
+        try {
+            return facadeDAL.getPresentToday(scheduleEntity);
+        } catch (DALexception daLexception) {
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't get a list of present students today");
+        }
+    }
+
+    public int getNumberOfAbsentStudents(ScheduleEntity scheduleEntity) throws BLLexception {
+        try {
+            return facadeDAL.getNumberOfAbsentToday(scheduleEntity);
+        } catch (DALexception daLexception) {
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't get a number of absent students today");
+        }
+    }
+
+    public int getNumberOfPresentStudents(ScheduleEntity scheduleEntity) throws BLLexception {
+        try {
+            return facadeDAL.getNumberOfPresentToday(scheduleEntity);
+        } catch (DALexception daLexception) {
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't get a number of absent students today");
+        }
+    }
+
     @Override
     public Student getStudent(String email) throws BLLexception {
         try {

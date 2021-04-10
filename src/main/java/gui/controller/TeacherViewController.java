@@ -97,7 +97,7 @@ public class TeacherViewController implements Initializable {
         this.currentLesson = model.getCurrentLesson(loggedTeacher.getId());
         //just checking if works
         System.out.println(loggedTeacher.getName());
-        System.out.println(currentLesson.getWeekDay());
+        if(currentLesson!=null) System.out.println(currentLesson.getWeekDay());
     }
 
     public Teacher getLoggedTeacher() {
