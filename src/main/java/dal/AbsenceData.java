@@ -230,7 +230,7 @@ public class AbsenceData implements IAbsenceData {
     private int getNumberOfToday(ScheduleEntity scheduleEntity, int isPresent) throws DALexception {
         int number = 0;
         try(Connection connection = dbConnector.getConnection()) {
-            String sql = "SELECT COUNT(s.id) AS NumberOfStudents" +
+            String sql = "SELECT COUNT(s.id) AS NumberOfStudents " +
                     "FROM Students s " +
                     "JOIN Records r ON s.ID = r.StudentID " +
                     "JOIN ScheduleEntity se ON se.ID = r.ScheduleEntityID " +

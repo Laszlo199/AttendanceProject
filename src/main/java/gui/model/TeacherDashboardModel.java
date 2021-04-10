@@ -81,7 +81,7 @@ public class TeacherDashboardModel {
     //returns number of absent students from current lesson
     public int getNumberOfAbsent(ScheduleEntity scheduleEntity){
         try {
-            return logic.getNumberOfAbsentStudents(scheduleEntity);
+            return logic.getNumberOfAbsentToday(scheduleEntity);
         } catch (BLLexception blLexception) {
             blLexception.printStackTrace();
             return Integer.parseInt(null);
@@ -92,7 +92,7 @@ public class TeacherDashboardModel {
     //returns number of present students from current lesson
     public int getNumberOfPresent(ScheduleEntity scheduleEntity){
         try {
-            return logic.getNumberOfPresentStudents(scheduleEntity);
+            return logic.getNumberOfPresentToday(scheduleEntity);
         } catch (BLLexception blLexception) {
             blLexception.printStackTrace();
             return Integer.parseInt(null);

@@ -67,7 +67,7 @@ public class FacadeBLL implements IFacadeBLL{
         }
     }
 
-    public int getNumberOfAbsentStudents(ScheduleEntity scheduleEntity) throws BLLexception {
+    public int getNumberOfAbsentToday(ScheduleEntity scheduleEntity) throws BLLexception {
         try {
             return facadeDAL.getNumberOfAbsentToday(scheduleEntity);
         } catch (DALexception daLexception) {
@@ -76,7 +76,7 @@ public class FacadeBLL implements IFacadeBLL{
         }
     }
 
-    public int getNumberOfPresentStudents(ScheduleEntity scheduleEntity) throws BLLexception {
+    public int getNumberOfPresentToday(ScheduleEntity scheduleEntity) throws BLLexception {
         try {
             return facadeDAL.getNumberOfPresentToday(scheduleEntity);
         } catch (DALexception daLexception) {

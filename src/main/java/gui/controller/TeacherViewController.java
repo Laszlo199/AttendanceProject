@@ -13,11 +13,14 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -55,17 +58,50 @@ public class TeacherViewController implements Initializable {
     private TeacherDashboardModel model;
     private List<ChangeRequest> requests;
 
+    public void setTeacher(Teacher teacher) {
+        this.loggedTeacher = teacher;
+        //while weekend current lesson is a mockup
+        //this.currentLesson = model.getCurrentLesson(loggedTeacher.getId());
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //to be able to work during the weekend (normally there is no lesson now)
+        currentLesson = new ScheduleEntity(3, 1, WeekDay.MONDAY, null, null);
         this.model = new TeacherDashboardModel();
-        setChart();
+        setDate();
         setStudentsTableView();
         setAbsentList();
-        setChangeTable();
-        setDate();
-        //list of requests to display in the table view
-        //requests = model.getAllRequests(loggedTeacher.getId());
+        setChart();
+        //setChangeTable();
+
+    }
+
+    private void setAbsentList(){
+        if(currentLesson!=null) {
+            List<Student> absentStudents = model.getAbsentToday(currentLesson);
+            ObservableList<String> absentStudentsNames = FXCollections.observableArrayList();
+            for(Student s : absentStudents) absentStudentsNames.add(s.getName());
+            absentList.setItems(absentStudentsNames);
+        }
+    }
+
+    private void setChart(){
+        if(currentLesson!=null) {
+            int absent = model.getNumberOfAbsent(currentLesson);
+            int present = model.getNumberOfPresent(currentLesson);
+            int sumOfStudents = absent + present;
+            ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList(
+                    new PieChart.Data("Absent", (absent * 100) / sumOfStudents),
+                    new PieChart.Data("Present", (present * 100) / sumOfStudents));
+            absenceChart.setData(pieData);
+
+            absenceChart.getData().forEach(data -> {
+                String percentage = String.format("%.2f%%", (data.getPieValue() / 100));
+                Tooltip toolTip = new Tooltip(percentage);
+                Tooltip.install(data.getNode(), toolTip);
+            });
+        }
     }
 
     private void setStudentsTableView() {
@@ -92,29 +128,6 @@ public class TeacherViewController implements Initializable {
         TOTAL
     }
 
-    public void setTeacher(Teacher teacher) {
-        this.loggedTeacher = teacher;
-        this.currentLesson = model.getCurrentLesson(loggedTeacher.getId());
-        //just checking if works
-        System.out.println(loggedTeacher.getName());
-        if(currentLesson!=null) System.out.println(currentLesson.getWeekDay());
-    }
-
-    public Teacher getLoggedTeacher() {
-        return loggedTeacher;
-    }
-
-    //when teacher clicks accept button
-    private void requestAccepted(ChangeRequest request) {
-        model.requestAccepted(request);
-    }
-
-    //when teacher clicks decline button
-    private void requestDeclined(ChangeRequest request) {
-        model.requestDeclined(request);
-    }
-
-
     private void setDate() {
         Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("  EEEE ");
@@ -127,18 +140,13 @@ public class TeacherViewController implements Initializable {
     }
 
     private void setChangeTable() {
+        ObservableList<ChangeRequest> changes = FXCollections.observableArrayList(model.getAllRequests(loggedTeacher.getId()));
+
         nameColumnn.setCellValueFactory(new PropertyValueFactory<ChangeRequest, String>("name"));
-        typeColumnn.setCellValueFactory(new PropertyValueFactory<ChangeRequest, String>("type"));
+        typeColumnn.setCellValueFactory(new PropertyValueFactory<ChangeRequest, String>("subject"));
         dateColumnn.setCellValueFactory(new PropertyValueFactory<ChangeRequest, String>("date"));
         acceptColumnn.setCellValueFactory(new PropertyValueFactory<ChangeRequest, Void>(""));
         declineColumnn.setCellValueFactory(new PropertyValueFactory<ChangeRequest, Void>(""));
-
-        ObservableList<ChangeRequest> changes = FXCollections.observableArrayList();
-        //changes.addAll(requests);
-        changes.add(new ChangeRequest(10, StatusType.PENDING));
-        changes.add(new ChangeRequest(11, StatusType.PENDING));
-        changes.add(new ChangeRequest(12, StatusType.PENDING));
-
 
         Callback<TableColumn<ChangeRequest, Void>, TableCell<ChangeRequest, Void>> cellFactory = new Callback<TableColumn<ChangeRequest, Void>, TableCell<ChangeRequest, Void>>() {
             @Override
@@ -206,24 +214,6 @@ public class TeacherViewController implements Initializable {
         acceptColumnn.setCellFactory(cellFactory);
         declineColumnn.setCellFactory(cFactory);
     }
-
-    private void setAbsentList(){
-        ObservableList<Student> absentStudents = FXCollections.observableArrayList();
-            //absentStudents.addAll((Student) model.getAbsentToday());
-        absentStudents.add(new Student(5,"Richard Button", "RB@easv.dk", "photopath", 1, 1));
-        absentList.setItems(absentStudents);
-    }
-
-    private void setChart(){
-        ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList(
-             //   new PieChart.Data("Absent", model.getNumberOfAbsent()),
-            //    new PieChart.Data("Present", model.getNumberOfPresent()));
-                new PieChart.Data("Absent", 78),
-                new PieChart.Data("Present", 22));
-        absenceChart.setData(pieData);
-    }
-
-
 
     public void logOut(ActionEvent actionEvent) {
         Stage s = (Stage) dateLabel.getScene().getWindow();

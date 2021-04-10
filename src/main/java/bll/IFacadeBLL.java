@@ -39,8 +39,8 @@ public interface IFacadeBLL {
 
     List<Student> getAbsentToday(ScheduleEntity scheduleEntity) throws BLLexception;
     List<Student> getPresentToday(ScheduleEntity scheduleEntity) throws BLLexception;
-    int getNumberOfAbsentStudents(ScheduleEntity scheduleEntity) throws BLLexception;
-    int getNumberOfPresentStudents(ScheduleEntity scheduleEntity) throws BLLexception;
+    int getNumberOfAbsentToday(ScheduleEntity scheduleEntity) throws BLLexception;
+    int getNumberOfPresentToday(ScheduleEntity scheduleEntity) throws BLLexception;
 
     String getPresenceForStudent(Student student, TeacherViewController.Timeframe timeframe) throws BLLexception;
 

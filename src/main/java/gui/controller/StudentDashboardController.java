@@ -96,8 +96,6 @@ public class StudentDashboardController implements Initializable {
         this.loggedStudent = student;
         model.setAbsentDays(loggedStudent.getId());
         this.currentLesson = model.getCurrentLesson(loggedStudent.getCourseID());
-        if(this.currentLesson==null)
-           System.out.println("current lesson is null");
         showInfoStudent();
     }
 
