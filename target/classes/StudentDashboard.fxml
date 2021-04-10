@@ -86,12 +86,12 @@
             </Label>
             <HBox alignment="TOP_CENTER" prefHeight="44.0" prefWidth="483.0" spacing="70.0">
                <children>
-                  <JFXRadioButton fx:id="presentRadioButton" text="present">
+                  <JFXRadioButton fx:id="presentRadioButton" onAction="#isPresent" text="present">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </JFXRadioButton>
-                  <JFXRadioButton fx:id="absentRadioButton" text="absent">
+                  <JFXRadioButton fx:id="absentRadioButton" onAction="#isAbsent" text="absent">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -104,7 +104,7 @@
                   <Insets top="70.0" />
                </VBox.margin>
             </HBox>
-            <JFXButton onAction="#SaveAttendance" style="-fx-background-color: grey;" text="SAVE">
+            <JFXButton fx:id="btnSave" onAction="#SaveAttendance" style="-fx-background-color: grey;" text="SAVE">
                <font>
                   <Font size="38.0" />
                </font>

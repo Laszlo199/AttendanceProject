@@ -2,6 +2,7 @@ package gui.controller;
 
 import be.*;
 import be.Record;
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
 import gui.model.StudentDashboardModel;
 import gui.util.DonutChart;
@@ -67,6 +68,7 @@ public class StudentDashboardController implements Initializable {
     @FXML private Text hourLabel;
     @FXML private AnchorPane anchorChart;
     @FXML private ListView<Record> listView;
+    @FXML private JFXButton btnSave;
 
     private final ToggleGroup groupRadioButtons = new ToggleGroup();
     StackPane stackPane = new StackPane();
@@ -109,6 +111,7 @@ public class StudentDashboardController implements Initializable {
         initGroupRadioButtons();
         listenForShowingQuote();
         listenerPieChart();
+        btnSave.setDisable(true);
        // listenForShowingSecondDiagram();
     }
 
@@ -461,5 +464,22 @@ public class StudentDashboardController implements Initializable {
         if(presentRadioButton.isSelected())
             isPresent  = true;
         setCurrentAttendance(isPresent);
+
+
+        btnSave.setDisable(true);
+        absentRadioButton.setDisable(true);
+        presentRadioButton.setDisable(true);
+    }
+
+    public void isPresent(ActionEvent actionEvent) {
+        if (presentRadioButton.isSelected()){
+            btnSave.setDisable(false);
+        }
+    }
+
+    public void isAbsent(ActionEvent actionEvent) {
+        if (absentRadioButton.isSelected()){
+            btnSave.setDisable(false);
+        }
     }
 }
