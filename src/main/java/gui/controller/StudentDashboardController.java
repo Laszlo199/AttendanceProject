@@ -69,6 +69,7 @@ public class StudentDashboardController implements Initializable {
     @FXML private AnchorPane anchorChart;
     @FXML private ListView<Record> listView;
     @FXML private JFXButton btnSave;
+    @FXML private Label massageLabel;
 
     private final ToggleGroup groupRadioButtons = new ToggleGroup();
     StackPane stackPane = new StackPane();
@@ -98,6 +99,9 @@ public class StudentDashboardController implements Initializable {
         this.loggedStudent = student;
         model.setAbsentDays(loggedStudent.getId());
         this.currentLesson = model.getCurrentLesson(loggedStudent.getCourseID());
+        if (model.getCurrentLesson(loggedStudent.getCourseID())==null){
+            massageLabel.setText("You are Free Today");
+        }
         showInfoStudent();
     }
 

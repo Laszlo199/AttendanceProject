@@ -20,6 +20,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -27,6 +28,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
+
 
 /**
  * @author Kuba
@@ -151,6 +153,9 @@ public class LogInWindowController implements Initializable, ILogIn {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        //Here was the problem.
+        /*
         try {
             if(!command.logIn()){
                 //show information that we couldn't log in
@@ -160,6 +165,7 @@ public class LogInWindowController implements Initializable, ILogIn {
         } catch (IOException e) {
             e.printStackTrace();
         }
+         */
     }
 
     public class Opener{
@@ -182,6 +188,7 @@ public class LogInWindowController implements Initializable, ILogIn {
         }
         else {
             System.out.println("verification not successful");
+            JOptionPane.showMessageDialog(null, "Wrong email or password!");
             System.out.println(emailField.getText());
             System.out.println(passwordField.getText());
             System.out.println("end of that");
@@ -203,10 +210,12 @@ public class LogInWindowController implements Initializable, ILogIn {
                 passwordField.getText(), UserType.TEACHER)){
             executeLogIn(actionEvent, new LogInTeacher(loginModel.
                     getTeacher(emailField.getText())));
-            logInStudent.setDisable(true);
+            logInTeacher.setDisable(true);
+
         }
         else{
             System.out.println("verification not successful");
+            JOptionPane.showMessageDialog(null, "fuck you");
             System.out.println(emailField.getText());
             System.out.println(passwordField.getText());
             System.out.println("end of that");
