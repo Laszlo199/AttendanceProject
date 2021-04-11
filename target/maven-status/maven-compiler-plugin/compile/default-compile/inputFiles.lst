@@ -15,6 +15,7 @@ D:\onedrive2\github\Attendance-project-2\src\main\java\be\UserType.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\dal\exception\DALexception.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\gui\controller\StudentDashboardController.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\dal\dataAccessObjects\RecordDAO.java
+D:\onedrive2\github\Attendance-project-2\src\main\java\be\Admin.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\gui\Controller.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\gui\model\AdminModel.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\dal\dataAccessObjects\ChangeRequestDAO.java
@@ -32,6 +33,7 @@ D:\onedrive2\github\Attendance-project-2\src\main\java\be\Teacher.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\gui\util\AlertDisplay.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\dal\IFacadeDAL.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\gui\controller\AdminViewController.java
+D:\onedrive2\github\Attendance-project-2\src\main\java\gui\command\LogInAdmin.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\bll\FacadeBLL.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\dal\dataAccessObjects\SubjectDAO.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\be\PRESENCE.java

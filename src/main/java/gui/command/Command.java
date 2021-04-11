@@ -16,14 +16,19 @@ import java.io.IOException;
  * @date 3/29/2021 5:33 PM
  */
 public abstract class Command {
+
     public User getUser() {
         return user;
     }
 
-    private final User user;
+    private User user;
 
     protected Command(User user) {
         this.user = user;
+    }
+
+    protected Command() {
+
     }
 
     /**

@@ -5,13 +5,13 @@ gui\controller\TeacherViewController.class
 gui\command\LogInTeacher.class
 gui\model\StudentDashboardModel.class
 be\Months.class
+be\Admin.class
 gui\controller\StudentDashboardController$RecordCell$1.class
 bll\util\PresenceCalculator$1.class
 gui\controller\TeacherViewController$1.class
 be\PasswordObject.class
 dal\dataAccessObjects\LoginDAO.class
 gui\controller\TeacherViewController$2.class
-gui\controller\LogInWindowController$Opener.class
 Main.class
 gui\controller\StudentDashboardController$1.class
 bll\util\PasswordHasher.class
@@ -20,6 +20,7 @@ gui\controller\StudentDashboardController$3.class
 gui\command\LogInStudent.class
 gui\controller\StudentDashboardController.class
 bll\FacadeBLL.class
+gui\command\LogInAdmin.class
 bll\util\Operations.class
 gui\model\TeacherDashboardModel.class
 gui\command\Command.class

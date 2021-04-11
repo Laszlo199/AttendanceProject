@@ -28,8 +28,29 @@ public class LoginDAO {
             return getPasswordFromStudentTable(email);
         if(userType == UserType.TEACHER)
            return getPasswordFromTeacherTable(email);
+        if(userType == UserType.ADMIN)
+            return getPasswordFromAdminTable(email);
        else
            throw new IllegalArgumentException("This user type doesn't exist");
+    }
+
+    private PasswordObject getPasswordFromAdminTable(String email) throws DALexception {
+        try(Connection connection = dbConnector.getConnection()) {
+            String query = "Select Password, Salt FROM Admins Where Email=?;";
+            PreparedStatement pstat = connection.prepareStatement(query);
+            pstat.setString(1, email);
+            ResultSet rs = pstat.executeQuery();
+            rs.next();
+            String pass  =rs.getString("Password");
+            String salt = rs.getString("Salt");
+            return new PasswordObject(pass, salt);
+        } catch (SQLServerException throwables) {
+            throwables.printStackTrace();
+            throw new DALexception("Couldn't get a password from admins table");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            throw new DALexception("Couldn't get a password from admins table");
+        }
     }
 
     private PasswordObject getPasswordFromTeacherTable(String email) throws DALexception {
@@ -75,8 +96,30 @@ public class LoginDAO {
             return studentExists(email);
         else if(userType == UserType.TEACHER)
             return teacherExists(email);
+        else if(userType ==UserType.ADMIN)
+            return adminExists(email);
         else
             throw new IllegalArgumentException("This user type doesn't exist");
+    }
+
+    private boolean adminExists(String email) throws DALexception {
+        String query = "SELECT COUNT(Email) as total FROM Admins WHERE Email = ?;";
+        try(Connection connection = dbConnector.getConnection()) {
+            PreparedStatement pstat = connection.prepareStatement(query);
+            pstat.setString(1, email);
+            ResultSet rs = pstat.executeQuery();
+            rs.next();
+            int result = rs.getInt("total");
+            if(result>0)
+                return true;
+            else return false;
+        } catch (SQLServerException throwables) {
+            throwables.printStackTrace();
+            throw new DALexception("Couldn't check if admin exists");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            throw new DALexception("Couldn't check if admin exists");
+        }
     }
 
     private boolean teacherExists(String email) throws DALexception{

@@ -6,5 +6,6 @@ package be;
  */
 public enum UserType {
     STUDENT,
-    TEACHER
+    TEACHER,
+    ADMIN
 }

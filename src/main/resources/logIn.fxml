@@ -5,6 +5,7 @@
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -88,14 +89,23 @@
                                     <Insets left="20.0" />
                                  </padding>
                               </HBox>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Forgot password?" underline="true" wrappingWidth="388.8740234375">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
+                              <HBox>
                                  <VBox.margin>
                                     <Insets left="20.0" />
                                  </VBox.margin>
-                              </Text>
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Forgot password?" underline="true" wrappingWidth="165.8740234375">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Text>
+                                    <Label fx:id="logAdmin" onMouseClicked="#logAdmin" text="Admin" underline="true">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
                            </children>
                         </VBox>
                      </children>

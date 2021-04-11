@@ -70,4 +70,7 @@
     /*-fx-background-radius: 50px; */
 }
 
-/* styling listview*/
+.adminLabel:hover{
+    -fx-background-color: lightgray ;
+}
+

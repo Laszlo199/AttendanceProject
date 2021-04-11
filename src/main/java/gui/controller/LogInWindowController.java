@@ -8,6 +8,7 @@ import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import gui.command.Command;
+import gui.command.LogInAdmin;
 import gui.command.LogInStudent;
 import gui.command.LogInTeacher;
 import gui.controller.ILogIn;
@@ -18,6 +19,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import javax.swing.*;
@@ -44,7 +48,8 @@ public class LogInWindowController implements Initializable, ILogIn {
     private static final int DEFAULTLENGTH  = 0;
     private static final String PASSWORDL = "passwordLength";
 
-
+    @FXML
+    private Label logAdmin;
     @FXML
     private JFXTextField emailField;
     @FXML
@@ -85,10 +90,10 @@ public class LogInWindowController implements Initializable, ILogIn {
         rememberMe.setDisable(true);
         checkPreferences();
         rememberMe.setDisable(false);
-
+        logAdmin.getStyleClass().add("adminLabel");
 
         String salt = PasswordHasher.generateSalt(512).get();
-        String testPass = "pass";
+        String testPass = "admin";
 
         String key =  PasswordHasher.hashPassword(testPass, salt).get();
         System.out.println(" hashed: " + key);
@@ -107,6 +112,8 @@ public class LogInWindowController implements Initializable, ILogIn {
 
 
     }
+
+
 
     /**
      * when program is run it checks whether preferences are saved
@@ -153,24 +160,20 @@ public class LogInWindowController implements Initializable, ILogIn {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        //Here was the problem.
-        /*
-        try {
-            if(!command.logIn()){
-                //show information that we couldn't log in
-                AlertDisplay.displayAlert("Couldn't open Dashboard",
-                        "Please try again", "", Alert.AlertType.ERROR);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-         */
     }
 
-    public class Opener{
-        public void openStudentDashboard(String email){
-            Student student = loginModel.getStudent(email);
+
+    public void logAdmin(MouseEvent mouseEvent) {
+        if(loginModel.verifyPassword(emailField.getText(),
+                passwordField.getText(), UserType.ADMIN) && mouseEvent.getClickCount()<2){
+            Command command = new LogInAdmin();
+            Stage thisStage = (Stage) logAdmin.getScene().getWindow();
+            command.closeCurrentStage(thisStage);
+            try {
+                command.logIn();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -240,4 +243,5 @@ public class LogInWindowController implements Initializable, ILogIn {
             }
         }
     }
+
 }
