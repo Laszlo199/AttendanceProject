@@ -390,6 +390,24 @@ public class FacadeBLL implements IFacadeBLL{
         }
     }
 
+    @Override
+    public int getNumberOfPresentDays(Student student, Months month) throws BLLexception {
+        try {
+            return facadeDAL.getNumberOfPresentDays(student, month);
+        } catch (DALexception daLexception) {
+            throw new BLLexception("Couldn't get number of present days", daLexception);
+        }
+    }
+
+    @Override
+    public int getNumberOfAbsentDays(Student loggedStudent, Months month) throws BLLexception {
+        try {
+            return facadeDAL.getNumberOfAbsentDays(loggedStudent, month);
+        } catch (DALexception daLexception) {
+            throw new BLLexception("Couldn't get number of absent days", daLexception);
+        }
+    }
+
     List<String> quotes = Arrays.asList("“An investment in knowledge pays the best interest.”- Benjamin Franklin, writer and polymath.",
             "15 – “The capacity to learn is a gift; the ability to learn is a skill; the willingness to learn is a choice.” – " +
                     "Brian Herbert, author.",

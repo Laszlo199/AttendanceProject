@@ -148,13 +148,17 @@ public class AbsenceData implements IAbsenceData {
                     "FROM Records r " +
                     "WHERE r.StudentID=? AND r.isPresent=? AND MONTH(r.[Date])=?";
             PreparedStatement pstat = connection.prepareStatement(sql);
+            if(student==null)
+                System.out.println("student is null");
+
             pstat.setInt(1, student.getId());
             pstat.setInt(2, isPresent);
             pstat.setInt(3, month.getValue());
             ResultSet rs = pstat.executeQuery();
-            while(rs.next()) {
+           // while(rs.next()) {
+            rs.next();
                 number = rs.getInt("NumberOfDays");
-            }
+           // }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             throw new DALexception("Couldn't get number of days per month");

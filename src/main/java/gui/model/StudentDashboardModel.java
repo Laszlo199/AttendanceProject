@@ -85,4 +85,22 @@ public class StudentDashboardModel {
     public String getRandQuote() {
         return logic.getRandomQuote();
     }
+
+    public int getPresentDays(Student student, Months month) {
+        try {
+            return logic.getNumberOfPresentDays(student, month);
+        } catch (BLLexception blLexception) {
+            blLexception.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int getAbsentDays(Student loggedStudent, Months month) {
+        try {
+            return logic.getNumberOfAbsentDays(loggedStudent, month);
+        } catch (BLLexception blLexception) {
+            blLexception.printStackTrace();
+        }
+        return 1;
+    }
 }

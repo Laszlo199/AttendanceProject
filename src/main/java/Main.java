@@ -19,7 +19,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         //FXMLLoader loader = new FXMLLoader(getClass().getResource("logIn.fxml"));
-        /*
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentDashboard.fxml"));
         Parent root = loader.load();
         //for the student dashboard in the stage of development
@@ -37,8 +37,11 @@ public class Main extends Application {
 
         stage.show();
 
-         */
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("logIn.fxml"));
+
+
+        /*
+
+       FXMLLoader loader = new FXMLLoader(getClass().getResource("logIn.fxml"));
         Parent root = loader.load();
         //Stage stage = new Stage();
         stage.setTitle("Attendance tracker");
@@ -46,5 +49,22 @@ public class Main extends Application {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+
+         */
+
+
+
+      /*
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/TeacherView.fxml"));
+        Parent root = loader.load();
+        //Stage stage = new Stage();
+        stage.setTitle("Attendance tracker");
+        stage.getIcons().add(new Image("/images/icon.png"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+
+ */
     }
 }

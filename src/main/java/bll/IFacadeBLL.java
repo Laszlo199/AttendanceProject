@@ -72,4 +72,7 @@ public interface IFacadeBLL {
     void createCourse(Course course) throws BLLexception;
     void deleteCourse(Course course) throws BLLexception;
 
+    int getNumberOfPresentDays(Student student, Months month) throws BLLexception;
+
+    int getNumberOfAbsentDays(Student loggedStudent, Months month) throws BLLexception;
 }

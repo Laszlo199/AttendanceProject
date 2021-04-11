@@ -91,12 +91,12 @@ public class StudentDashboardController implements Initializable {
    // private StudentDashboardModel studentDashboardModel = new StudentDashboardModel();
     private boolean quoteIsShown = false;
     Label quote = new Label(model.getRandQuote());
-
     //ObservableList<PieChart.Data> pieChartData = createData(getCurrentMonth());
     //donutChart = new DonutChart(pieChartData);
 
     public void setLoggedStudent(Student student) {
         this.loggedStudent = student;
+        initPieChart();
         model.setAbsentDays(loggedStudent.getId());
         this.currentLesson = model.getCurrentLesson(loggedStudent.getCourseID());
         if (model.getCurrentLesson(loggedStudent.getCourseID())==null){
@@ -105,10 +105,11 @@ public class StudentDashboardController implements Initializable {
         showInfoStudent();
     }
 
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initComboBox();
-        initPieChart();
         comboBoxListener();
         setListView();
         digitalClock();
@@ -116,7 +117,6 @@ public class StudentDashboardController implements Initializable {
         listenForShowingQuote();
         listenerPieChart();
         btnSave.setDisable(true);
-       // listenForShowingSecondDiagram();
     }
 
     private void comboBoxListener() {
@@ -366,10 +366,12 @@ public class StudentDashboardController implements Initializable {
      * @return
      */
     private ObservableList<PieChart.Data> createData(Months month) {
-        Random r = new Random();
+       int presentDays = model.getPresentDays(loggedStudent, month);
+       int absentDays = model.getAbsentDays(loggedStudent, month);
+
         return FXCollections.observableArrayList(
-                new PieChart.Data("Present", r.nextInt(100) + 50),
-                new PieChart.Data("Absent", r.nextInt(30)+5));
+                new PieChart.Data("Present", presentDays),
+                new PieChart.Data("Absent", absentDays));
     }
 
     private void setListView() {
