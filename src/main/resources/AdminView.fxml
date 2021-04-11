@@ -14,6 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 
+<?import javafx.scene.control.TabPane?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.AdminViewController">
    <bottom>
       <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
@@ -28,9 +29,9 @@
    <center>
       <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <JFXTabPane>
+            <TabPane>
                <tabs>
-                  <Tab text="Teachers">
+                  <Tab fx:id="teacher" text="Teachers">
                      <content>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" />
                      </content>
@@ -71,7 +72,7 @@
                         </AnchorPane>
                      </content>
                   </Tab>
-                  <Tab text="Studenst">
+                  <Tab fx:id="student" text="Studenst">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -111,7 +112,7 @@
                         </AnchorPane>
                     </content>
                   </Tab>
-                  <Tab text="Subjects">
+                  <Tab fx:id="subject" text="Subjects">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="423.0" prefWidth="800.0">
                            <children>
@@ -147,7 +148,7 @@
                         </AnchorPane>
                     </content>
                   </Tab>
-                  <Tab text="Courses">
+                  <Tab fx:id="course" text="Courses">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -180,7 +181,7 @@
                     </content>
                   </Tab>
                </tabs>
-            </JFXTabPane>
+            </TabPane>
          </children>
       </StackPane>
    </center>

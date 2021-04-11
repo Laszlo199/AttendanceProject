@@ -4,13 +4,14 @@ import be.Course;
 import be.Student;
 import be.Subject;
 import be.Teacher;
+import bll.FacadeBLL;
 import bll.IFacadeBLL;
 import bll.exception.BLLexception;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class AdminModel {
-    IFacadeBLL iFacadeBLL;
+    private IFacadeBLL iFacadeBLL;
 
 
     private ObservableList<Teacher> obsTeacher;
@@ -20,11 +21,13 @@ public class AdminModel {
 
 
 
-    private AdminModel() {
-        obsTeacher = FXCollections.observableArrayList();
-        obsStudent= FXCollections.observableArrayList();
-        obsSubject = FXCollections.observableArrayList();
-        obsCourse = FXCollections.observableArrayList();
+    public AdminModel() {
+        this.obsTeacher = FXCollections.observableArrayList();
+        this.obsStudent= FXCollections.observableArrayList();
+        this.obsSubject = FXCollections.observableArrayList();
+        this.obsCourse = FXCollections.observableArrayList();
+
+        this.iFacadeBLL = FacadeBLL.getInstance();
 
     }
 
@@ -45,7 +48,7 @@ public class AdminModel {
     }
     public void delete(Teacher selectedTeacher) {
         try{
-          iFacadeBLL.deleteTeacher(selectedTeacher);
+            iFacadeBLL.deleteTeacher(selectedTeacher);
         }catch (BLLexception blLexception){
             blLexception.printStackTrace();
         }
@@ -184,7 +187,7 @@ public class AdminModel {
         }catch (BLLexception blLexception){
             blLexception.printStackTrace();
         }
-       obsCourse.remove(selectedCourse);
+        obsCourse.remove(selectedCourse);
     }
 
     public void save(Course course) {
@@ -205,5 +208,4 @@ public class AdminModel {
         obsCourse.clear();
         obsCourse.addAll();
     }
-
 }
