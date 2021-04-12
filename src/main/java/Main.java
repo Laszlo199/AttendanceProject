@@ -1,5 +1,7 @@
 import be.Student;
+import be.Teacher;
 import gui.controller.StudentDashboardController;
+import gui.controller.TeacherViewController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,6 +22,8 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         //FXMLLoader loader = new FXMLLoader(getClass().getResource("logIn.fxml"));
 
+        /*
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentDashboard.fxml"));
         Parent root = loader.load();
         //for the student dashboard in the stage of development
@@ -39,6 +43,9 @@ public class Main extends Application {
 
 
 
+         */
+
+
         /*
 
        FXMLLoader loader = new FXMLLoader(getClass().getResource("logIn.fxml"));
@@ -54,10 +61,10 @@ public class Main extends Application {
 
 
 
-      /*
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/TeacherView.fxml"));
         Parent root = loader.load();
+        TeacherViewController teacherViewController = (TeacherViewController) loader.getController();
+        teacherViewController.setTeacher(new Teacher(1, "Tom Tom", "tom@ee.dk", null, "IT"));
         //Stage stage = new Stage();
         stage.setTitle("Attendance tracker");
         stage.getIcons().add(new Image("/images/icon.png"));
@@ -65,6 +72,7 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
 
- */
+
+
     }
 }

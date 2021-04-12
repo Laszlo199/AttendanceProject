@@ -202,7 +202,7 @@ public class AbsenceData implements IAbsenceData {
                     "FROM Students s " +
                     "JOIN Records r ON s.ID = r.StudentID " +
                     "JOIN ScheduleEntity se ON se.ID = r.ScheduleEntityID " +
-                    "WHERE r.isPresent=? AND r.ScheduleEntityID=?";
+                    "WHERE r.isPresent=? AND r.ScheduleEntityID=? AND CONVERT(DATE, r.[Date]) = CONVERT(DATE, GETDATE())";
             PreparedStatement pstat = connection.prepareStatement(sql);
             pstat.setInt(1, isPresent);
             pstat.setInt(2, scheduleEntity.getId());
@@ -238,7 +238,7 @@ public class AbsenceData implements IAbsenceData {
                     "FROM Students s " +
                     "JOIN Records r ON s.ID = r.StudentID " +
                     "JOIN ScheduleEntity se ON se.ID = r.ScheduleEntityID " +
-                    "WHERE r.isPresent=? AND r.ScheduleEntityID=?";
+                    "WHERE r.isPresent=? AND r.ScheduleEntityID=? AND CONVERT(DATE, r.[Date]) = CONVERT(DATE, GETDATE())";
             PreparedStatement pstat = connection.prepareStatement(sql);
             pstat.setInt(1, isPresent);
             pstat.setInt(2, scheduleEntity.getId());

@@ -110,19 +110,24 @@ public class ChangeRequestDAO {
     public List<ChangeRequest> getRequestsForTeacher(int teacherId) throws DALexception {
         List<ChangeRequest> requests = new ArrayList<>();
         try(Connection connection = dbConnector.getConnection()) {
-            String sql = "SELECT c.RecordID, c.[Status] " +
+            String sql = "SELECT c.RecordID, st.Name, s.Name, r.[Date] " +
                     "FROM ChangeRequests c " +
                     "JOIN Records r ON r.id = c.RecordID " +
                     "JOIN ScheduleEntity se ON se.ID = r.ScheduleEntityID " +
                     "JOIN Subjects s ON s.ID = se.SubjectID " +
-                    "WHERE s.TeacherID = ? AND c.[Status] = 'pending' ";
+                    "JOIN Students st ON st.id = r.StudentID " +
+                    "WHERE s.TeacherID = ? AND c.[Status] = 'pending'";
             PreparedStatement pstat = connection.prepareStatement(sql);
             pstat.setInt(1, teacherId);
             ResultSet rs = pstat.executeQuery();
 
             while(rs.next()) {
-                int recordId = rs.getInt("recordId");
-                requests.add(new ChangeRequest(recordId, StatusType.PENDING));
+                int recordId = rs.getInt(1);
+                String studentName = rs.getString(2);
+                String subjectName = rs.getString(3);
+                Date date = rs.getDate(4);
+
+                requests.add(new ChangeRequest(recordId, StatusType.PENDING, studentName, subjectName, date));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
