@@ -101,7 +101,7 @@ public class StudentDashboardController implements Initializable {
         this.currentLesson = model.getCurrentLesson(loggedStudent.getCourseID());
         if (model.getCurrentLesson(loggedStudent.getCourseID())==null){
             massageLabel.setText("You are Free Today");
-        }
+        } else massageLabel.setText("");
         showInfoStudent();
     }
 

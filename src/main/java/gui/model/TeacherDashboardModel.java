@@ -1,9 +1,6 @@
 package gui.model;
 
-import be.ChangeRequest;
-import be.ScheduleEntity;
-import be.Student;
-import be.WeekDay;
+import be.*;
 import bll.FacadeBLL;
 import bll.IFacadeBLL;
 import bll.exception.BLLexception;
@@ -131,5 +128,14 @@ public class TeacherDashboardModel {
 
     public ObservableList<Student> getObsStudents() {
         return obsStudents;
+    }
+
+    public Subject getSubject(int subjectId) {
+        try {
+            return logic.getSubject(subjectId);
+        } catch (BLLexception blLexception) {
+            blLexception.printStackTrace();
+            return null;
+        }
     }
 }
