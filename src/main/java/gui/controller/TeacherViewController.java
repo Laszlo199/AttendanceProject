@@ -60,21 +60,21 @@ public class TeacherViewController implements Initializable {
 
     public void setTeacher(Teacher teacher) {
         this.loggedTeacher = teacher;
-        //while weekend current lesson is a mockup
         //this.currentLesson = model.getCurrentLesson(loggedTeacher.getId());
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        //to be able to work during the weekend (normally there is no lesson now)
-        currentLesson = new ScheduleEntity(3, 1, WeekDay.MONDAY, null, null);
-        this.model = new TeacherDashboardModel();
+        currentLesson = new ScheduleEntity(5, 1, WeekDay.MONDAY, null, null);
+        System.out.println("subject: " + model.getSubject(currentLesson.getSubjectId()).getName()); //just checking
+        //needs to be here cause we need logged teacher id and current lesson which is instantiated in this method
         setDate();
         setStudentsTableView();
         setAbsentList();
         setChart();
-        //setChangeTable();
+        setChangeTable();
 
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.model = new TeacherDashboardModel();
     }
 
     private void setAbsentList(){
@@ -91,16 +91,18 @@ public class TeacherViewController implements Initializable {
             int absent = model.getNumberOfAbsent(currentLesson);
             int present = model.getNumberOfPresent(currentLesson);
             int sumOfStudents = absent + present;
-            ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList(
-                    new PieChart.Data("Absent", (absent * 100) / sumOfStudents),
-                    new PieChart.Data("Present", (present * 100) / sumOfStudents));
-            absenceChart.setData(pieData);
+            if(sumOfStudents>0) {
+                ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList(
+                        new PieChart.Data("Absent", (absent * 100) / sumOfStudents),
+                        new PieChart.Data("Present", (present * 100) / sumOfStudents));
+                absenceChart.setData(pieData);
 
-            absenceChart.getData().forEach(data -> {
-                String percentage = String.format("%.2f%%", (data.getPieValue() / 100));
-                Tooltip toolTip = new Tooltip(percentage);
-                Tooltip.install(data.getNode(), toolTip);
-            });
+                absenceChart.getData().forEach(data -> {
+                    String percentage = String.format("%.2f%%", (data.getPieValue() / 100));
+                    Tooltip toolTip = new Tooltip(percentage);
+                    Tooltip.install(data.getNode(), toolTip);
+                });
+            }
         }
     }
 
@@ -140,13 +142,18 @@ public class TeacherViewController implements Initializable {
     }
 
     private void setChangeTable() {
+
         ObservableList<ChangeRequest> changes = FXCollections.observableArrayList(model.getAllRequests(loggedTeacher.getId()));
 
-        nameColumnn.setCellValueFactory(new PropertyValueFactory<ChangeRequest, String>("name"));
-        typeColumnn.setCellValueFactory(new PropertyValueFactory<ChangeRequest, String>("subject"));
+        nameColumnn.setCellValueFactory(new PropertyValueFactory<ChangeRequest, String>("studentName"));
+        typeColumnn.setCellValueFactory(new PropertyValueFactory<ChangeRequest, String>("subjectName"));
         dateColumnn.setCellValueFactory(new PropertyValueFactory<ChangeRequest, String>("date"));
         acceptColumnn.setCellValueFactory(new PropertyValueFactory<ChangeRequest, Void>(""));
         declineColumnn.setCellValueFactory(new PropertyValueFactory<ChangeRequest, Void>(""));
+
+        nameColumnn.setText("Student");
+        typeColumnn.setText("Subject");
+        dateColumnn.setText("Date");
 
         Callback<TableColumn<ChangeRequest, Void>, TableCell<ChangeRequest, Void>> cellFactory = new Callback<TableColumn<ChangeRequest, Void>, TableCell<ChangeRequest, Void>>() {
             @Override
@@ -154,14 +161,11 @@ public class TeacherViewController implements Initializable {
                 final TableCell<ChangeRequest, Void> cell = new TableCell<ChangeRequest, Void>() {
 
                     private final Button btn = new Button("Accept");
-
                     {
                         btn.setOnAction((ActionEvent event) -> {
                             ChangeRequest change = getTableView().getItems().get(getIndex());
                             changes.remove(change);
                             model.requestAccepted(change);
-                            //we need to make getName() returning real name
-                            //System.out.println(change.getName() + " accepted");
                         });
                     }
 
@@ -185,14 +189,11 @@ public class TeacherViewController implements Initializable {
                 final TableCell<ChangeRequest, Void> cell = new TableCell<ChangeRequest, Void>() {
 
                     private final Button btn = new Button("Decline");
-
                     {
                         btn.setOnAction((ActionEvent event) -> {
                             ChangeRequest change = getTableView().getItems().get(getIndex());
                             changes.remove(change);
                             model.requestDeclined(change);
-                            //we need to make getName() returning real name
-                            //System.out.println(change.getName() + " declined");
                         });
                     }
 

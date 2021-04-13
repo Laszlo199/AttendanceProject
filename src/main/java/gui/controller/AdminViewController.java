@@ -7,18 +7,21 @@ import be.Teacher;
 import com.jfoenix.controls.JFXTextField;
 import dal.dataAccessObjects.CourseDAO;
 import gui.model.AdminModel;
+import gui.model.TeacherDashboardModel;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
+
 
 import java.awt.*;
 import java.net.URL;
@@ -28,8 +31,8 @@ import java.util.ResourceBundle;
 public class AdminViewController implements Initializable {
 
 
-    private CourseDAO courseDAO;
-    private AdminModel adminModel;
+     private CourseDAO courseDAO;
+     private AdminModel adminModel;
 
     //TeachersTableView
     @FXML private TableView<Teacher> teacherTable;
@@ -37,14 +40,16 @@ public class AdminViewController implements Initializable {
     @FXML private TableColumn<Teacher, String> columnName;
     @FXML private TableColumn<Teacher, String> columnEmail;
     @FXML private TableColumn<Teacher, String> columnDepartment;
-    @FXML private TableColumn<Teacher, ImageView> photopath;
+    @FXML private TableColumn<Teacher, String> photopath;
+    @FXML private Tab teacher;
+
 
 
     @FXML private JFXTextField nameFieldTeacher;
     @FXML private JFXTextField emailFieldTeacher;
     @FXML private JFXTextField departmenFieldTeacher;
-
     @FXML private JFXTextField photopathFieldTeacher;
+
 
     //StudentsTableView
     @FXML private TableView<Student> studentTable;
@@ -53,7 +58,7 @@ public class AdminViewController implements Initializable {
     @FXML private TableColumn<Student, String> columnStudentEmail;
     @FXML private TableColumn<Student, Integer> columnCourseID;
     @FXML private TableColumn<Student, Integer> columnSemester;
-    @FXML private TableColumn<Student, ImageView> Studentphotopath;
+    @FXML private TableColumn<Student, String> Studentphotopath;
 
 
     @FXML private JFXTextField nameFieldStudent;
@@ -61,6 +66,7 @@ public class AdminViewController implements Initializable {
     @FXML private JFXTextField coursIDFieldStudent;
     @FXML private JFXTextField semesterFieldStudent;
     @FXML private JFXTextField photoPathFieldStudent;
+    @FXML private Tab student;
 
 
     //SubjectsTableView
@@ -73,6 +79,7 @@ public class AdminViewController implements Initializable {
     @FXML private JFXTextField nameFieldSubject;
     @FXML private JFXTextField teacherIDFieldSubject;
     @FXML private JFXTextField courseIDFieldSubject;
+    @FXML private Tab subject;
 
 
 
@@ -82,10 +89,12 @@ public class AdminViewController implements Initializable {
     @FXML private TableColumn<Course, String> columnCourseName;
 
     @FXML private JFXTextField nameFieldCourse;
+    @FXML private Tab course;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.adminModel = new AdminModel();
         initTeacherTableView();
         initStudentTableView();
         initSubjectTableView();
@@ -97,7 +106,7 @@ public class AdminViewController implements Initializable {
         columnName.setCellValueFactory(new PropertyValueFactory<Teacher, String>("Name"));
         columnEmail.setCellValueFactory(new PropertyValueFactory<Teacher, String>("Email"));
         columnDepartment.setCellValueFactory(new PropertyValueFactory<Teacher, String>("Department"));
-        photopath.setCellValueFactory(new PropertyValueFactory<Teacher, ImageView>("PhotoPath"));
+        photopath.setCellValueFactory(new PropertyValueFactory<Teacher, String>("PhotoPath"));
 
 
         adminModel.loadTeachers();
@@ -110,7 +119,7 @@ public class AdminViewController implements Initializable {
         columnStudentEmail.setCellValueFactory(new PropertyValueFactory<Student,String>("Email"));
         columnCourseID.setCellValueFactory(new PropertyValueFactory<Student, Integer>("Course ID"));
         columnSemester.setCellValueFactory(new PropertyValueFactory<Student, Integer>("Semester"));
-        Studentphotopath.setCellValueFactory(new PropertyValueFactory<Student,ImageView>("PhotoPath"));
+        Studentphotopath.setCellValueFactory(new PropertyValueFactory<Student,String>("PhotoPath"));
         
 
         adminModel.loadStudents();
@@ -269,6 +278,8 @@ public class AdminViewController implements Initializable {
     public void readCourse(MouseEvent mouseEvent) {
         nameFieldCourse.setText(courseTableView.getSelectionModel().getSelectedItem().getName());
     }
+
+
 
 
     public void btnLogout(ActionEvent event) {
