@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1186.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+  <columnConstraints>
+    <ColumnConstraints hgrow="ALWAYS" maxWidth="589.0" minWidth="10.0" prefWidth="471.0" />
+    <ColumnConstraints hgrow="ALWAYS" maxWidth="771.0" minWidth="10.0" prefWidth="715.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="230.0" minHeight="10.0" prefHeight="139.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="164.0" minHeight="10.0" prefHeight="164.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="215.0" minHeight="10.0" prefHeight="192.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="457.0" minHeight="10.0" prefHeight="195.0" vgrow="SOMETIMES" />
+      <RowConstraints fillHeight="false" maxHeight="45.0" minHeight="0.0" prefHeight="45.0" vgrow="NEVER" />
+  </rowConstraints>
+   <children>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: white;" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2">
+         <GridPane.margin>
+            <Insets bottom="10.0" left="30.0" right="10.0" top="20.0" />
+         </GridPane.margin>
+      </VBox>
+      <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: white;" GridPane.rowIndex="2" GridPane.rowSpan="2">
+         <GridPane.margin>
+            <Insets left="30.0" right="10.0" top="10.0" />
+         </GridPane.margin>
+      </VBox>
+      <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.columnIndex="1" GridPane.rowSpan="3">
+         <GridPane.margin>
+            <Insets left="10.0" right="10.0" top="20.0" />
+         </GridPane.margin>
+         <content>
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: white;" />
+         </content>
+      </ScrollPane>
+      <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: white;" GridPane.columnIndex="1" GridPane.rowIndex="3">
+         <GridPane.margin>
+            <Insets left="10.0" right="10.0" top="10.0" />
+         </GridPane.margin>
+      </VBox>
+      <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <GridPane.margin>
+            <Insets right="10.0" />
+         </GridPane.margin>
+         <buttons>
+            <JFXButton prefHeight="25.0" prefWidth="104.0" style="-fx-background-color: brown;" text="Log Out" />
+         </buttons>
+      </ButtonBar>
+   </children>
+</GridPane>
