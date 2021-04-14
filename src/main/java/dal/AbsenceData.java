@@ -3,6 +3,7 @@ package dal;
 import be.Months;
 import be.ScheduleEntity;
 import be.Student;
+import be.Teacher;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dal.dataAccessObjects.StudentDAO;
 import dal.exception.DALexception;
@@ -277,6 +278,38 @@ public class AbsenceData implements IAbsenceData {
         } catch (SQLException throwables) {
             throw new DALexception("Couldn't get number of students in schedule entity", throwables);
         }
+    }
+
+    @Override
+    public List<Student> getTaughtStudents(Teacher teacher) throws DALexception {
+        List<Student> students = new ArrayList<>();
+        try(Connection connection = dbConnector.getConnection()) {
+            String sql  = "SELECT s.*  " +
+                    "FROM Students s " +
+                    "Join Courses c on s.CourseID = c.id " +
+                    "Join Subjects sub on sub.courseId = c.id " +
+                    "Join Teachers t on sub.teacherID = t.id " +
+                    "where t.id=?; ";
+            PreparedStatement pstat = connection.prepareStatement(sql);
+            pstat.setInt(1, teacher.getId());
+            ResultSet rs = pstat.executeQuery();
+            while(rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                String email = rs.getString("email");
+                int courseId = rs.getInt("courseID");
+                int semester = rs.getInt("semester");
+                String photoPath = rs.getString("photoPath");
+                students.add(new Student(id, name, email, photoPath, semester, courseId));
+            }
+            return students;
+
+        } catch (SQLServerException throwables) {
+            throw new DALexception("Couldn't get taught students", throwables);
+        } catch (SQLException throwables) {
+            throw new DALexception("Couldn't get taught students", throwables);
+        }
+
     }
 
     private int getAllDays(Boolean isPresent,Enum dayOfWeek) throws DALexception {

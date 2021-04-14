@@ -263,4 +263,9 @@ public class FacadeDAL implements IFacadeDAL, IAbsenceData{
     public int getNumberOfAllStudents(ScheduleEntity currentLesson) throws DALexception {
         return absenceData.getNumberOfAllStudents(currentLesson);
     }
+
+    @Override
+    public List<Student> getTaughtStudents(Teacher teacher) throws DALexception {
+        return absenceData.getTaughtStudents(teacher);
+    }
 }

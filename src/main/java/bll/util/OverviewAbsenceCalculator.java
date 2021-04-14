@@ -24,7 +24,7 @@ public class OverviewAbsenceCalculator implements ICalculationsOverview {
 
     //private IAbsenceData dal = new AbsenceData(); // concrete class created by kamila that
     //implements that interface
-    private IFacadeDAL dal  = FacadeDAL.getInstance();
+    protected IFacadeDAL dal  = FacadeDAL.getInstance();
 
     /**
      * Names are keys and Overview entities are values
