@@ -69,19 +69,16 @@ public class LogInWindowController implements Initializable, ILogIn {
     @Override
     public void saveUserInPreferences() {
         String email = emailField.getText();
-        String password  = passwordField.getText();
-        if(!email.isEmpty() && !password.isEmpty()){
+       // String password  = passwordField.getText();
+        if(!email.isEmpty()){
             pref.put("email", emailField.getText());
-            pref.putInt(PASSWORDL, password.length());
-            String hashedPassword = loginModel.getHashedPassword(password);
-            pref.put("password", hashedPassword );
         }
     }
 
     @Override
     public void unsaveUserInPreferences() {
         pref.remove("email");
-        pref.remove("password");
+       // pref.remove("password");
     }
 
     @Override

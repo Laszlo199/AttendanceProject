@@ -61,7 +61,8 @@ public class TeacherViewController implements Initializable {
     public void setTeacher(Teacher teacher) {
         this.loggedTeacher = teacher;
         this.currentLesson = model.getCurrentLesson(loggedTeacher.getId());
-        System.out.println("subject: " + currentLesson.getSubjectId());
+        //currentLesson = new ScheduleEntity(5, 1, WeekDay.MONDAY, null, null);
+        System.out.println("subject: " + model.getSubject(currentLesson.getSubjectId()).getName()); //just checking
         //needs to be here cause we need logged teacher id and current lesson which is instantiated in this method
         setDate();
         setStudentsTableView();
@@ -73,8 +74,6 @@ public class TeacherViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //to be able to work during the weekend (normally there is no lesson now)
-        //currentLesson = new ScheduleEntity(1, 1, WeekDay.MONDAY, null, null);
         this.model = new TeacherDashboardModel();
     }
 

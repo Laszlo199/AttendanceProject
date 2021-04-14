@@ -34,6 +34,15 @@ public class StudentDashboardModel {
         }
     }
 
+    public Course getCourse(int courseId) {
+        try {
+            return logic.getCourse(courseId);
+        } catch (BLLexception blLexception) {
+            blLexception.printStackTrace();
+            return null;
+        }
+    }
+
     public Subject getSubject(int subjectId) {
         try {
             return logic.getSubject(subjectId);

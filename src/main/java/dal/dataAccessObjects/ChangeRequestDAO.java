@@ -29,11 +29,11 @@ public class ChangeRequestDAO {
                 String status = rs.getString("status");
                 switch (status) {
                     case "pending":
-                        requests.add(new ChangeRequest(recordId, StatusType.PENDING));
+                        requests.add(new ChangeRequest(recordId, StatusType.PENDING)); break;
                     case "accepted":
-                        requests.add(new ChangeRequest(recordId, StatusType.ACCEPTED));
+                        requests.add(new ChangeRequest(recordId, StatusType.ACCEPTED)); break;
                     case "declined":
-                        requests.add(new ChangeRequest(recordId, StatusType.DECLINED));
+                        requests.add(new ChangeRequest(recordId, StatusType.DECLINED)); break;
                 }
             }
         } catch (SQLException ex) {
@@ -93,11 +93,11 @@ public class ChangeRequestDAO {
                 String status = rs.getString("status");
                 switch (status) {
                     case "pending":
-                        request = new ChangeRequest(recordId, StatusType.PENDING);
+                        request = new ChangeRequest(recordId, StatusType.PENDING); break;
                     case "accepted":
-                        request = new ChangeRequest(recordId, StatusType.ACCEPTED);
+                        request = new ChangeRequest(recordId, StatusType.ACCEPTED); break;
                     case "declined":
-                        request = new ChangeRequest(recordId, StatusType.DECLINED);
+                        request = new ChangeRequest(recordId, StatusType.DECLINED); break;
                 }
             }
         } catch (SQLException throwables) {

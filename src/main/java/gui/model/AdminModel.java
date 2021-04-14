@@ -85,7 +85,7 @@ public class AdminModel {
     public void loadStudents() {
         obsStudent.clear();
         try{
-            obsStudent.addAll(iFacadeBLL.getAllStudent());
+            obsStudent.addAll(iFacadeBLL.getAllStudents());
         }catch (BLLexception blLexception){
             blLexception.printStackTrace();
         }
