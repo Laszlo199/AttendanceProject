@@ -15,11 +15,20 @@ public class TeacherDashboardModel {
 
     private IFacadeBLL logic;
     private ObservableList<Student> obsStudents = FXCollections.observableArrayList();
+    private static TeacherDashboardModel instance;
 
 
-    public TeacherDashboardModel() {
+    private TeacherDashboardModel() {
         logic = FacadeBLL.getInstance();
     }
+
+    public static TeacherDashboardModel getInstance(){
+     if(instance==null)
+        instance =new TeacherDashboardModel();
+     return instance;
+    }
+
+
 
     public List<ChangeRequest> getAllRequests(int teacherId) {
         try {

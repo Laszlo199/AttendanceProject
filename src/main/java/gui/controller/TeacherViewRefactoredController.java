@@ -6,7 +6,10 @@ import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXToggleButton;
 import com.jfoenix.controls.JFXTreeTableView;
 import gui.model.TeacherDashboardModel;
+import gui.strategy.CreateTodayData;
+import gui.strategy.ICreateDataStrategy;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,13 +26,14 @@ import javafx.util.Callback;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import static java.lang.Thread.sleep;
 
 /**
- * @author Kuba
+ * @author Kuba && Kamila
  * @date 4/14/2021 8:02 AM
  */
 public class TeacherViewRefactoredController implements Initializable {
@@ -71,9 +75,10 @@ public class TeacherViewRefactoredController implements Initializable {
     private Teacher loggedTeacher;
     private ObservableList<String> comboboxOptions =
             FXCollections.observableArrayList("Today", "Total");;
+    private ObservableList<PieChart.Data> pieData;
 
    static {
-       model = new TeacherDashboardModel();
+       model = TeacherDashboardModel.getInstance();
    }
 
     /**
@@ -86,6 +91,7 @@ public class TeacherViewRefactoredController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initTime();
+        //changePieChartListener();
     }
 
     private void initTime() {
@@ -157,7 +163,7 @@ public class TeacherViewRefactoredController implements Initializable {
             int sumOfStudents = absent + present + noAllStudents;
             System.out.println("sum of students: " + sumOfStudents);
             if(sumOfStudents>0) {
-                ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList(
+                pieData = FXCollections.observableArrayList(
                         new PieChart.Data("Absent", (absent * 100) / sumOfStudents),
                         new PieChart.Data("Present", (present * 100) / sumOfStudents),
                         new PieChart.Data("No data", ((noAllStudents - absent - present) * 100) / sumOfStudents)
@@ -171,6 +177,24 @@ public class TeacherViewRefactoredController implements Initializable {
             }
         }
     }
+
+    /**
+     * when user selects other value in combobox show corresponding data
+     */
+    private void changePieChartListener() {
+        selectMonth.valueProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observableValue, Object o, Object timeframe) {
+                ICreateDataStrategy strategy;
+                pieChart.getData().clear();
+                if(timeframe.toString().matches("Today")){
+                    strategy = new CreateTodayData();
+                    pieChart.getData().addAll(strategy.createData(timeframe, currentLesson));
+                }
+            }
+        });
+    }
+
 
     private void setCombobox() {
         for(Months m: Months.values())
@@ -193,19 +217,12 @@ public class TeacherViewRefactoredController implements Initializable {
     public void setTeacher(Teacher teacher) {
         this.loggedTeacher = teacher;
         this.currentLesson = model.getCurrentLesson(loggedTeacher.getId());
-        System.out.println(currentLesson.toString());
         if(currentLesson==null)
             System.out.println("current lesson is null");
-       // currentLesson = new ScheduleEntity(5, 1, WeekDay.MONDAY, null, null);
-       // System.out.println("subject: " + model.getSubject(currentLesson.getSubjectId()).getName()); //just checking
-        //needs to be here cause we need logged teacher id and current lesson which is instantiated in this method
-        //setStudentsTableView();
-       // setAbsentList();
-       // setChart();/
-       // setChangeTable();
+        else
+            System.out.println(currentLesson.toString());
         initAbsenceList();
         initPieChart();
         initStudentsTableView();
-
     }
 }

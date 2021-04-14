@@ -73,7 +73,7 @@ public class TeacherViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.model = new TeacherDashboardModel();
+        this.model = TeacherDashboardModel.getInstance();
     }
 
     private void setAbsentList(){

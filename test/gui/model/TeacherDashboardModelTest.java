@@ -13,7 +13,7 @@ class TeacherDashboardModelTest {
 
     @Test
     void getCurrentLesson() {
-        TeacherDashboardModel teacherDashboardModel = new TeacherDashboardModel();
+        TeacherDashboardModel teacherDashboardModel = TeacherDashboardModel.getInstance();
         ScheduleEntity currentLesson = teacherDashboardModel.getCurrentLesson(1);
         System.out.println(currentLesson.toString());
     }
