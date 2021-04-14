@@ -30,11 +30,13 @@ import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
@@ -117,13 +119,15 @@ public class StudentDashboardController implements Initializable {
         listenForShowingQuote();
         listenerPieChart();
         btnSave.setDisable(true);
-        showPhoto();
     }
 
     private void showPhoto() {
         String path = loggedStudent.getPhotoPath();
         javafx.scene.image.Image image = new Image(path);
         studentImage.setImage(image);
+        final Circle clip = new Circle(39, 39, 39);
+        clip.setStroke(Color.BLACK);
+        studentImage.setClip(clip);
     }
 
     private void comboBoxListener() {
@@ -146,6 +150,7 @@ public class StudentDashboardController implements Initializable {
             teacherName.setText("with " + model.getTeacher(currentSubject.getTeacherId()).getName());
             lessonDuration.setText(currentLesson.getStartTime() + " - " + currentLesson.getEndTime());
         }
+        showPhoto();
     }
 
     private void listenerPieChart() {
