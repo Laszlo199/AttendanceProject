@@ -67,4 +67,5 @@ public interface IFacadeDAL extends IAbsenceData {
     void createCourse(Course course) throws DALexception;
     void deleteCourse(Course course) throws DALexception;
 
+    int getNumberOfAllStudents(ScheduleEntity currentLesson) throws DALexception;
 }

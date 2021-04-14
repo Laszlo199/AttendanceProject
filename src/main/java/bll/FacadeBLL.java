@@ -108,7 +108,7 @@ public class FacadeBLL implements IFacadeBLL{
     @Override
     public ScheduleEntity getCurrentLessonTeacher(int teacherId) throws BLLexception {
         try {
-            return facadeDAL.getCurrentLessonStudent(teacherId);
+            return facadeDAL.getCurrentLessonTeacher(teacherId);
         } catch (DALexception daLexception) {
             daLexception.printStackTrace();
             throw new BLLexception("Couldn't get a current lesson (teacher)");
@@ -405,6 +405,15 @@ public class FacadeBLL implements IFacadeBLL{
             return facadeDAL.getNumberOfAbsentDays(loggedStudent, month);
         } catch (DALexception daLexception) {
             throw new BLLexception("Couldn't get number of absent days", daLexception);
+        }
+    }
+
+    @Override
+    public int getNumberOfAllStudents(ScheduleEntity currentLesson) throws BLLexception {
+        try {
+            return facadeDAL.getNumberOfAllStudents(currentLesson);
+        } catch (DALexception daLexception) {
+            throw new BLLexception("Couldn't get number of students", daLexception);
         }
     }
 

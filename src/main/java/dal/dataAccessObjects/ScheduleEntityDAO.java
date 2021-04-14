@@ -173,15 +173,15 @@ public class ScheduleEntityDAO {
                 int subjectId = rs.getInt("subjectId");
                 switch (weekday) {
                     case "monday":
-                        currentLesson = new ScheduleEntity(id, subjectId, WeekDay.MONDAY, startTime, endTime);
+                        currentLesson = new ScheduleEntity(id, subjectId, WeekDay.MONDAY, startTime, endTime); break;
                     case "tuesday":
-                        currentLesson = new ScheduleEntity(id, subjectId, WeekDay.TUESDAY, startTime, endTime);
+                        currentLesson = new ScheduleEntity(id, subjectId, WeekDay.TUESDAY, startTime, endTime); break;
                     case "wednesday":
-                        currentLesson = new ScheduleEntity(id, subjectId, WeekDay.WEDNESDAY, startTime, endTime);
+                        currentLesson = new ScheduleEntity(id, subjectId, WeekDay.WEDNESDAY, startTime, endTime); break;
                     case "thursday":
-                        currentLesson = new ScheduleEntity(id, subjectId, WeekDay.THURSDAY, startTime, endTime);
+                        currentLesson = new ScheduleEntity(id, subjectId, WeekDay.THURSDAY, startTime, endTime); break;
                     case "friday":
-                        currentLesson = new ScheduleEntity(id, subjectId, WeekDay.FRIDAY, startTime, endTime);
+                        currentLesson = new ScheduleEntity(id, subjectId, WeekDay.FRIDAY, startTime, endTime); break;
                 }
             }
         } catch (SQLServerException throwables) {

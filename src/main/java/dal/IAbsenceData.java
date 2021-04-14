@@ -28,4 +28,6 @@ public interface IAbsenceData {
     boolean isStudentPresent(int id);
 
     boolean isDataStudentPresent(int id) throws DALexception;
+
+    int getNumberOfAllStudents(ScheduleEntity currentLesson) throws DALexception;
 }

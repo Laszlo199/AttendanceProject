@@ -69,7 +69,6 @@ public class TeacherViewController implements Initializable {
         setAbsentList();
         setChart();
         setChangeTable();
-
     }
 
     @Override

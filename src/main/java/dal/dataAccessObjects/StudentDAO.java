@@ -1,6 +1,7 @@
 package dal.dataAccessObjects;
 
 import be.Student;
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dal.DBConnector;
 import dal.exception.DALexception;
 
@@ -137,5 +138,20 @@ public class StudentDAO {
             throw new DALexception("Couldn't get a student");
         }
         return student;
+    }
+
+    public int getNumberOfAllStudents() throws DALexception {
+        try(Connection connection = dbConnector.getConnection()) {
+            String sql = "select count(s.ID) as noStudents" +
+                    "from Students as s";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet rs = preparedStatement.executeQuery();
+            rs.next();
+            return rs.getInt("noStudents");
+        } catch (SQLServerException throwables) {
+            throw new DALexception("Couldn't get number of students");
+        } catch (SQLException throwables) {
+            throw new DALexception("Couldn't get number of students");
+        }
     }
 }

@@ -96,9 +96,6 @@ public class TeacherDashboardModel {
         }
     }
 
-    public ArrayList<Student> getAllStudents() {
-        return new ArrayList<>();
-    }
 
     public String getPresenceForStudent(Student student, TeacherViewController.Timeframe timeframe) {
         try {
@@ -137,5 +134,14 @@ public class TeacherDashboardModel {
             blLexception.printStackTrace();
             return null;
         }
+    }
+
+    public int getNumberOfAllStudents(ScheduleEntity currentLesson) {
+        try {
+            return logic.getNumberOfAllStudents(currentLesson);
+        } catch (BLLexception blLexception) {
+            blLexception.printStackTrace();
+        }
+        return 0;
     }
 }

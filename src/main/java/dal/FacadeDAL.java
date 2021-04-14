@@ -258,4 +258,9 @@ public class FacadeDAL implements IFacadeDAL, IAbsenceData{
     public void deleteCourse(Course course) throws DALexception{
         courseDAO.delete(course);
     }
+
+    @Override
+    public int getNumberOfAllStudents(ScheduleEntity currentLesson) throws DALexception {
+        return absenceData.getNumberOfAllStudents(currentLesson);
+    }
 }

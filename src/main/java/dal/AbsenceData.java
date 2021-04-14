@@ -135,6 +135,7 @@ public class AbsenceData implements IAbsenceData {
         }
     }
 
+
     /**
      *
      * @param isPresent 1 - present days, 0 - absent days
@@ -254,6 +255,28 @@ public class AbsenceData implements IAbsenceData {
             throw new DALexception("Couldn't get number of present / absent students during current lesson");
         }
         return number;
+    }
+
+
+    @Override
+    public int getNumberOfAllStudents(ScheduleEntity currentLesson) throws DALexception {
+        try(Connection connection = dbConnector.getConnection()) {
+            String sql = "SELECT COUNT (s.id) as no " +
+                    "FROM Students s " +
+                    "JOIN Subjects sub on sub.courseId = s.CourseID " +
+                    "JOIN ScheduleEntity se on se.SubjectID = sub.ID " +
+                    "WHERE se.ID=?; ";
+            PreparedStatement pstat = connection.prepareStatement(sql);
+            pstat.setInt(1, currentLesson.getId());
+            ResultSet rs = pstat.executeQuery();
+            rs.next();
+            return  rs.getInt("no");
+        } catch (SQLServerException throwables) {
+            throw new DALexception("Couldn't get number of students in schedule entity", throwables);
+
+        } catch (SQLException throwables) {
+            throw new DALexception("Couldn't get number of students in schedule entity", throwables);
+        }
     }
 
     private int getAllDays(Boolean isPresent,Enum dayOfWeek) throws DALexception {

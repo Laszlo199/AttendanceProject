@@ -1,8 +1,6 @@
 package gui.controller;
 
-import be.Months;
-import be.ScheduleEntity;
-import be.Student;
+import be.*;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXToggleButton;
@@ -70,8 +68,9 @@ public class TeacherViewRefactoredController implements Initializable {
 
     private static TeacherDashboardModel model;
     private static ScheduleEntity currentLesson;
+    private Teacher loggedTeacher;
     private ObservableList<String> comboboxOptions =
-            FXCollections.observableArrayList("Total");;
+            FXCollections.observableArrayList("Today", "Total");;
 
    static {
        model = new TeacherDashboardModel();
@@ -86,9 +85,6 @@ public class TeacherViewRefactoredController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        initAbsenceList();
-        initPieChart();
-        initStudentsTableView();
         initTime();
     }
 
@@ -157,13 +153,16 @@ public class TeacherViewRefactoredController implements Initializable {
         if(currentLesson!=null) {
             int absent = model.getNumberOfAbsent(currentLesson);
             int present = model.getNumberOfPresent(currentLesson);
-            int sumOfStudents = absent + present;
+            int noAllStudents = model.getNumberOfAllStudents(currentLesson);
+            int sumOfStudents = absent + present + noAllStudents;
+            System.out.println("sum of students: " + sumOfStudents);
             if(sumOfStudents>0) {
                 ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList(
                         new PieChart.Data("Absent", (absent * 100) / sumOfStudents),
-                        new PieChart.Data("Present", (present * 100) / sumOfStudents));
+                        new PieChart.Data("Present", (present * 100) / sumOfStudents),
+                        new PieChart.Data("No data", ((noAllStudents - absent - present) * 100) / sumOfStudents)
+                );
                 pieChart.setData(pieData);
-
                 pieChart.getData().forEach(data -> {
                     String percentage = String.format("%.2f%%", (data.getPieValue() / 100));
                     Tooltip toolTip = new Tooltip(percentage);
@@ -176,17 +175,37 @@ public class TeacherViewRefactoredController implements Initializable {
     private void setCombobox() {
         for(Months m: Months.values())
             comboboxOptions.add(m.name());
+        selectMonth.getItems().addAll(comboboxOptions);
     }
 
     /**
      * list contains only absent student today
      */
     private void initAbsenceList() {
-        if(currentLesson!=null) {
+       if(currentLesson!=null) {
             List<Student> absentStudents = model.getAbsentToday(currentLesson);
             ObservableList<String> absentStudentsNames = FXCollections.observableArrayList();
             for(Student s : absentStudents) absentStudentsNames.add(s.getName());
             absenceList.setItems(absentStudentsNames);
         }
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.loggedTeacher = teacher;
+        this.currentLesson = model.getCurrentLesson(loggedTeacher.getId());
+        System.out.println(currentLesson.toString());
+        if(currentLesson==null)
+            System.out.println("current lesson is null");
+       // currentLesson = new ScheduleEntity(5, 1, WeekDay.MONDAY, null, null);
+       // System.out.println("subject: " + model.getSubject(currentLesson.getSubjectId()).getName()); //just checking
+        //needs to be here cause we need logged teacher id and current lesson which is instantiated in this method
+        //setStudentsTableView();
+       // setAbsentList();
+       // setChart();/
+       // setChangeTable();
+        initAbsenceList();
+        initPieChart();
+        initStudentsTableView();
+
     }
 }
