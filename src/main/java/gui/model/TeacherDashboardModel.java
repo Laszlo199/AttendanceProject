@@ -23,15 +23,6 @@ public class TeacherDashboardModel {
     private TeacherDashboardModel() {
         logic = FacadeBLL.getInstance();
         loadCache();
-
-        /*
-        try {
-            obsStudents.addAll(logic.getAllStudents());
-        } catch (BLLexception blLexception) {
-            blLexception.printStackTrace();
-        }
-
-         */
     }
 
     private void loadCache() {
