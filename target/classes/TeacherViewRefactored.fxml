@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXToggleButton?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1186.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+  <columnConstraints>
+    <ColumnConstraints hgrow="ALWAYS" maxWidth="589.0" minWidth="10.0" prefWidth="471.0" />
+    <ColumnConstraints hgrow="ALWAYS" maxWidth="771.0" minWidth="10.0" prefWidth="715.0" />
+  </columnConstraints>
+  <rowConstraints>
+      <RowConstraints fillHeight="false" maxHeight="230.0" minHeight="10.0" prefHeight="78.0" vgrow="NEVER" />
+    <RowConstraints maxHeight="230.0" minHeight="10.0" prefHeight="130.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="164.0" minHeight="10.0" prefHeight="164.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="215.0" minHeight="10.0" prefHeight="192.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="457.0" minHeight="10.0" prefHeight="195.0" vgrow="SOMETIMES" />
+      <RowConstraints fillHeight="false" maxHeight="45.0" minHeight="0.0" prefHeight="45.0" vgrow="NEVER" />
+  </rowConstraints>
+   <children>
+      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: white;" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.rowSpan="2">
+         <GridPane.margin>
+            <Insets bottom="10.0" left="30.0" right="10.0" top="20.0" />
+         </GridPane.margin>
+         <children>
+            <AnchorPane prefHeight="41.0" prefWidth="431.0">
+               <children>
+                  <Label layoutX="14.0" layoutY="6.0" text="Monday" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="10.0">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <JFXComboBox layoutX="311.0" layoutY="8.0" prefHeight="25.0" prefWidth="122.0" promptText="Select month" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="8.0" />
+               </children>
+            </AnchorPane>
+            <PieChart prefWidth="431.0">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="10.0" right="10.0" top="20.0" />
+               </VBox.margin>
+            </PieChart>
+         </children>
+      </VBox>
+      <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: white;" GridPane.rowIndex="3" GridPane.rowSpan="2">
+         <GridPane.margin>
+            <Insets left="30.0" right="10.0" top="10.0" />
+         </GridPane.margin>
+         <children>
+            <Label text="Absent Today">
+               <VBox.margin>
+                  <Insets left="20.0" top="20.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <JFXListView>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </JFXListView>
+         </children>
+      </VBox>
+      <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="3">
+         <GridPane.margin>
+            <Insets left="10.0" right="10.0" top="20.0" />
+         </GridPane.margin>
+         <content>
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: white;">
+               <children>
+                  <AnchorPane prefHeight="57.0" prefWidth="693.0" VBox.vgrow="NEVER">
+                     <children>
+                        <TextField layoutX="8.0" layoutY="15.0" prefHeight="30.0" prefWidth="358.0" />
+                        <JFXToggleButton layoutX="582.0" prefHeight="60.0" prefWidth="204.0" text="Total Attendance" AnchorPane.rightAnchor="2.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </JFXToggleButton>
+                     </children>
+                  </AnchorPane>
+                  <JFXTreeTableView>
+                     <columns>
+                        <TreeTableColumn prefWidth="303.0" text="Name" />
+                        <TreeTableColumn prefWidth="179.0" text="Attendance %" />
+                        <TreeTableColumn prefWidth="210.0" text="Most absent day" />
+                     </columns>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" />
+                     </VBox.margin>
+                  </JFXTreeTableView>
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+      <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: white;" GridPane.columnIndex="1" GridPane.rowIndex="4">
+         <GridPane.margin>
+            <Insets left="10.0" right="10.0" top="10.0" />
+         </GridPane.margin>
+      </VBox>
+      <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <GridPane.margin>
+            <Insets right="10.0" />
+         </GridPane.margin>
+         <buttons>
+            <JFXButton prefHeight="25.0" prefWidth="104.0" style="-fx-background-color: brown;" text="Log Out" />
+         </buttons>
+      </ButtonBar>
+      <AnchorPane fx:id="top" prefHeight="110.0" prefWidth="1186.0" GridPane.columnSpan="2">
+         <children>
+            <ImageView fx:id="studentImage" fitHeight="65.0" fitWidth="52.0" layoutX="21.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="12.0">
+               <image>
+                  <Image url="@images/person2.png" />
+               </image>
+            </ImageView>
+            <Text fx:id="studentName" layoutX="115.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Danilel Cardman">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </Text>
+            <Text fx:id="studentProgram" layoutX="115.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Computer Science  Teacher">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Text>
+            <Text fx:id="dayLabel" layoutX="772.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tuesday" AnchorPane.rightAnchor="120.0" AnchorPane.topAnchor="12.0">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Text>
+            <Text fx:id="dateLabel" layoutX="929.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="24.03.2021" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="20.3388671875">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Text>
+            <Text fx:id="hourLabel" layoutX="929.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="08:52:46" AnchorPane.rightAnchor="10.0">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+   </children>
+</GridPane>

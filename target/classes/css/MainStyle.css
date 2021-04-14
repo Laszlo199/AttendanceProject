@@ -1,0 +1,184 @@
+@import url('https://fonts.googleapis.com/css2?family=Gelasio:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital@0;1&display=swap');
+
+.labelQuote {
+    -fx-wrap-text: true;
+    -fx-padding: 30 40 30 40;
+    -fx-font-size: 2.0em;
+    -fx-font-family: 'Gelasio', Serif;
+    -fx-font-style: italic;
+}
+
+/*background*/
+#gridPane {
+    -fx-background-color: linear-gradient(to top, #76b8c1, #d2eff9);
+}
+/*top bar*/
+#top {
+    -fx-background-color: transparent;
+}
+/*left side (current lesson info)*/
+#vBox {
+    -fx-background-color: #F8FCFD;
+    -fx-background-radius: 15;
+}
+#btnSave{
+    -fx-background-color: #76b8c1;
+    -fx-border-radius: 30;
+    -fx-text-fill: black;
+}
+#btnSave:hover{
+    -fx-text-fill: darkgrey;
+}
+
+/*right side (absence list)*/
+#absencePane > .viewport{
+    -fx-background-color: transparent;
+}
+
+.button {
+    -fx-background-color: #DDEDF0;
+    -fx-border-radius: 30;
+    -fx-text-fill: black;
+}
+.button:hover {
+    -fx-text-fill: darkgrey;
+}
+
+#scrollPane > .viewport {
+    -fx-background-color: #F8FCFD;
+    -fx-background-radius: 15;
+}
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color:transparent;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: white;
+    -fx-background-radius: 5em;
+}
+.scroll-pane > .corner {
+    -fx-background-color: transparent;
+}
+#listView {
+    -fx-background-color: transparent
+}
+#anchorChart {
+    -fx-background-color: #F8FCFD;
+    -fx-background-radius: 15;
+}
+.default-color0.chart-pie {
+    -fx-pie-color: #76b8c1;
+}
+.default-color1.chart-pie {
+    -fx-pie-color: #d2eff9;
+}
+.list-cell:hover {
+    -fx-text-fill: grey;
+}
+
+
+
+
+
+.table-view .column-header-background .filler {
+    -fx-background-color: transparent;
+}
+
+.table-view .corner {
+    -fx-background-color: transparent;
+}
+
+.table-view {
+    -fx-base: transparent;
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #a5d4de;
+    -fx-text-background-color: black;
+    -fx-background-radius: 7px 7px 0px 0px;
+    -fx-background-insets: 0 11px 0 0;
+    -fx-padding: 0 0 5px 0;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+}
+
+.table-view .table-cell {
+    -fx-border-color: transparent;
+    -fx-padding: 2 0 2 10px;
+}
+
+.table-row-cell:hover {
+    -fx-text-background-color: grey;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: white;
+    -fx-opacity: 0.9;
+}
+
+.table-row-cell:even{
+    -fx-background-color: white;
+    -fx-opacity: 0.9;
+}
+
+.table-view .virtual-flow .scroll-bar:vertical,
+.table-view .virtual-flow .scroll-bar:vertical .track,
+.table-view .virtual-flow .scroll-bar:vertical .track-background,
+.table-view .virtual-flow .scroll-bar:horizontal,
+.table-view .virtual-flow .scroll-bar:horizontal .track,
+.table-view .virtual-flow .scroll-bar:horizontal .track-background {
+    -fx-background-color: transparent;
+}
+
+
+.table-view .virtual-flow .scroll-bar .increment-button,
+.table-view .virtual-flow .scroll-bar .decrement-button {
+    -fx-opacity: 0;
+    -fx-padding: 2;
+}
+
+
+.table-view .virtual-flow .scroll-bar:vertical .thumb{
+    -fx-background-color: white;
+    -fx-opacity: 0.8;
+}
+.table-view .virtual-flow .scroll-bar:horizontal .thumb {
+    -fx-background-color: white;
+    -fx-opacity: 0.8;
+}
+
+
+.table-row-cell:selected {
+    -fx-background-color: white;
+}
+.table-row-cell:selected .text {
+    -fx-fill: black;
+
+}
+
+
+
+#changeTable .column-header-background {
+    -fx-background-color: transparent;
+    -fx-text-background-color: transparent;
+    -fx-background-radius: 7px 7px 0px 0px;
+    -fx-background-insets: 0 11px 0 0;
+    -fx-padding: 0 0 5px 0;
+}

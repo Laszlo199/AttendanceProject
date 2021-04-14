@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.deleteTeacherController">
+   <center>
+      <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <ScrollPane layoutX="-1.0" prefHeight="400.0" prefWidth="384.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="216.0" AnchorPane.topAnchor="0.0">
+                     <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="401.0" prefWidth="368.0">
+                           <children>
+                              <TableView fx:id="tableOfViewSubjects" layoutX="29.0" layoutY="78.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#readSubject" prefHeight="401.0" prefWidth="375.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-7.0" AnchorPane.topAnchor="0.0">
+                                <columns>
+                                  <TableColumn fx:id="columnSubjectID" prefWidth="38.0" text="ID" />
+                                  <TableColumn fx:id="columnName" prefWidth="160.0" text="Subjects Name" />
+                                    <TableColumn fx:id="columnID" prefWidth="156.0" text="Teacher ID" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </ScrollPane>
+                  <JFXButton layoutX="432.0" layoutY="224.0" onAction="#deleteTeacher" prefHeight="54.0" prefWidth="84.0" style="-fx-background-color: #00d6ee;" text="Delete" textFill="WHITE" AnchorPane.rightAnchor="84.0" />
+                  <TextField fx:id="teacherIDField" layoutX="383.0" layoutY="148.0" prefHeight="25.0" prefWidth="57.0" AnchorPane.rightAnchor="160.0" />
+                  <JFXButton layoutX="465.0" layoutY="148.0" onAction="#btnSubjectEdit" style="-fx-background-color: #00d6ee;" text="update" textFill="WHITE" AnchorPane.rightAnchor="81.0" />
+                  <Label layoutX="390.0" layoutY="46.0" text="ID" AnchorPane.rightAnchor="198.0" />
+                  <Label layoutX="390.0" layoutY="80.0" prefHeight="17.0" prefWidth="42.0" text="Name" AnchorPane.rightAnchor="168.0" />
+                  <TextField fx:id="lblTeacherName" layoutX="440.0" layoutY="76.0" prefHeight="25.0" prefWidth="135.0" AnchorPane.rightAnchor="25.0" />
+                  <TextField fx:id="lblTeacherID" layoutX="426.0" layoutY="42.0" prefHeight="25.0" prefWidth="28.0" AnchorPane.rightAnchor="146.0" />
+                  <JFXButton layoutX="432.0" layoutY="332.0" onAction="#btnBack" prefHeight="54.0" prefWidth="84.0" style="-fx-background-color: #00d6ee;" text="Back" textFill="WHITE" AnchorPane.rightAnchor="84.0" />
+               </children>
+            </AnchorPane>
+         </children>
+      </StackPane>
+   </center>
+</BorderPane>
