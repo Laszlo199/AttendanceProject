@@ -22,7 +22,7 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         //FXMLLoader loader = new FXMLLoader(getClass().getResource("logIn.fxml"));
 
-        /*
+
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentDashboard.fxml"));
         Parent root = loader.load();
@@ -32,7 +32,7 @@ public class Main extends Application {
         stage.setTitle("Attendance tracker");
         stage.getIcons().add(new Image("/images/icon.png"));
         Scene scene = new Scene(root);
-        scene.getStylesheets().add("/css/style.css");
+        scene.getStylesheets().add("/css/MainStyle.css");
         stage.setScene(scene);
         studentDashboardController.setLoggedStudent(new Student(1, "Dorelia McCawley", "dmccawley0@epa.gov",
                 null,
@@ -42,8 +42,6 @@ public class Main extends Application {
         stage.show();
 
 
-
-         */
 
 
         /*
@@ -59,7 +57,7 @@ public class Main extends Application {
 
          */
 
-
+/*
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/TeacherView.fxml"));
         Parent root = loader.load();
@@ -72,6 +70,8 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
 
+
+ */
 
 
     }

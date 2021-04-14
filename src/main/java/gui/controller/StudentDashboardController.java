@@ -69,7 +69,6 @@ public class StudentDashboardController implements Initializable {
     @FXML private AnchorPane anchorChart;
     @FXML private ListView<Record> listView;
     @FXML private JFXButton btnSave;
-    @FXML private Label massageLabel;
 
     private final ToggleGroup groupRadioButtons = new ToggleGroup();
     StackPane stackPane = new StackPane();
@@ -100,8 +99,8 @@ public class StudentDashboardController implements Initializable {
         model.setAbsentDays(loggedStudent.getId());
         this.currentLesson = model.getCurrentLesson(loggedStudent.getCourseID());
         if (model.getCurrentLesson(loggedStudent.getCourseID())==null){
-            massageLabel.setText("You are Free Today");
-        } else massageLabel.setText("");
+            lessonDuration.setText("You are Free Today");
+        }
         showInfoStudent();
     }
 
@@ -132,7 +131,7 @@ public class StudentDashboardController implements Initializable {
 
     private void showInfoStudent() {
         studentName.setText(this.loggedStudent.getName());
-        studentProgram.setText("Semester: "  + String.valueOf(this.loggedStudent.getSemester()));
+        studentProgram.setText(model.getCourse(loggedStudent.getCourseID()).getName() + ", semester "  + this.loggedStudent.getSemester());
         if(currentLesson!=null) {
             Subject currentSubject = model.getSubject(currentLesson.getSubjectId());
             subjectName.setText(currentSubject.getName());
@@ -196,7 +195,6 @@ public class StudentDashboardController implements Initializable {
 
     private void initPieChart() {
         pieChartData.addAll(createData(getCurrentMonth()));
-        donutChart.setTitle("Attendance");
         donutChart.setPrefHeight(270);
         donutChart.setPrefWidth(270);
         AnchorPane.setLeftAnchor(donutChart, 10.0);
@@ -410,7 +408,7 @@ public class StudentDashboardController implements Initializable {
         SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("MM-dd-yyyy");
         dateLabel.setText(simpleDateFormat2.format(time.getTime()));
         SimpleDateFormat simpleDateFormat3 = new SimpleDateFormat("EEEE");
-        dayLabel.setText(simpleDateFormat3.format(time.getTime()));
+        dayLabel.setText(simpleDateFormat3.format(time.getTime())+",");
     }
 
 

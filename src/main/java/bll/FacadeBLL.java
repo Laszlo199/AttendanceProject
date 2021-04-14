@@ -108,7 +108,7 @@ public class FacadeBLL implements IFacadeBLL{
     @Override
     public ScheduleEntity getCurrentLessonTeacher(int teacherId) throws BLLexception {
         try {
-            return facadeDAL.getCurrentLessonStudent(teacherId);
+            return facadeDAL.getCurrentLessonTeacher(teacherId);
         } catch (DALexception daLexception) {
             daLexception.printStackTrace();
             throw new BLLexception("Couldn't get a current lesson (teacher)");
@@ -215,16 +215,6 @@ public class FacadeBLL implements IFacadeBLL{
     }
 
     @Override
-    public List<Student> getAllStudents() throws BLLexception {
-        try {
-            return facadeDAL.getAllStudents();
-        } catch (DALexception daLexception) {
-            throw new BLLexception("couldnt get all students", daLexception);
-
-        }
-    }
-
-    @Override
     public void requestDeclined(ChangeRequest changeRequest) throws BLLexception {
         try {
             facadeDAL.requestDeclined(changeRequest);
@@ -282,7 +272,7 @@ public class FacadeBLL implements IFacadeBLL{
     }
 
     //Student
-    public List<Student> getAllStudent() throws BLLexception{
+    public List<Student> getAllStudents() throws BLLexception{
         try {
             return facadeDAL.getAllStudents();
         } catch (DALexception daLexception) {
@@ -387,6 +377,16 @@ public class FacadeBLL implements IFacadeBLL{
         }catch (DALexception daLexception){
             daLexception.printStackTrace();
             throw new BLLexception("Couldn't deleted Course");
+        }
+    }
+
+    @Override
+    public Course getCourse(int courseId) throws BLLexception {
+        try {
+            return facadeDAL.getCourse(courseId);
+        } catch (DALexception daLexception) {
+            daLexception.printStackTrace();
+            throw new BLLexception("Couldn't get a course");
         }
     }
 

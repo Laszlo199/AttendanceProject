@@ -76,7 +76,7 @@ public class CourseDAO {
     public Course getCourse(int id) throws DALexception{
         Course course = null;
         try (Connection connection = dbConnector.getConnection()) {
-            String sql = "SELECT * FROM Course WHERE id=?";
+            String sql = "SELECT * FROM Courses WHERE id=?";
             PreparedStatement pstat = connection.prepareStatement(sql);
             pstat.setInt(1, id);
             ResultSet rs = pstat.executeQuery();
