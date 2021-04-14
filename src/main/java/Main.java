@@ -23,7 +23,7 @@ public class Main extends Application {
         //FXMLLoader loader = new FXMLLoader(getClass().getResource("logIn.fxml"));
 
 
-
+/*
         FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentDashboard.fxml"));
         Parent root = loader.load();
         //for the student dashboard in the stage of development
@@ -43,8 +43,10 @@ public class Main extends Application {
 
 
 
+ */
 
-        /*
+
+
 
        FXMLLoader loader = new FXMLLoader(getClass().getResource("logIn.fxml"));
         Parent root = loader.load();
@@ -55,7 +57,7 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
 
-         */
+
 
 /*
 

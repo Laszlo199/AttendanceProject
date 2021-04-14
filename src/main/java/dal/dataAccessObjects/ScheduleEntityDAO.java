@@ -36,15 +36,15 @@ public class ScheduleEntityDAO {
                 int subjectId = rs.getInt("subjectId");
                 switch (weekday) {
                     case "monday":
-                        entities.add(new ScheduleEntity(id, subjectId, WeekDay.MONDAY, startTime, endTime));
+                        entities.add(new ScheduleEntity(id, subjectId, WeekDay.MONDAY, startTime, endTime)); break;
                     case "tuesday":
-                        entities.add(new ScheduleEntity(id, subjectId, WeekDay.TUESDAY, startTime, endTime));
+                        entities.add(new ScheduleEntity(id, subjectId, WeekDay.TUESDAY, startTime, endTime)); break;
                     case "wednesday":
-                        entities.add(new ScheduleEntity(id, subjectId, WeekDay.WEDNESDAY, startTime, endTime));
+                        entities.add(new ScheduleEntity(id, subjectId, WeekDay.WEDNESDAY, startTime, endTime)); break;
                     case "thursday":
-                        entities.add(new ScheduleEntity(id, subjectId, WeekDay.THURSDAY, startTime, endTime));
+                        entities.add(new ScheduleEntity(id, subjectId, WeekDay.THURSDAY, startTime, endTime)); break;
                     case "friday":
-                        entities.add(new ScheduleEntity(id, subjectId, WeekDay.FRIDAY, startTime, endTime));
+                        entities.add(new ScheduleEntity(id, subjectId, WeekDay.FRIDAY, startTime, endTime)); break;
                 }
 
             }
@@ -113,15 +113,15 @@ public class ScheduleEntityDAO {
                 int subjectId = rs.getInt("subjectId");
                 switch (weekday) {
                     case "monday":
-                        entity = new ScheduleEntity(id, subjectId, WeekDay.MONDAY, startTime, endTime);
+                        entity = new ScheduleEntity(id, subjectId, WeekDay.MONDAY, startTime, endTime); break;
                     case "tuesday":
-                        entity = new ScheduleEntity(id, subjectId, WeekDay.TUESDAY, startTime, endTime);
+                        entity = new ScheduleEntity(id, subjectId, WeekDay.TUESDAY, startTime, endTime); break;
                     case "wednesday":
-                        entity = new ScheduleEntity(id, subjectId, WeekDay.WEDNESDAY, startTime, endTime);
+                        entity = new ScheduleEntity(id, subjectId, WeekDay.WEDNESDAY, startTime, endTime); break;
                     case "thursday":
-                        entity = new ScheduleEntity(id, subjectId, WeekDay.THURSDAY, startTime, endTime);
+                        entity = new ScheduleEntity(id, subjectId, WeekDay.THURSDAY, startTime, endTime); break;
                     case "friday":
-                        entity = new ScheduleEntity(id, subjectId, WeekDay.FRIDAY, startTime, endTime);
+                        entity = new ScheduleEntity(id, subjectId, WeekDay.FRIDAY, startTime, endTime); break;
                 }
             }
         } catch (SQLException throwables) {
@@ -173,15 +173,15 @@ public class ScheduleEntityDAO {
                 int subjectId = rs.getInt("subjectId");
                 switch (weekday) {
                     case "monday":
-                        currentLesson = new ScheduleEntity(id, subjectId, WeekDay.MONDAY, startTime, endTime);
+                        currentLesson = new ScheduleEntity(id, subjectId, WeekDay.MONDAY, startTime, endTime); break;
                     case "tuesday":
-                        currentLesson = new ScheduleEntity(id, subjectId, WeekDay.TUESDAY, startTime, endTime);
+                        currentLesson = new ScheduleEntity(id, subjectId, WeekDay.TUESDAY, startTime, endTime); break;
                     case "wednesday":
-                        currentLesson = new ScheduleEntity(id, subjectId, WeekDay.WEDNESDAY, startTime, endTime);
+                        currentLesson = new ScheduleEntity(id, subjectId, WeekDay.WEDNESDAY, startTime, endTime); break;
                     case "thursday":
-                        currentLesson = new ScheduleEntity(id, subjectId, WeekDay.THURSDAY, startTime, endTime);
+                        currentLesson = new ScheduleEntity(id, subjectId, WeekDay.THURSDAY, startTime, endTime); break;
                     case "friday":
-                        currentLesson = new ScheduleEntity(id, subjectId, WeekDay.FRIDAY, startTime, endTime);
+                        currentLesson = new ScheduleEntity(id, subjectId, WeekDay.FRIDAY, startTime, endTime); break;
                 }
             }
         } catch (SQLServerException throwables) {

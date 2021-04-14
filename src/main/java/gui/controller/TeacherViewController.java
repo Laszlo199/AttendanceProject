@@ -60,8 +60,8 @@ public class TeacherViewController implements Initializable {
 
     public void setTeacher(Teacher teacher) {
         this.loggedTeacher = teacher;
-        //this.currentLesson = model.getCurrentLesson(loggedTeacher.getId());
-        currentLesson = new ScheduleEntity(5, 1, WeekDay.MONDAY, null, null);
+        this.currentLesson = model.getCurrentLesson(loggedTeacher.getId());
+        //currentLesson = new ScheduleEntity(5, 1, WeekDay.MONDAY, null, null);
         System.out.println("subject: " + model.getSubject(currentLesson.getSubjectId()).getName()); //just checking
         //needs to be here cause we need logged teacher id and current lesson which is instantiated in this method
         setDate();
