@@ -263,6 +263,7 @@ public class FacadeDAL implements IFacadeDAL, IAbsenceData{
 
     public Course getCourse(int courseId) throws DALexception {
         return courseDAO.getCourse(courseId);
+    }
 
     public int getNumberOfAllStudents(ScheduleEntity currentLesson) throws DALexception {
         return absenceData.getNumberOfAllStudents(currentLesson);
