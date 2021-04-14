@@ -19,6 +19,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -69,12 +70,19 @@ public class TeacherViewController implements Initializable {
         setAbsentList();
         setChart();
         setChangeTable();
+        showPhoto();
 
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.model = new TeacherDashboardModel();
+    }
+
+    private void showPhoto() {
+        String path = loggedTeacher.getPhotoPath();
+        Image image = new Image(path);
+        //teacherImage.setImage(image);
     }
 
     private void setAbsentList(){

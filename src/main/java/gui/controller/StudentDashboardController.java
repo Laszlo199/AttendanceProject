@@ -30,6 +30,7 @@ import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -116,6 +117,13 @@ public class StudentDashboardController implements Initializable {
         listenForShowingQuote();
         listenerPieChart();
         btnSave.setDisable(true);
+        showPhoto();
+    }
+
+    private void showPhoto() {
+        String path = loggedStudent.getPhotoPath();
+        javafx.scene.image.Image image = new Image(path);
+        studentImage.setImage(image);
     }
 
     private void comboBoxListener() {
