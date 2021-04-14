@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXTabPane?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.effect.Shadow?>
@@ -14,7 +14,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 
-<?import javafx.scene.control.TabPane?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.AdminViewController">
    <bottom>
       <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
@@ -63,7 +62,7 @@
                               <JFXTextField fx:id="emailFieldTeacher" focusColor="#00ff37" layoutX="831.0" layoutY="46.0" promptText="Email" unFocusColor="#04ebf3" AnchorPane.rightAnchor="34.33333333333334" />
                               <JFXTextField fx:id="departmenFieldTeacher" focusColor="#00ff37" layoutX="831.0" layoutY="79.0" promptText="Department" unFocusColor="#04ebf3" AnchorPane.rightAnchor="34.33333333333334" />
                               <JFXTextField fx:id="photopathFieldTeacher" focusColor="#00ff37" layoutX="831.0" layoutY="111.0" promptText="PhotoPath" unFocusColor="#04ebf3" AnchorPane.rightAnchor="34.33333333333337" />
-                              <JFXButton layoutX="839.0" layoutY="286.0" onAction="#btnTeacherEdit" prefHeight="46.0" prefWidth="117.0" style="-fx-background-color: #00d6ee;" text="Update" textFill="WHITE">
+                              <JFXButton layoutX="839.0" layoutY="286.0" onAction="#btnTeacherEdit" prefHeight="46.0" prefWidth="117.0" style="-fx-background-color: #00d6ee;" text="Update" textFill="WHITE" AnchorPane.rightAnchor="43.66666666666667">
                                  <effect>
                                     <Shadow />
                                  </effect>

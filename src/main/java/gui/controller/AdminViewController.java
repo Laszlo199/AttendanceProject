@@ -12,7 +12,11 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
@@ -20,10 +24,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 
 import java.awt.*;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -31,7 +37,6 @@ import java.util.ResourceBundle;
 public class AdminViewController implements Initializable {
 
 
-     private CourseDAO courseDAO;
      private AdminModel adminModel;
 
     //TeachersTableView
@@ -42,6 +47,7 @@ public class AdminViewController implements Initializable {
     @FXML private TableColumn<Teacher, String> columnDepartment;
     @FXML private TableColumn<Teacher, String> photopath;
     @FXML private Tab teacher;
+
 
 
 
@@ -67,6 +73,7 @@ public class AdminViewController implements Initializable {
     @FXML private JFXTextField semesterFieldStudent;
     @FXML private JFXTextField photoPathFieldStudent;
     @FXML private Tab student;
+    int i = 0;
 
 
     //SubjectsTableView
@@ -102,7 +109,7 @@ public class AdminViewController implements Initializable {
     }
 
     private void initTeacherTableView() {
-        columnTeachersID.setCellValueFactory(new PropertyValueFactory<Teacher, Integer>("ID"));
+        columnTeachersID.setCellValueFactory(new PropertyValueFactory<Teacher, Integer>("id"));
         columnName.setCellValueFactory(new PropertyValueFactory<Teacher, String>("Name"));
         columnEmail.setCellValueFactory(new PropertyValueFactory<Teacher, String>("Email"));
         columnDepartment.setCellValueFactory(new PropertyValueFactory<Teacher, String>("Department"));
@@ -114,10 +121,10 @@ public class AdminViewController implements Initializable {
     }
 
     private void initStudentTableView(){
-        columnStudentID.setCellValueFactory(new PropertyValueFactory<Student, Integer>("ID"));
+        columnStudentID.setCellValueFactory(new PropertyValueFactory<Student, Integer>("id"));
         columnStudentName.setCellValueFactory(new PropertyValueFactory<Student, String>("Name"));
         columnStudentEmail.setCellValueFactory(new PropertyValueFactory<Student,String>("Email"));
-        columnCourseID.setCellValueFactory(new PropertyValueFactory<Student, Integer>("Course ID"));
+        columnCourseID.setCellValueFactory(new PropertyValueFactory<Student, Integer>("courseID"));
         columnSemester.setCellValueFactory(new PropertyValueFactory<Student, Integer>("Semester"));
         Studentphotopath.setCellValueFactory(new PropertyValueFactory<Student,String>("PhotoPath"));
         
@@ -127,10 +134,10 @@ public class AdminViewController implements Initializable {
     }
 
     private void initSubjectTableView(){
-        columnSubjectID.setCellValueFactory(new PropertyValueFactory<Subject,Integer>("ID"));
+        columnSubjectID.setCellValueFactory(new PropertyValueFactory<Subject,Integer>("id"));
         columnSubjectName.setCellValueFactory(new PropertyValueFactory<Subject,String>("Name"));
-        columnTeacherID.setCellValueFactory(new PropertyValueFactory<Subject,Integer>("Teacher ID"));
-        SubjectColumnCourseID.setCellValueFactory(new PropertyValueFactory<Subject,Integer>("Course ID"));
+        columnTeacherID.setCellValueFactory(new PropertyValueFactory<Subject,Integer>("teacherId"));
+        SubjectColumnCourseID.setCellValueFactory(new PropertyValueFactory<Subject,Integer>("courseId"));
 
         adminModel.loadSubjects();
         subjectTable.setItems(adminModel.getAllSubjects());
@@ -139,7 +146,7 @@ public class AdminViewController implements Initializable {
 
 
     private void initCourseTableView() {
-        columnID.setCellValueFactory(new PropertyValueFactory<Course,Integer>("ID"));
+        columnID.setCellValueFactory(new PropertyValueFactory<Course,Integer>("id"));
         columnCourseName.setCellValueFactory(new PropertyValueFactory<Course,String>("Name"));
 
         adminModel.loadCourses();
@@ -158,12 +165,49 @@ public class AdminViewController implements Initializable {
 
         adminModel.save(newTeacher);
     }
+    private void createStage(Parent root, String title)
+    {
+        Stage stage = new Stage();
+        stage.setTitle(title);
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
 
 
-    public void btnTeacherDelete(ActionEvent event) {
+    public void btnTeacherDelete(ActionEvent event) throws IOException {
+
+
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/adminViewDeleteTeacher.fxml"));
+            Parent parent = fxmlLoader.load();
+            Scene scene = new Scene(parent);
+            deleteTeacherController controller = fxmlLoader.getController();
+            controller.initTeacher(teacherTable.getSelectionModel().getSelectedItem());
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            window.setScene(scene);
+            window.show();
+
+        /*try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/adminViewDeleteTeacher.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));
+            stage.show();
+            ((Node) (event.getSource())).getScene().getWindow().hide();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+         */
+
+        /*
         Teacher selectedTeacher = teacherTable.getSelectionModel().getSelectedItem();
         adminModel.delete(selectedTeacher);
         adminModel.loadTeachers();
+
+         */
     }
     public void btnTeacherEdit(ActionEvent event) {
         Teacher newTeacher = teacherTable.getSelectionModel().getSelectedItem();
