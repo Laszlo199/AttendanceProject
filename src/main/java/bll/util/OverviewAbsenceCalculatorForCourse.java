@@ -49,8 +49,26 @@ public class OverviewAbsenceCalculatorForCourse extends OverviewAbsenceCalculato
         return mapStudents;
     }
 
-    public int getClassPresentDays(Teacher teacher, Months months){
+    public int getClassPresentDays(Teacher teacher, Months months) throws BLLexception {
+        int presNumber=0;
+        try {
+            for (Student s: dal.getTaughtStudents(teacher) ) {
+                presNumber += dal.getNumberOfPresentDays(s, months);
+            } return presNumber;
+        } catch (DALexception daLexception) {
+            throw new BLLexception("Couldn't get present days of taught students");
+        }
+    }
 
+    public int getClassAbsentDays(Teacher teacher, Months months) throws BLLexception {
+        int absDays=0;
+        try {
+            for (Student s: dal.getTaughtStudents(teacher) ) {
+                absDays += dal.getNumberOfAbsentDays(s, months);
+            } return absDays;
+        } catch (DALexception daLexception) {
+            throw new BLLexception("Couldn't get absent days of taught students");
+        }
     }
 
 
