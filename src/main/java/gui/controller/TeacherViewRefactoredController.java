@@ -200,11 +200,9 @@ public class TeacherViewRefactoredController implements Initializable {
                 }
                 else{
                     strategy = new CreateMonthData();
-                    //I hope it works
                     pieChart.getData().addAll(strategy.createData(null, Months.valueOf((String) n),
                             loggedTeacher));
                 }
-
             }
         });
     }

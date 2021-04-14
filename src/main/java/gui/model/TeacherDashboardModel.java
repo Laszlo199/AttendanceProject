@@ -10,16 +10,39 @@ import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 public class TeacherDashboardModel {
 
-    private IFacadeBLL logic;
-    private ObservableList<Student> obsStudents = FXCollections.observableArrayList();
+    private  IFacadeBLL logic;
+    private  ObservableList<Student> obsStudents = FXCollections.observableArrayList();
     private static TeacherDashboardModel instance;
-
+    private ScheduledExecutorService executorService  = Executors.newScheduledThreadPool(1);
 
     private TeacherDashboardModel() {
         logic = FacadeBLL.getInstance();
+        loadCache();
+
+        /*
+        try {
+            obsStudents.addAll(logic.getAllStudents());
+        } catch (BLLexception blLexception) {
+            blLexception.printStackTrace();
+        }
+
+         */
+    }
+
+    private void loadCache() {
+        Runnable runnable = () -> {
+            try {
+                obsStudents.addAll(logic.getAllStudents());
+            } catch (BLLexception blLexception) {
+                blLexception.printStackTrace();
+            }
+        };
+        executorService.execute(runnable);
     }
 
     public static TeacherDashboardModel getInstance(){
@@ -27,8 +50,6 @@ public class TeacherDashboardModel {
         instance =new TeacherDashboardModel();
      return instance;
     }
-
-
 
     public List<ChangeRequest> getAllRequests(int teacherId) {
         try {
