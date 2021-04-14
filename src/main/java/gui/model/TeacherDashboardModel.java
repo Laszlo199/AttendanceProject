@@ -10,15 +10,36 @@ import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 public class TeacherDashboardModel {
 
-    private IFacadeBLL logic;
-    private ObservableList<Student> obsStudents = FXCollections.observableArrayList();
+    private  IFacadeBLL logic;
+    private  ObservableList<Student> obsStudents = FXCollections.observableArrayList();
+    private static TeacherDashboardModel instance;
+    private ScheduledExecutorService executorService  = Executors.newScheduledThreadPool(1);
 
-
-    public TeacherDashboardModel() {
+    private TeacherDashboardModel() {
         logic = FacadeBLL.getInstance();
+        loadCache();
+    }
+
+    private void loadCache() {
+        Runnable runnable = () -> {
+            try {
+                obsStudents.addAll(logic.getAllStudents());
+            } catch (BLLexception blLexception) {
+                blLexception.printStackTrace();
+            }
+        };
+        executorService.execute(runnable);
+    }
+
+    public static TeacherDashboardModel getInstance(){
+     if(instance==null)
+        instance =new TeacherDashboardModel();
+     return instance;
     }
 
     public List<ChangeRequest> getAllRequests(int teacherId) {
@@ -96,9 +117,6 @@ public class TeacherDashboardModel {
         }
     }
 
-    public ArrayList<Student> getAllStudents() {
-        return new ArrayList<>();
-    }
 
     public String getPresenceForStudent(Student student, TeacherViewController.Timeframe timeframe) {
         try {
@@ -137,5 +155,32 @@ public class TeacherDashboardModel {
             blLexception.printStackTrace();
             return null;
         }
+    }
+
+    public int getNumberOfAllStudents(ScheduleEntity currentLesson) {
+        try {
+            return logic.getNumberOfAllStudents(currentLesson);
+        } catch (BLLexception blLexception) {
+            blLexception.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int getClassPresentDays(Teacher teacher, Months month) {
+        try {
+            return  logic.getClassPresentDays(teacher, month);
+        } catch (BLLexception blLexception) {
+            blLexception.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int getClassAbsentDays(Teacher teacher, Months month) {
+        try {
+            return logic.getClassAbsentDays(teacher, month);
+        } catch (BLLexception blLexception) {
+            blLexception.printStackTrace();
+        }
+        return 1;
     }
 }

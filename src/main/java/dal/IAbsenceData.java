@@ -3,6 +3,7 @@ package dal;
 import be.Months;
 import be.ScheduleEntity;
 import be.Student;
+import be.Teacher;
 import dal.exception.DALexception;
 
 import java.util.List;
@@ -28,4 +29,8 @@ public interface IAbsenceData {
     boolean isStudentPresent(int id);
 
     boolean isDataStudentPresent(int id) throws DALexception;
+
+    int getNumberOfAllStudents(ScheduleEntity currentLesson) throws DALexception;
+
+    List<Student> getTaughtStudents(Teacher teacher) throws DALexception;
 }

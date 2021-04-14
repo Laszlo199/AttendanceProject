@@ -71,12 +71,11 @@ public class TeacherViewController implements Initializable {
         setChart();
         setChangeTable();
         showPhoto();
-
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.model = new TeacherDashboardModel();
+        this.model = TeacherDashboardModel.getInstance();
     }
 
     private void showPhoto() {

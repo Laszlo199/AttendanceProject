@@ -4,14 +4,14 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXToggleButton?>
-<?import com.jfoenix.controls.JFXTreeTableView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TreeTableColumn?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -22,7 +22,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1186.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1186.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.TeacherViewRefactoredController">
   <columnConstraints>
     <ColumnConstraints hgrow="ALWAYS" maxWidth="589.0" minWidth="10.0" prefWidth="471.0" />
     <ColumnConstraints hgrow="ALWAYS" maxWidth="771.0" minWidth="10.0" prefWidth="715.0" />
@@ -43,15 +43,15 @@
          <children>
             <AnchorPane prefHeight="41.0" prefWidth="431.0">
                <children>
-                  <Label layoutX="14.0" layoutY="6.0" text="Monday" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="10.0">
+                  <Label fx:id="dayLabel2" layoutX="14.0" layoutY="6.0" text="Monday" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="10.0">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <JFXComboBox layoutX="311.0" layoutY="8.0" prefHeight="25.0" prefWidth="122.0" promptText="Select month" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="8.0" />
+                  <JFXComboBox fx:id="selectMonth" layoutX="311.0" layoutY="8.0" prefHeight="25.0" prefWidth="122.0" promptText="Select month" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="8.0" />
                </children>
             </AnchorPane>
-            <PieChart prefWidth="431.0">
+            <PieChart fx:id="pieChart" prefWidth="431.0">
                <VBox.margin>
                   <Insets bottom="5.0" left="10.0" right="10.0" top="20.0" />
                </VBox.margin>
@@ -71,9 +71,9 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <JFXListView>
+            <JFXListView fx:id="absenceList">
                <VBox.margin>
-                  <Insets top="10.0" />
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
                </VBox.margin>
             </JFXListView>
          </children>
@@ -87,24 +87,21 @@
                <children>
                   <AnchorPane prefHeight="57.0" prefWidth="693.0" VBox.vgrow="NEVER">
                      <children>
-                        <TextField layoutX="8.0" layoutY="15.0" prefHeight="30.0" prefWidth="358.0" />
-                        <JFXToggleButton layoutX="582.0" prefHeight="60.0" prefWidth="204.0" text="Total Attendance" AnchorPane.rightAnchor="2.0">
+                        <TextField fx:id="searchField" layoutX="8.0" layoutY="15.0" prefHeight="30.0" prefWidth="358.0" />
+                        <JFXToggleButton fx:id="switchAttendance" layoutX="582.0" prefHeight="60.0" prefWidth="204.0" text="Total Attendance" AnchorPane.rightAnchor="2.0">
                            <font>
                               <Font size="15.0" />
                            </font>
                         </JFXToggleButton>
                      </children>
                   </AnchorPane>
-                  <JFXTreeTableView>
-                     <columns>
-                        <TreeTableColumn prefWidth="303.0" text="Name" />
-                        <TreeTableColumn prefWidth="179.0" text="Attendance %" />
-                        <TreeTableColumn prefWidth="210.0" text="Most absent day" />
-                     </columns>
-                     <VBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" />
-                     </VBox.margin>
-                  </JFXTreeTableView>
+                  <TableView fx:id="tableview"  prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                    <columns>
+                      <TableColumn fx:id="nameCol" prefWidth="280.0" text="name" />
+                      <TableColumn fx:id="attendanceCol" prefWidth="202.0" text="Attendance %" />
+                        <TableColumn fx:id="dayCol"  prefWidth="210.0" text="Abent day" />
+                    </columns>
+                  </TableView>
                </children>
             </VBox>
          </content>
@@ -122,22 +119,22 @@
             <Insets right="10.0" />
          </GridPane.margin>
          <buttons>
-            <JFXButton prefHeight="25.0" prefWidth="104.0" style="-fx-background-color: brown;" text="Log Out" />
+            <JFXButton onAction="#logOut" prefHeight="25.0" prefWidth="104.0" style="-fx-background-color: brown;" text="Log Out" />
          </buttons>
       </ButtonBar>
       <AnchorPane fx:id="top" prefHeight="110.0" prefWidth="1186.0" GridPane.columnSpan="2">
          <children>
-            <ImageView fx:id="studentImage" fitHeight="65.0" fitWidth="52.0" layoutX="21.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="12.0">
+            <ImageView fx:id="imageView" fitHeight="65.0" fitWidth="52.0" layoutX="21.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="12.0">
                <image>
                   <Image url="@images/person2.png" />
                </image>
             </ImageView>
-            <Text fx:id="studentName" layoutX="115.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Danilel Cardman">
+            <Text fx:id="teacherName" layoutX="115.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Danilel Cardman">
                <font>
                   <Font size="23.0" />
                </font>
             </Text>
-            <Text fx:id="studentProgram" layoutX="115.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Computer Science  Teacher">
+            <Text fx:id="teacherProgram" layoutX="115.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Computer Science  Teacher">
                <font>
                   <Font size="17.0" />
                </font>

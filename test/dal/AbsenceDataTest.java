@@ -2,9 +2,12 @@ package dal;
 
 import be.Months;
 import be.Student;
+import be.Teacher;
 import dal.exception.DALexception;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 /**
  * @author Kuba
@@ -56,5 +59,19 @@ class AbsenceDataTest {
         }
         int expected = 1;
         Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    void getTaughtStudents() {
+        AbsenceData absenceData = new AbsenceData();
+       Teacher teacher = new Teacher(1, "Tom Tom",
+               "tom@ee.dk", null, "IT");
+        try {
+            List<Student> studentList = absenceData.getTaughtStudents(teacher);
+            for(Student s:studentList)
+                System.out.println(s);
+        } catch (DALexception daLexception) {
+            daLexception.printStackTrace();
+        }
     }
 }

@@ -72,4 +72,14 @@ public interface IFacadeBLL {
     void deleteCourse(Course course) throws BLLexception;
     Course getCourse(int courseId) throws BLLexception;
 
+    int getNumberOfPresentDays(Student student, Months month) throws BLLexception;
+
+    int getNumberOfAbsentDays(Student loggedStudent, Months month) throws BLLexception;
+
+    int getNumberOfAllStudents(ScheduleEntity currentLesson) throws BLLexception;
+
+    int getClassPresentDays(Teacher teacher, Months month) throws BLLexception;
+
+    int getClassAbsentDays(Teacher teacher, Months month) throws BLLexception;
+
 }
