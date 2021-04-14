@@ -153,4 +153,22 @@ public class TeacherDashboardModel {
         }
         return 0;
     }
+
+    public int getClassPresentDays(Teacher teacher, Months month) {
+        try {
+            return  logic.getClassPresentDays(teacher, month);
+        } catch (BLLexception blLexception) {
+            blLexception.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int getClassAbsentDays(Teacher teacher, Months month) {
+        try {
+            return logic.getClassAbsentDays(teacher, month);
+        } catch (BLLexception blLexception) {
+            blLexception.printStackTrace();
+        }
+        return 1;
+    }
 }

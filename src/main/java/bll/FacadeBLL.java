@@ -4,6 +4,7 @@ import be.*;
 import be.Record;
 import bll.exception.BLLexception;
 import bll.util.Operations;
+import bll.util.OverviewAbsenceCalculatorForCourse;
 import bll.util.PasswordHasher;
 import bll.util.PresenceCalculator;
 import dal.FacadeDAL;
@@ -24,6 +25,8 @@ public class FacadeBLL implements IFacadeBLL{
     private IFacadeDAL facadeDAL = FacadeDAL.getInstance();
     private Operations operations = new Operations();
     private PresenceCalculator presenceCalculator = new PresenceCalculator();
+    private OverviewAbsenceCalculatorForCourse absenceCourseCalc =
+            new OverviewAbsenceCalculatorForCourse();
 
     public static IFacadeBLL getInstance(){
         if(facadeBLL==null)
@@ -415,6 +418,16 @@ public class FacadeBLL implements IFacadeBLL{
         } catch (DALexception daLexception) {
             throw new BLLexception("Couldn't get number of students", daLexception);
         }
+    }
+
+    @Override
+    public int getClassPresentDays(Teacher teacher, Months month) throws BLLexception {
+            return absenceCourseCalc.getClassPresentDays(teacher, month);
+    }
+
+    @Override
+    public int getClassAbsentDays(Teacher teacher, Months month) throws BLLexception {
+        return absenceCourseCalc.getClassAbsentDays(teacher, month);
     }
 
     List<String> quotes = Arrays.asList("“An investment in knowledge pays the best interest.”- Benjamin Franklin, writer and polymath.",

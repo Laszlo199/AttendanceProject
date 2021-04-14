@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXToggleButton;
 import com.jfoenix.controls.JFXTreeTableView;
 import gui.model.TeacherDashboardModel;
+import gui.strategy.CreateMonthData;
 import gui.strategy.CreateTodayData;
 import gui.strategy.ICreateDataStrategy;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -91,7 +92,7 @@ public class TeacherViewRefactoredController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initTime();
-        //changePieChartListener();
+        changePieChartListener();
     }
 
     private void initTime() {
@@ -184,17 +185,29 @@ public class TeacherViewRefactoredController implements Initializable {
     private void changePieChartListener() {
         selectMonth.valueProperty().addListener(new ChangeListener() {
             @Override
-            public void changed(ObservableValue observableValue, Object o, Object timeframe) {
+            public void changed(ObservableValue observableValue, Object o, Object n) {
                 ICreateDataStrategy strategy;
                 pieChart.getData().clear();
-                if(timeframe.toString().matches("Today")){
+                if(n.toString().matches("Today")){
                     strategy = new CreateTodayData();
-                    pieChart.getData().addAll(strategy.createData(timeframe, currentLesson));
+                    pieChart.getData().addAll(strategy.createData(currentLesson,
+                            null, null));
+                    //later add some inromation if there is no record
                 }
+                else if(n.toString().matches("Total")){
+                    System.out.println("Total");
+                    //add later
+                }
+                else{
+                    strategy = new CreateMonthData();
+                    //I hope it works
+                    pieChart.getData().addAll(strategy.createData(null, Months.valueOf((String) n),
+                            loggedTeacher));
+                }
+
             }
         });
     }
-
 
     private void setCombobox() {
         for(Months m: Months.values())

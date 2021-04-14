@@ -2,6 +2,7 @@ package gui.strategy;
 
 import be.Months;
 import be.ScheduleEntity;
+import be.Teacher;
 import gui.model.TeacherDashboardModel;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
@@ -13,5 +14,7 @@ import javafx.scene.chart.PieChart;
  */
 public interface ICreateDataStrategy {
     TeacherDashboardModel model = TeacherDashboardModel.getInstance();
-    ObservableList<PieChart.Data> createData(Object timeframe, ScheduleEntity currentLesson);
+    ObservableList<PieChart.Data> createData(ScheduleEntity currentLesson,
+                                             Months month, Teacher teacher);
+
 }

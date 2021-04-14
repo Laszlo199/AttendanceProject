@@ -77,4 +77,8 @@ public interface IFacadeBLL {
     int getNumberOfAbsentDays(Student loggedStudent, Months month) throws BLLexception;
 
     int getNumberOfAllStudents(ScheduleEntity currentLesson) throws BLLexception;
+
+    int getClassPresentDays(Teacher teacher, Months month) throws BLLexception;
+
+    int getClassAbsentDays(Teacher teacher, Months month) throws BLLexception;
 }
