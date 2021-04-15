@@ -12,9 +12,11 @@ import dal.IAbsenceData;
 import dal.IFacadeDAL;
 import dal.exception.DALexception;
 
+import java.net.CacheRequest;
 import java.time.DayOfWeek;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.*;
 
 /**
  * @author Kuba
@@ -81,7 +83,7 @@ public class OverviewAbsenceCalculator implements ICalculationsOverview {
     // - on the specific course
     // - on the semester
     // - that month
-
+ExecutorService executorService = Executors.newSingleThreadExecutor();
     /**
      * Im not sure in which time frame
      * it can be month sem or year
@@ -90,35 +92,45 @@ public class OverviewAbsenceCalculator implements ICalculationsOverview {
      */
     @Override
     public WeekDay getMostAbsWeekday(Months month, Student student) throws BLLexception{
-        //key is weekday value is the present days in percents
-        Map<WeekDay, Integer> weekDayIntegerMap = new HashMap<>();
+        Callable<WeekDay> callable = () ->{
+            //key is weekday value is the present days in percents
+            Map<WeekDay, Integer> weekDayIntegerMap = new HashMap<>();
 
-        //for (WeekDay day: WeekDay.values()) {
+            //for (WeekDay day: WeekDay.values()) {
 
-        try {
-            for (WeekDay day : WeekDay.values()) {
-                int presentDays = dal.getNumberOfPresentDays(student, month); //exception is inside this method
-                int absDays = dal.getNumberOfAbsentDays(student, month);
-               // int avg = presentDays / (presentDays + absDays);
-                int avg = 0;
-                if(presentDays + absDays!=0)
-                    avg = presentDays / (presentDays + absDays);
-                weekDayIntegerMap.put(day, avg);
+            try {
+                for (WeekDay day : WeekDay.values()) {
+                    int presentDays = dal.getNumberOfPresentDays(student, month); //exception is inside this method
+                    int absDays = dal.getNumberOfAbsentDays(student, month);
+                    // int avg = presentDays / (presentDays + absDays);
+                    int avg = 0;
+                    if(presentDays + absDays!=0)
+                        avg = presentDays / (presentDays + absDays);
+                    weekDayIntegerMap.put(day, avg);
+                }
+            } catch (DALexception ex){
+                ex.printStackTrace();
+                throw new BLLexception("Couldn't get number of pres/abs days");
             }
-        } catch (DALexception ex){
-            ex.printStackTrace();
+
+            //get the smallest value
+            Map.Entry<WeekDay, Integer> min = null;
+            for (Map.Entry<WeekDay, Integer> entry : weekDayIntegerMap.entrySet()) {
+                if (min == null || min.getValue() > entry.getValue()) {
+                    min = entry;
+                }
+            }
+
+            return min.getKey();
+        };
+        Future<WeekDay> future = executorService.submit(callable);
+        try {
+            return future.get();
+        } catch (InterruptedException e) {
+            throw new BLLexception("Couldn't get number of pres/abs days");
+        } catch (ExecutionException e) {
             throw new BLLexception("Couldn't get number of pres/abs days");
         }
-
-        //get the smallest value
-        Map.Entry<WeekDay, Integer> min = null;
-        for (Map.Entry<WeekDay, Integer> entry : weekDayIntegerMap.entrySet()) {
-            if (min == null || min.getValue() > entry.getValue()) {
-                min = entry;
-            }
-        }
-
-        return min.getKey();
     }
 
     public DayOfWeek getAbsORPresentForDay() throws BLLexception {
