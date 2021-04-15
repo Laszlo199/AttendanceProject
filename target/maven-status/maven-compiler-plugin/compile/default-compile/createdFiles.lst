@@ -42,6 +42,7 @@ be\Subject.class
 gui\controller\StudentDashboardController$RecordCell.class
 dal\exception\DALexception.class
 gui\controller\TeacherViewController$3$1.class
+gui\model\TeacherDashboardModel$1.class
 be\Student.class
 gui\util\DonutChart.class
 gui\controller\TeacherViewController.class

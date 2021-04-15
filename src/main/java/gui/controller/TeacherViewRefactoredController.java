@@ -14,6 +14,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -93,7 +94,9 @@ public class TeacherViewRefactoredController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initTime();
         changePieChartListener();
+        searchfieldListener();
     }
+
 
     private void initTime() {
         setDate();
@@ -178,6 +181,16 @@ public class TeacherViewRefactoredController implements Initializable {
             }
         }
     }
+
+    private void searchfieldListener() {
+        searchField.textProperty().addListener((observableValue, s, t1) -> {
+            if(t1.isBlank())
+                tableview.setItems(model.getObsStudents());
+            else
+             tableview.setItems(model.loadData(t1));
+        });
+    }
+
 
     /**
      * when user selects other value in combobox show corresponding data

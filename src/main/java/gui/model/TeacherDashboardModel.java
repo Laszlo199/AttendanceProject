@@ -7,16 +7,19 @@ import bll.exception.BLLexception;
 import gui.controller.TeacherViewController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.stream.Collectors;
 
 public class TeacherDashboardModel {
 
     private  IFacadeBLL logic;
     private  ObservableList<Student> obsStudents = FXCollections.observableArrayList();
+    ObservableList<Student> results = FXCollections.observableList(obsStudents);
     private static TeacherDashboardModel instance;
     private ScheduledExecutorService executorService  = Executors.newScheduledThreadPool(1);
 
@@ -115,6 +118,24 @@ public class TeacherDashboardModel {
             blLexception.printStackTrace();
             return Integer.parseInt(null);
         }
+    }
+
+    public ObservableList<Student> loadData(String searchText) {
+        Task<ObservableList<Student>> task = new Task<ObservableList<Student>>() {
+            @Override
+            protected ObservableList<Student> call() throws Exception {
+                updateMessage("Searching data");
+                return FXCollections.observableArrayList(obsStudents
+                        .stream()
+                        .filter(value -> value.getName().toLowerCase().contains(searchText))
+                        .collect(Collectors.toList()));
+            }
+        };
+        task.setOnSucceeded(event -> {
+            results = task.getValue();
+        });
+        executorService.execute(task);
+        return results;
     }
 
 
