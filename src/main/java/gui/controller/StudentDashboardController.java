@@ -50,6 +50,8 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.sql.Date;
 import java.time.Month;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
@@ -119,6 +121,7 @@ public class StudentDashboardController implements Initializable {
         listenForShowingQuote();
         listenerPieChart();
         btnSave.setDisable(true);
+        disable();
     }
 
     private void showPhoto() {
@@ -499,4 +502,34 @@ public class StudentDashboardController implements Initializable {
             btnSave.setDisable(false);
         }
     }
+    public void disable(){
+
+        //LocalDate localDate = LocalDate.now();
+        ObservableList<Record> studentRecords = model.getRecordObservableList();
+        int i = 0;
+       // Date date = new Date(Calendar.getInstance().getTime().getTime());
+       // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        //String date3 = formatter.format((TemporalAccessor) date);
+        java.util.Date date = new java.util.Date();
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String currentTime = sdf.format(date);
+
+        while (i<studentRecords.size() &&
+                (
+                        studentRecords.get(i).getStudentId() != loggedStudent.getId() ||
+                                (studentRecords.get(i).getStudentId() == loggedStudent.getId() && studentRecords.get(i).getDate() != date)
+                )
+        )
+            i++;
+
+        if (i<studentRecords.size()){
+            btnSave.setDisable(true);
+            absentRadioButton.setDisable(true);
+            presentRadioButton.setDisable(true);
+        }
+
+         
+    }
+
+
 }
