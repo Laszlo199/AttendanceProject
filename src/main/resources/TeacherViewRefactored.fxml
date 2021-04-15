@@ -95,11 +95,11 @@
                         </JFXToggleButton>
                      </children>
                   </AnchorPane>
-                  <TableView fx:id="tableview"  prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                  <TableView fx:id="tableview" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                     <columns>
                       <TableColumn fx:id="nameCol" prefWidth="280.0" text="name" />
                       <TableColumn fx:id="attendanceCol" prefWidth="202.0" text="Attendance %" />
-                        <TableColumn fx:id="dayCol"  prefWidth="210.0" text="Abent day" />
+                        <TableColumn fx:id="dayCol" prefWidth="210.0" text="Abent day" />
                     </columns>
                   </TableView>
                </children>
@@ -110,6 +110,25 @@
          <GridPane.margin>
             <Insets left="10.0" right="10.0" top="10.0" />
          </GridPane.margin>
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Change requests">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="5.0" top="5.0" />
+               </VBox.margin>
+            </Text>
+            <TableView id="changeTable" fx:id="changeTable" prefHeight="139.0" prefWidth="416.0" VBox.vgrow="ALWAYS">
+               <columns>
+                  <TableColumn fx:id="nameColumnn" prefWidth="224.0" text="name" />
+                  <TableColumn fx:id="typeColumnn" minWidth="0.0" prefWidth="118.0" text="type" />
+                  <TableColumn fx:id="dateColumnn" prefWidth="125.0" text="date" />
+                  <TableColumn fx:id="acceptColumnn" minWidth="1.0" prefWidth="46.0" />
+                  <TableColumn fx:id="declineColumnn" prefWidth="116.0" />
+               </columns>
+            </TableView>
+         </children>
       </VBox>
       <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
          <opaqueInsets>

@@ -22,6 +22,13 @@ public class TeacherDashboardModel {
     private  ObservableList<Student> obsStudents = FXCollections.observableArrayList();
     ObservableList<Student> results = FXCollections.observableList(obsStudents);
     private static TeacherDashboardModel instance;
+
+    public ObservableList<ChangeRequest> getChanges() {
+        return changes;
+    }
+
+    ObservableList<ChangeRequest> changes =
+            FXCollections.observableArrayList();
     ExecutorService executorService = Executors.newSingleThreadExecutor();
 
 
@@ -34,7 +41,14 @@ public class TeacherDashboardModel {
         loadData.valueProperty().addListener((observableValue, students, t1) -> {
             obsStudents.addAll(t1);
         });
+        loadData.progressProperty().addListener((observableValue, number, t1) -> {
+            System.out.println(t1);
+        });
         executorService.execute(loadData);
+    }
+
+    public void setChanges(Teacher loggedTeacher) {
+        changes.addAll(getAllRequests(loggedTeacher.getId()));
     }
 
     public class LoadData extends Task<List<Student>>{
@@ -44,6 +58,7 @@ public class TeacherDashboardModel {
             if(isCancelled())
                 return null;
             students.addAll(logic.getAllStudents());
+            updateProgress(obsStudents.size(), 10);
             this.updateValue(students);
             return students;
         }
@@ -57,11 +72,12 @@ public class TeacherDashboardModel {
 
     public List<ChangeRequest> getAllRequests(int teacherId) {
         try {
+            System.out.println("we  got there!!!");
             return logic.getRequestsForTeacher(teacherId);
         } catch (BLLexception blLexception) {
             blLexception.printStackTrace();
-            return null;
-        }
+
+        }return null;
     }
 
     public void requestAccepted(ChangeRequest changeRequest) {

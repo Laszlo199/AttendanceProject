@@ -40,6 +40,18 @@ import static java.lang.Thread.sleep;
  */
 public class TeacherViewRefactoredController implements Initializable {
     @FXML
+    private TableView changeTable;
+    @FXML
+    private TableColumn nameColumnn;
+    @FXML
+    private TableColumn typeColumnn;
+    @FXML
+    private TableColumn dateColumnn;
+    @FXML
+    private TableColumn acceptColumnn;
+    @FXML
+    private TableColumn declineColumnn;
+    @FXML
     private TableView tableview;
     @FXML
     private TableColumn nameCol;
@@ -71,7 +83,8 @@ public class TeacherViewRefactoredController implements Initializable {
     private Text dateLabel;
     @FXML
     private Text hourLabel;
-
+    Callback<TableColumn<ChangeRequest, Void>, TableCell<ChangeRequest, Void>> cFactory;
+    Callback<TableColumn<ChangeRequest, Void>, TableCell<ChangeRequest, Void>> cellFactory;
     private static TeacherDashboardModel model;
     private static ScheduleEntity currentLesson;
     private Teacher loggedTeacher;
@@ -239,6 +252,90 @@ public class TeacherViewRefactoredController implements Initializable {
         }
     }
 
+    private void setChangeTableView() {
+        setCellValueFact();
+        setAcceptButtons();
+        setDeclineButtons();
+        model.setChanges(loggedTeacher);
+        changeTable.setItems(model.getChanges());
+        acceptColumnn.setCellFactory(cellFactory);
+        declineColumnn.setCellFactory(cFactory);
+    }
+
+    private void setDeclineButtons() {
+         cFactory =
+                new Callback<TableColumn<ChangeRequest, Void>, TableCell<ChangeRequest, Void>>() {
+            @Override
+            public TableCell<ChangeRequest, Void> call(final TableColumn<ChangeRequest, Void> param) {
+                final TableCell<ChangeRequest, Void> cell = new TableCell<ChangeRequest, Void>() {
+
+                    private final Button btn = new Button("Decline");
+                    {
+                        btn.setOnAction((ActionEvent event) -> {
+                            ChangeRequest change = getTableView().getItems().get(getIndex());
+                            model.getChanges().remove(change);
+                            model.requestDeclined(change);
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+    }
+
+    private void setAcceptButtons() {
+        cellFactory = new Callback<TableColumn<ChangeRequest, Void>,
+                TableCell<ChangeRequest, Void>>() {
+            @Override
+            public TableCell<ChangeRequest, Void> call(final TableColumn<ChangeRequest, Void> param) {
+                final TableCell<ChangeRequest, Void> cell = new TableCell<ChangeRequest, Void>() {
+
+                    private final Button btn = new Button("Accept");
+                    {
+                        btn.setOnAction((ActionEvent event) -> {
+                            ChangeRequest change = getTableView().getItems().get(getIndex());
+                            model.getChanges().remove(change);
+                            model.requestAccepted(change);
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+    }
+
+    private void setCellValueFact() {
+        nameColumnn.setCellValueFactory(new PropertyValueFactory<ChangeRequest, String>("studentName"));
+        typeColumnn.setCellValueFactory(new PropertyValueFactory<ChangeRequest, String>("subjectName"));
+        dateColumnn.setCellValueFactory(new PropertyValueFactory<ChangeRequest, String>("date"));
+        acceptColumnn.setCellValueFactory(new PropertyValueFactory<ChangeRequest, Void>(""));
+        declineColumnn.setCellValueFactory(new PropertyValueFactory<ChangeRequest, Void>(""));
+
+        nameColumnn.setText("Student");
+        typeColumnn.setText("Subject");
+        dateColumnn.setText("Date");
+    }
+
     public void setTeacher(Teacher teacher) {
         this.loggedTeacher = teacher;
         this.currentLesson = model.getCurrentLesson(loggedTeacher.getId());
@@ -249,5 +346,7 @@ public class TeacherViewRefactoredController implements Initializable {
         initAbsenceList();
         initPieChart();
         initStudentsTableView();
+        setChangeTableView();
     }
+
 }
