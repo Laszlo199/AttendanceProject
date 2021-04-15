@@ -202,7 +202,7 @@ public class FacadeBLL implements IFacadeBLL{
     public String getPresenceForStudent(Student student, TeacherViewController.Timeframe timeframe) throws BLLexception {
         try {
             return presenceCalculator.getPresenceForStudent(student, timeframe);
-        } catch (DALexception daLexception) {
+        } catch (BLLexception daLexception) {
             daLexception.printStackTrace();
             throw new BLLexception("Couldn't get presence for a student");
         }

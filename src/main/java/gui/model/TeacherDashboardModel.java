@@ -7,9 +7,11 @@ import bll.exception.BLLexception;
 import gui.controller.TeacherViewController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -18,22 +20,31 @@ public class TeacherDashboardModel {
     private  IFacadeBLL logic;
     private  ObservableList<Student> obsStudents = FXCollections.observableArrayList();
     private static TeacherDashboardModel instance;
-    private ScheduledExecutorService executorService  = Executors.newScheduledThreadPool(1);
+    ExecutorService executorService = Executors.newSingleThreadExecutor();
+
 
     private TeacherDashboardModel() {
         logic = FacadeBLL.getInstance();
-        loadCache();
     }
 
-    private void loadCache() {
-        Runnable runnable = () -> {
-            try {
-                obsStudents.addAll(logic.getAllStudents());
-            } catch (BLLexception blLexception) {
-                blLexception.printStackTrace();
-            }
-        };
-        executorService.execute(runnable);
+    public void loadCache() {
+        LoadData loadData = new LoadData();
+        loadData.valueProperty().addListener((observableValue, students, t1) -> {
+            obsStudents.addAll(t1);
+        });
+        executorService.execute(loadData);
+    }
+
+    public class LoadData extends Task<List<Student>>{
+        @Override
+        protected List<Student> call() throws Exception {
+            List<Student> students = new ArrayList<>();
+            if(isCancelled())
+                return null;
+            students.addAll(logic.getAllStudents());
+            this.updateValue(students);
+            return students;
+        }
     }
 
     public static TeacherDashboardModel getInstance(){

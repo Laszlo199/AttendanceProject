@@ -101,8 +101,8 @@
                               <JFXTextField fx:id="EmailFieldStudent" focusColor="#bdb600" layoutX="828.0" layoutY="49.0" promptText="Email" unFocusColor="#04ebf3" AnchorPane.rightAnchor="37.33333333333334" />
                               <JFXTextField fx:id="coursIDFieldStudent" focusColor="#bdb600" layoutX="828.0" layoutY="84.0" promptText="Course ID" unFocusColor="#04ebf3" AnchorPane.rightAnchor="37.33333333333334" />
                               <JFXTextField fx:id="semesterFieldStudent" focusColor="#bdb600" layoutX="828.0" layoutY="118.0" promptText="Semester" unFocusColor="#04ebf3" AnchorPane.rightAnchor="37.33333333333334" />
-                              <JFXTextField fx:id="photoPathFieldStudent" focusColor="#bdb600" layoutX="828.0" layoutY="150.0" promptText="PhotoPath" unFocusColor="#04ebf3" />
-                              <JFXButton layoutX="839.0" layoutY="304.0" onAction="#btnStudentEdit" prefHeight="46.0" prefWidth="112.0" style="-fx-background-color: #00d6ee;" text="Update" textFill="WHITE">
+                              <JFXTextField fx:id="photoPathFieldStudent" focusColor="#bdb600" layoutX="828.0" layoutY="150.0" promptText="PhotoPath" unFocusColor="#04ebf3" AnchorPane.rightAnchor="37.0" />
+                              <JFXButton layoutX="839.0" layoutY="304.0" onAction="#btnStudentEdit" prefHeight="46.0" prefWidth="112.0" style="-fx-background-color: #00d6ee;" text="Update" textFill="WHITE" AnchorPane.rightAnchor="49.0">
                                  <effect>
                                     <Shadow />
                                  </effect>
@@ -138,7 +138,7 @@
                               <JFXTextField fx:id="nameFieldSubject" focusColor="#fff200" layoutX="834.0" layoutY="14.0" promptText="Name" unFocusColor="#04ebf3" AnchorPane.rightAnchor="31.333333333333343" />
                               <JFXTextField fx:id="teacherIDFieldSubject" focusColor="#fff200" layoutX="834.0" layoutY="58.0" promptText="Teacher ID" unFocusColor="#04ebf3" AnchorPane.rightAnchor="31.333333333333343" />
                               <JFXTextField fx:id="courseIDFieldSubject" focusColor="#fff200" layoutX="834.0" layoutY="99.0" promptText="Course ID" unFocusColor="#04ebf3" AnchorPane.rightAnchor="31.333333333333343" />
-                              <JFXButton layoutX="843.0" layoutY="279.0" onAction="#btnSubjectEdit" prefHeight="46.0" prefWidth="117.0" style="-fx-background-color: #00d6ee;" text="Update" textFill="WHITE">
+                              <JFXButton layoutX="843.0" layoutY="279.0" onAction="#btnSubjectEdit" prefHeight="46.0" prefWidth="117.0" style="-fx-background-color: #00d6ee;" text="Update" textFill="WHITE" AnchorPane.rightAnchor="40.66666666666663">
                                  <effect>
                                     <Shadow />
                                  </effect>
@@ -170,7 +170,7 @@
                                  </content>
                               </ScrollPane>
                               <JFXTextField fx:id="nameFieldCourse" focusColor="#fff200" layoutX="840.0" layoutY="53.0" promptText="Name" unFocusColor="#04ebf3" AnchorPane.rightAnchor="25.333333333333343" />
-                              <JFXButton layoutX="848.0" layoutY="283.0" onAction="#btnCourseEdit" prefHeight="46.0" prefWidth="117.0" style="-fx-background-color: #00d6ee;" text="Update" textFill="WHITE" wrapText="true">
+                              <JFXButton layoutX="848.0" layoutY="283.0" onAction="#btnCourseEdit" prefHeight="46.0" prefWidth="117.0" style="-fx-background-color: #00d6ee;" text="Update" textFill="WHITE" wrapText="true" AnchorPane.rightAnchor="34.66666666666663">
                                  <effect>
                                     <Shadow />
                                  </effect>

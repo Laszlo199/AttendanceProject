@@ -53,6 +53,7 @@ be\ScheduleEntity.class
 dal\dataAccessObjects\TeacherDAO.class
 gui\util\Resizer$SceneSizeChangeListener.class
 be\PasswordObject.class
+gui\model\TeacherDashboardModel$LoadData.class
 dal\dataAccessObjects\StudentDAO.class
 be\ChangeRequest.class
 gui\controller\TeacherViewController$4$1.class

@@ -8,6 +8,8 @@ import dal.IFacadeDAL;
 import dal.exception.DALexception;
 import gui.controller.TeacherViewController;
 
+import java.util.concurrent.*;
+
 /**
  * @author Kuba
  * @date 4/9/2021 9:56 AM
@@ -16,6 +18,7 @@ public class PresenceCalculator {
     private IFacadeDAL dal = FacadeDAL.getInstance();
     OverviewAbsenceCalculator overviewAbsenceCalculator =
             new OverviewAbsenceCalculator();
+    ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     /**
      * method handles request from a tableview in the teacher's dashboard
@@ -23,11 +26,13 @@ public class PresenceCalculator {
      * - TODAY -> PRESENT /ABSENT
      * - MONTH -> ex 43%
      * - TOTAL -> ex. 73%
+     *
+     * it shold work in another thread
      * @param student
      * @param timeframe
      * @return
      */
-    public String getPresenceForStudent(Student student, TeacherViewController.Timeframe timeframe) throws DALexception {
+    public String getPresenceForStudent(Student student, TeacherViewController.Timeframe timeframe) throws BLLexception {
         switch (timeframe){
             case TODAY: return   getPresenceToday(student);
 
@@ -36,18 +41,34 @@ public class PresenceCalculator {
         return getPresenceTotal(student);
     }
 
-    private String getPresenceTotal(Student student) throws DALexception {
-        int presentDays = dal.getTotalNumberOfPresentDays(student);
-        int absentDays = dal.getTotalNumberOfAbsentDays(student);
-       // System.out.println("we got there");
-        if(presentDays + absentDays == 0)
-            return "No data";
+    /**
+     * make it run in another thread
+     * its an experiment
+     * @param student
+     * @return
+     * @throws DALexception
+     */
+    private String getPresenceTotal(Student student) throws BLLexception {
+        Callable<String> callable = () ->{
+            int presentDays = dal.getTotalNumberOfPresentDays(student);
+            int absentDays = dal.getTotalNumberOfAbsentDays(student);
+            // System.out.println("we got there");
+            if(presentDays + absentDays == 0)
+                return "No data";
 
-        return (presentDays/(presentDays+absentDays))*100 + "%";
-
+            return (presentDays/(presentDays+absentDays))*100 + "%";
+        };
+        Future<String> future  =executorService.submit(callable);
+        try {
+            return future.get();
+        } catch (InterruptedException e) {
+            throw new BLLexception("Couldnt get presence in total", e);
+        } catch (ExecutionException e) {
+            throw new BLLexception("Couldnt get presence in total", e);
+        }
     }
 
-    private String getPresenceToday(Student student) throws DALexception {
+    private String getPresenceToday(Student student) {
         return null;
     }
 

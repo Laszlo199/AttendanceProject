@@ -17,6 +17,11 @@
 #top {
     -fx-background-color: transparent;
 }
+#studentImage {
+    -fx-border-color: white;
+    -fx-border-style: solid;
+    -fx-border-width: 5;
+}
 /*left side (current lesson info)*/
 #vBox {
     -fx-background-color: #F8FCFD;

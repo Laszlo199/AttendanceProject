@@ -148,7 +148,8 @@ public class TeacherViewRefactoredController implements Initializable {
                 return new ReadOnlyObjectWrapper<String>(model.getMostAbsentDay(student.getValue(), TeacherViewController.Timeframe.MONTH));
             }
         });
-        model.loadTableView();
+       // model.loadTableView();
+        model.loadCache();
         tableview.setItems(model.getObsStudents());
     }
 
