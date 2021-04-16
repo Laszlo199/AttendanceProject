@@ -14,6 +14,9 @@ import dal.exception.DALexception;
 
 import java.net.CacheRequest;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.*;
@@ -92,45 +95,10 @@ ExecutorService executorService = Executors.newSingleThreadExecutor();
      */
     @Override
     public WeekDay getMostAbsWeekday(Months month, Student student) throws BLLexception{
-        Callable<WeekDay> callable = () ->{
-            //key is weekday value is the present days in percents
-            Map<WeekDay, Integer> weekDayIntegerMap = new HashMap<>();
 
-            //for (WeekDay day: WeekDay.values()) {
 
-            try {
-                for (WeekDay day : WeekDay.values()) {
-                    int presentDays = dal.getNumberOfPresentDays(student, month); //exception is inside this method
-                    int absDays = dal.getNumberOfAbsentDays(student, month);
-                    // int avg = presentDays / (presentDays + absDays);
-                    int avg = 0;
-                    if(presentDays + absDays!=0)
-                        avg = presentDays / (presentDays + absDays);
-                    weekDayIntegerMap.put(day, avg);
-                }
-            } catch (DALexception ex){
-                ex.printStackTrace();
-                throw new BLLexception("Couldn't get number of pres/abs days");
-            }
 
-            //get the smallest value
-            Map.Entry<WeekDay, Integer> min = null;
-            for (Map.Entry<WeekDay, Integer> entry : weekDayIntegerMap.entrySet()) {
-                if (min == null || min.getValue() > entry.getValue()) {
-                    min = entry;
-                }
-            }
-
-            return min.getKey();
-        };
-        Future<WeekDay> future = executorService.submit(callable);
-        try {
-            return future.get();
-        } catch (InterruptedException e) {
-            throw new BLLexception("Couldn't get number of pres/abs days");
-        } catch (ExecutionException e) {
-            throw new BLLexception("Couldn't get number of pres/abs days");
-        }
+       return null;
     }
 
     public DayOfWeek getAbsORPresentForDay() throws BLLexception {

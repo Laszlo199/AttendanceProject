@@ -7,6 +7,7 @@ import dal.FacadeDAL;
 import dal.IFacadeDAL;
 import dal.exception.DALexception;
 import gui.controller.TeacherViewController;
+import javafx.application.Platform;
 
 import java.util.concurrent.*;
 
@@ -49,22 +50,16 @@ public class PresenceCalculator {
      * @throws DALexception
      */
     private String getPresenceTotal(Student student) throws BLLexception {
-        Callable<String> callable = () ->{
+        try {
             int presentDays = dal.getTotalNumberOfPresentDays(student);
             int absentDays = dal.getTotalNumberOfAbsentDays(student);
             // System.out.println("we got there");
-            if(presentDays + absentDays == 0)
+            if (presentDays + absentDays == 0)
                 return "No data";
 
-            return (presentDays/(presentDays+absentDays))*100 + "%";
-        };
-        Future<String> future  =executorService.submit(callable);
-        try {
-            return future.get();
-        } catch (InterruptedException e) {
-            throw new BLLexception("Couldnt get presence in total", e);
-        } catch (ExecutionException e) {
-            throw new BLLexception("Couldnt get presence in total", e);
+            return (presentDays / (presentDays + absentDays)) * 100 + "%";
+        } catch (DALexception daLexception) {
+            throw new BLLexception("Couldnt get total presence for a student", daLexception);
         }
     }
 

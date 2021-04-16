@@ -140,7 +140,7 @@ public class TeacherViewRefactoredController implements Initializable {
                 int hour = cal.get(Calendar.HOUR_OF_DAY);
                 int minute = cal.get(Calendar.MINUTE);
                 int second = cal.get(Calendar.SECOND);
-                hourLabel.setText(hour + ":" + minute + ":" + second);
+                Platform.runLater(()->hourLabel.setText(hour + ":" + minute + ":" + second));
                 try {
                     sleep(1000);
                 } catch (InterruptedException e) {
@@ -157,16 +157,15 @@ public class TeacherViewRefactoredController implements Initializable {
         attendanceCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Student, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Student, String> student) {
-                return new ReadOnlyObjectWrapper<String>(model.getPresenceForStudent(student.getValue(), TeacherViewController.Timeframe.TOTAL));
+                return new ReadOnlyObjectWrapper<String>(student.getValue().getTotalPresence() + " %");
             }
         });
         dayCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Student, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Student, String> student) {
-                return new ReadOnlyObjectWrapper<String>(model.getMostAbsentDay(student.getValue(), TeacherViewController.Timeframe.MONTH));
+                return new ReadOnlyObjectWrapper<String>(student.getValue().getMostAbsWeekday().name());
             }
         });
-       // model.loadTableView();
         model.loadCache();
         tableview.setItems(model.getObsStudents());
     }

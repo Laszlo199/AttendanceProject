@@ -12,6 +12,7 @@ import javafx.concurrent.Task;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -39,33 +40,27 @@ public class TeacherDashboardModel {
 
     public void loadCache() {
         LoadData loadData = new LoadData();
-        loadData.valueProperty().addListener((observableValue, students, t1) -> {
-            obsStudents.addAll(t1);
-        });
-        loadData.progressProperty().addListener((observableValue, number, t1) -> {
-            System.out.println(t1);
-        });
         executorService.execute(loadData);
+    }
+
+    public class LoadData extends Task<List<Student>>{
+        @Override
+        protected List<Student> call() throws Exception {
+            if(isCancelled())
+                return null;
+            List<Student> temp =  logic.getAllStudents();
+            //this.updateValue(temp);
+            Platform.runLater(() -> obsStudents.addAll(temp));
+            //updateProgress(obsStudents.size(), 10);
+            return temp;
+        }
     }
 
     public void setChanges(Teacher loggedTeacher) {
         changes.addAll(getAllRequests(loggedTeacher.getId()));
     }
 
-    public class LoadData extends Task<ObservableList<Student>>{
-        //List<Student> students = new ArrayList<>();
-        ObservableList<Student> students=
-                FXCollections.observableArrayList();
-        @Override
-        protected ObservableList<Student> call() throws Exception {
-            if(isCancelled())
-                return null;
-            students.addAll(logic.getAllStudents());
-            updateProgress(obsStudents.size(), 10);
-            this.updateValue(students);
-            return students;
-        }
-    }
+
 
     public static TeacherDashboardModel getInstance(){
      if(instance==null)
