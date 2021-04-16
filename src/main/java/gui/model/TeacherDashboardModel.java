@@ -5,6 +5,7 @@ import bll.FacadeBLL;
 import bll.IFacadeBLL;
 import bll.exception.BLLexception;
 import gui.controller.TeacherViewController;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -51,10 +52,12 @@ public class TeacherDashboardModel {
         changes.addAll(getAllRequests(loggedTeacher.getId()));
     }
 
-    public class LoadData extends Task<List<Student>>{
+    public class LoadData extends Task<ObservableList<Student>>{
+        //List<Student> students = new ArrayList<>();
+        ObservableList<Student> students=
+                FXCollections.observableArrayList();
         @Override
-        protected List<Student> call() throws Exception {
-            List<Student> students = new ArrayList<>();
+        protected ObservableList<Student> call() throws Exception {
             if(isCancelled())
                 return null;
             students.addAll(logic.getAllStudents());

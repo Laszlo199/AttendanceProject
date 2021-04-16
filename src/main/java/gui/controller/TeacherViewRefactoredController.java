@@ -9,6 +9,7 @@ import gui.model.TeacherDashboardModel;
 import gui.strategy.CreateMonthData;
 import gui.strategy.CreateTodayData;
 import gui.strategy.ICreateDataStrategy;
+import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -83,6 +84,7 @@ public class TeacherViewRefactoredController implements Initializable {
     private Text dateLabel;
     @FXML
     private Text hourLabel;
+
     Callback<TableColumn<ChangeRequest, Void>, TableCell<ChangeRequest, Void>> cFactory;
     Callback<TableColumn<ChangeRequest, Void>, TableCell<ChangeRequest, Void>> cellFactory;
     private static TeacherDashboardModel model;
@@ -168,6 +170,8 @@ public class TeacherViewRefactoredController implements Initializable {
         model.loadCache();
         tableview.setItems(model.getObsStudents());
     }
+
+
 
     /**
      * pie chart shows ratio abs days to present days

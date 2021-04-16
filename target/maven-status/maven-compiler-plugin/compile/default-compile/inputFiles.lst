@@ -33,6 +33,7 @@ D:\onedrive2\github\Attendance-project-2\src\main\java\be\StatusType.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\be\Teacher.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\gui\util\AlertDisplay.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\dal\IFacadeDAL.java
+D:\onedrive2\github\Attendance-project-2\src\main\java\bll\util\OverviewAbsenceCalculatorForCourse.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\gui\controller\AdminViewController.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\gui\command\LogInAdmin.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\bll\FacadeBLL.java
@@ -45,12 +46,16 @@ D:\onedrive2\github\Attendance-project-2\src\main\java\bll\util\Operations.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\be\ScheduleEntity.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\be\Course.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\bll\util\PasswordHasher.java
+D:\onedrive2\github\Attendance-project-2\src\main\java\gui\strategy\CreateMonthData.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\dal\FacadeDAL.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\gui\model\TeacherDashboardModel.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\dal\DBConnector.java
+D:\onedrive2\github\Attendance-project-2\src\main\java\gui\controller\deleteTeacherController.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\dal\AbsenceData.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\dal\dataAccessObjects\CourseDAO.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\dal\dataAccessObjects\TeacherDAO.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\gui\model\StudentDashboardModel.java
+D:\onedrive2\github\Attendance-project-2\src\main\java\gui\strategy\CreateTodayData.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\bll\util\PresenceCalculator.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\dal\dataAccessObjects\LoginDAO.java
+D:\onedrive2\github\Attendance-project-2\src\main\java\gui\strategy\ICreateDataStrategy.java

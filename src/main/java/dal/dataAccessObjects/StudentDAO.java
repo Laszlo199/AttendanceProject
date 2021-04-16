@@ -8,6 +8,7 @@ import dal.exception.DALexception;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.*;
 
 public class StudentDAO {
 
@@ -17,28 +18,44 @@ public class StudentDAO {
         dbConnector = new DBConnector();
     }
 
-    public List<Student> getAll() throws DALexception {
-        List<Student> students = new ArrayList<>();
 
-        try(Connection connection = dbConnector.getConnection()) {
-            String sql = "SELECT * FROM Students";
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery(sql);
-
-            while(rs.next()) {
-                int id = rs.getInt("id");
-                String name = rs.getString("name");
-                String email = rs.getString("email");
-                int courseId = rs.getInt("courseID");
-                int semester = rs.getInt("semester");
-                String photoPath = rs.getString("photoPath");
-                students.add(new Student(id, name, email, photoPath, semester, courseId));
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+    public synchronized List<Student> getAll() throws DALexception {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        Future<List<Student>> future = executorService.submit( new GetAll());
+        try {
+            return future.get();
+        } catch (InterruptedException e) {
             throw new DALexception("Couldn't get all students");
+        } catch (ExecutionException e) {
+            throw new DALexception("Couldn't get all students");
+
         }
-        return students;
+    }
+
+    protected class GetAll implements Callable<List<Student>>{
+        List<Student> students = new ArrayList<>();
+        @Override
+        public List<Student> call() throws DALexception {
+            try(Connection connection = dbConnector.getConnection()) {
+                String sql = "SELECT * FROM Students";
+                Statement statement = connection.createStatement();
+                ResultSet rs = statement.executeQuery(sql);
+
+                while(rs.next()) {
+                    int id = rs.getInt("id");
+                    String name = rs.getString("name");
+                    String email = rs.getString("email");
+                    int courseId = rs.getInt("courseID");
+                    int semester = rs.getInt("semester");
+                    String photoPath = rs.getString("photoPath");
+                    students.add(new Student(id, name, email, photoPath, semester, courseId));
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                throw new DALexception("Couldn't get all students");
+            }
+            return students;
+        }
     }
 
     public void create(Student student) throws DALexception{

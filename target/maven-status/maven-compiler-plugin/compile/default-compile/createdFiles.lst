@@ -1,5 +1,6 @@
 gui\controller\TeacherViewController$4.class
 be\UserType.class
+dal\dataAccessObjects\StudentDAO$GetAll.class
 gui\model\LoginModel.class
 be\WeekDay.class
 dal\dataAccessObjects\ScheduleEntityDAO.class
@@ -7,6 +8,7 @@ gui\controller\StudentDashboardController$2.class
 dal\dataAccessObjects\CourseDAO.class
 gui\controller\ILogIn.class
 gui\controller\deleteTeacherController.class
+gui\controller\TeacherViewRefactoredController$5$1.class
 gui\model\StudentDashboardModel.class
 be\Months.class
 dal\IAbsenceData.class
@@ -22,6 +24,7 @@ gui\controller\TeacherViewController$1.class
 gui\controller\TeacherViewController$Timeframe.class
 dal\dataAccessObjects\LoginDAO.class
 gui\Controller.class
+gui\controller\TeacherViewRefactoredController$4.class
 bll\util\OverviewAbsenceCalculator.class
 gui\controller\LogInWindowController.class
 gui\controller\TeacherViewController$2.class
@@ -34,6 +37,7 @@ gui\controller\StudentDashboardController$4.class
 gui\controller\TeacherViewController$3.class
 dal\FacadeDAL.class
 gui\controller\StudentDashboardController$3.class
+gui\controller\TeacherViewRefactoredController$5.class
 dal\DBConnector.class
 bll\IFacadeBLL.class
 bll\util\Operations.class
@@ -60,6 +64,7 @@ be\ChangeRequest.class
 gui\controller\TeacherViewController$4$1.class
 gui\controller\StudentDashboardController$1.class
 bll\exception\BLLexception.class
+gui\controller\TeacherViewRefactoredController$4$1.class
 bll\util\OverviewAbsenceCalculator$OverviewEntity.class
 gui\controller\AdminViewController.class
 gui\command\LogInStudent.class
