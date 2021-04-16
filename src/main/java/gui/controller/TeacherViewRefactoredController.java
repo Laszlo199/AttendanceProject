@@ -177,26 +177,31 @@ public class TeacherViewRefactoredController implements Initializable {
      */
     private void initPieChart() {
         setCombobox();
-        if(currentLesson!=null) {
-            int absent = model.getNumberOfAbsent(currentLesson);
-            int present = model.getNumberOfPresent(currentLesson);
-            int noAllStudents = model.getNumberOfAllStudents(currentLesson);
-            int sumOfStudents = absent + present + noAllStudents;
-            System.out.println("sum of students: " + sumOfStudents);
-            if(sumOfStudents>0) {
-                pieData = FXCollections.observableArrayList(
-                        new PieChart.Data("Absent", (absent * 100) / sumOfStudents),
-                        new PieChart.Data("Present", (present * 100) / sumOfStudents),
-                        new PieChart.Data("No data", ((noAllStudents - absent - present) * 100) / sumOfStudents)
-                );
-                pieChart.setData(pieData);
-                pieChart.getData().forEach(data -> {
-                    String percentage = String.format("%.2f%%", (data.getPieValue() / 100));
-                    Tooltip toolTip = new Tooltip(percentage);
-                    Tooltip.install(data.getNode(), toolTip);
-                });
+        Thread thread = new Thread(() ->{
+            if(currentLesson!=null) {
+                int absent = model.getNumberOfAbsent(currentLesson);
+                int present = model.getNumberOfPresent(currentLesson);
+                int noAllStudents = model.getNumberOfAllStudents(currentLesson);
+                int sumOfStudents = absent + present + noAllStudents;
+                System.out.println("sum of students: " + sumOfStudents);
+                if(sumOfStudents>0) {
+                    pieData = FXCollections.observableArrayList(
+                            new PieChart.Data("Absent", (absent * 100) / sumOfStudents),
+                            new PieChart.Data("Present", (present * 100) / sumOfStudents),
+                            new PieChart.Data("No data", ((noAllStudents - absent - present) * 100) / sumOfStudents)
+                    );
+                    Platform.runLater(() ->{
+                        pieChart.setData(pieData);
+                        pieChart.getData().forEach(data -> {
+                            String percentage = String.format("%.2f%%", (data.getPieValue() / 100));
+                            Tooltip toolTip = new Tooltip(percentage);
+                            Tooltip.install(data.getNode(), toolTip);
+                        });
+                    });
+                }
             }
-        }
+        });
+        thread.start();
     }
 
     private void searchfieldListener() {
