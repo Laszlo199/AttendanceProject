@@ -1,13 +1,16 @@
 package dal.dataAccessObjects;
 
 import be.Student;
+import be.WeekDay;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dal.DBConnector;
 import dal.exception.DALexception;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.*;
 
 public class StudentDAO {
@@ -19,17 +22,61 @@ public class StudentDAO {
     }
 
 
-    public synchronized List<Student> getAll() throws DALexception {
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
-        Future<List<Student>> future = executorService.submit( new GetAll());
-        try {
-            return future.get();
-        } catch (InterruptedException e) {
-            throw new DALexception("Couldn't get all students");
-        } catch (ExecutionException e) {
-            throw new DALexception("Couldn't get all students");
+    public  List<Student> getAll() throws DALexception {
+        List<Student> students = new ArrayList<>();
+        try(Connection connection = dbConnector.getConnection()) {
+            String sql = "SELECT \n" +
+                    "  sum(case when r.isPresent= 0 then 1 else 0 end) as Total_Absent,\n" +
+                    " sum(case when r.isPresent= 1 then 1 else 0 end) as Total_Present ,\n" +
+                    " sum(case when r.isPresent= 0 and se.WeekDay='monday' then 1 else 0 end) as AbsMonday,\n" +
+                    " sum(case when r.isPresent= 0 and se.WeekDay='tuesday' then 1 else 0 end) as AbsTue,\n" +
+                    " sum(case when r.isPresent= 0 and se.WeekDay='wednesday' then 1 else 0 end) as AbsWed,\n" +
+                    " sum(case when r.isPresent= 0 and se.WeekDay='thursday' then 1 else 0 end) as AbsThursday,\n" +
+                    " sum(case when r.isPresent= 0 and se.WeekDay='friday' then 1 else 0 end) as AbsFriday,\n" +
+                    "\n" +
+                    " s.* from Students as s\n" +
+                    "join Records r on r.StudentID = s.ID\n" +
+                    "join ScheduleEntity se on se.ID = r.ScheduleEntityID\n" +
+                    "GROUP BY s.ID,  s.Name, s.Email, s.CourseID, s.Semester, s.[Password], s.PhotoPath, s.Salt";
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
 
+            while(rs.next()) {
+                int totalAbsent = rs.getInt(1);
+                int totalPresence = rs.getInt(2);
+                Map<WeekDay, Integer> attDays = new HashMap<>();
+                attDays.put(WeekDay.MONDAY, rs.getInt(3));
+                attDays.put(WeekDay.TUESDAY, rs.getInt(3));
+                attDays.put(WeekDay.WEDNESDAY, rs.getInt(3));
+                attDays.put(WeekDay.THURSDAY, rs.getInt(3));
+                attDays.put(WeekDay.FRIDAY, rs.getInt(3));
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                String email = rs.getString("email");
+                int courseId = rs.getInt("courseID");
+                int semester = rs.getInt("semester");
+                String photoPath = rs.getString("photoPath");
+                Student student = new Student(id, name, email, photoPath, semester, courseId, (totalPresence/totalAbsent+totalPresence), getMinKey(attDays));
+                students.add(student);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            throw new DALexception("Couldn't get all students");
         }
+        return students;
+    }
+
+    private WeekDay getMinKey(Map<WeekDay, Integer> map) {
+        WeekDay minKey = null;
+        int minValue = Integer.MAX_VALUE;
+        for(WeekDay key : map.keySet()) {
+            int value = map.get(key);
+            if(value < minValue) {
+                minValue = value;
+                minKey = key;
+            }
+        }
+        return minKey;
     }
 
     protected class GetAll implements Callable<List<Student>>{
@@ -48,7 +95,7 @@ public class StudentDAO {
                     int courseId = rs.getInt("courseID");
                     int semester = rs.getInt("semester");
                     String photoPath = rs.getString("photoPath");
-                    students.add(new Student(id, name, email, photoPath, semester, courseId));
+                    //students.add(new Student(id, name, email, photoPath, semester, courseId));
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
