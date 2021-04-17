@@ -5,6 +5,10 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXToggleButton;
 import com.jfoenix.controls.JFXTreeTableView;
+import gui.command.Command;
+import gui.command.LogInAdmin;
+import gui.command.LogInStudent;
+import gui.command.LogInTeacher;
 import gui.model.TeacherDashboardModel;
 import gui.strategy.CreateMonthData;
 import gui.strategy.CreateTodayData;
@@ -27,8 +31,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -110,6 +116,13 @@ public class TeacherViewRefactoredController implements Initializable {
      * @param actionEvent
      */
     public void logOut(ActionEvent actionEvent) {
+        Command command = new LogInTeacher(loggedTeacher);
+        Stage thisStage = (Stage) pieChart.getScene().getWindow();
+        try {
+            command.LogOut(thisStage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

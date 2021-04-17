@@ -45,7 +45,7 @@ public abstract class Command {
     }
 
     private void openLogInWindow() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("logIn.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/logIn.fxml"));
         Parent root = loader.load();
         Stage stage = new Stage();
         stage.setTitle("Attendance tracker");
