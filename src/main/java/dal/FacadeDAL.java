@@ -274,4 +274,14 @@ public class FacadeDAL implements IFacadeDAL, IAbsenceData{
         return absenceData.getTaughtStudents(teacher);
 
     }
+
+    @Override
+    public int getTotalNoPresentDaysInClass(Teacher teacher) throws DALexception {
+        return absenceData.getTotalNoPresentDaysInClass(teacher);
+    }
+
+    @Override
+    public int getTotalNoAbsentDaysInClass(Teacher teacher) throws DALexception {
+        return absenceData.getTotalNoAbsentDaysInClass(teacher);
+    }
 }

@@ -430,6 +430,25 @@ public class FacadeBLL implements IFacadeBLL{
         return absenceCourseCalc.getClassAbsentDays(teacher, month);
     }
 
+    @Override
+    public int getTotalNoPresentDaysInClass(Teacher teacher) throws BLLexception {
+        try {
+            return facadeDAL.getTotalNoPresentDaysInClass(teacher);
+        } catch (DALexception daLexception) {
+            throw new BLLexception("Couldn't getTotalNoPresentDaysInClass", daLexception);
+
+        }
+    }
+
+    @Override
+    public int getTotalNoAbsentDaysInClass(Teacher teacher) throws BLLexception {
+        try {
+            return facadeDAL.getTotalNoAbsentDaysInClass(teacher);
+        } catch (DALexception daLexception) {
+            throw new BLLexception("Couldn't getTotalNoAbsentDaysInClass", daLexception);
+        }
+    }
+
     List<String> quotes = Arrays.asList("“An investment in knowledge pays the best interest.”- Benjamin Franklin, writer and polymath.",
             "15 – “The capacity to learn is a gift; the ability to learn is a skill; the willingness to learn is a choice.” – " +
                     "Brian Herbert, author.",

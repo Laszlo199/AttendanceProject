@@ -33,4 +33,7 @@ public interface IAbsenceData {
     int getNumberOfAllStudents(ScheduleEntity currentLesson) throws DALexception;
 
     List<Student> getTaughtStudents(Teacher teacher) throws DALexception;
+    int getTotalNoPresentDaysInClass(Teacher teacher) throws DALexception;
+
+    int getTotalNoAbsentDaysInClass(Teacher teacher) throws DALexception;
 }

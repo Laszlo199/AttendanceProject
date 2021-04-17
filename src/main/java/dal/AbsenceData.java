@@ -312,6 +312,42 @@ public class AbsenceData implements IAbsenceData {
 
     }
 
+    public int getTotalNoPresentDaysInClass(Teacher teacher) throws DALexception {
+        return getTotalNumberOfDaysInClass(teacher, 1);
+    }
+
+    public int getTotalNoAbsentDaysInClass(Teacher teacher) throws DALexception {
+        return getTotalNumberOfDaysInClass(teacher, 0);
+    }
+
+    /**
+     * 0 -> absent
+     * 1 -> present
+     * @param teacher
+     * @param isPresent
+     * @return
+     */
+    public int getTotalNumberOfDaysInClass(Teacher teacher, int isPresent) throws DALexception {
+        String sql = "Select COUNT(r.id) AS AbsOrPresentDays " +
+                "FROM Records r " +
+                "JOIN ScheduleEntity se ON se.ID = r.ScheduleEntityID " +
+                "JOIN Subjects s ON se.SubjectID = s.ID " +
+                "WHERE s.TeacherID =? and r.isPresent=?";
+        try(Connection connection = dbConnector.getConnection()) {
+            PreparedStatement pstat = connection.prepareStatement(sql);
+            pstat.setInt(1, teacher.getId());
+            pstat.setInt(2, isPresent);
+            ResultSet rs = pstat.executeQuery();
+            rs.next();
+                return rs.getInt("AbsOrPresentDays");
+
+        } catch (SQLServerException throwables) {
+            throw new DALexception("Couldn't get total number of days in class", throwables);
+        } catch (SQLException throwables) {
+            throw new DALexception("Couldn't get total number of days in class", throwables);
+        }
+    }
+
     private int getAllDays(Boolean isPresent,Enum dayOfWeek) throws DALexception {
         int number = 0;
         String temp = String.valueOf(dayOfWeek).toLowerCase();

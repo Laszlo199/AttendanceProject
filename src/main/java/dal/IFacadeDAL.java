@@ -61,4 +61,6 @@ public interface IFacadeDAL extends IAbsenceData {
     int getNumberOfAllStudents(ScheduleEntity currentLesson) throws DALexception;
 
    List<Student> getTaughtStudents(Teacher teacher) throws DALexception;
+
+
 }

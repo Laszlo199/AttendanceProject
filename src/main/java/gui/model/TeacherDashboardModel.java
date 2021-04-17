@@ -43,6 +43,24 @@ public class TeacherDashboardModel {
         executorService.execute(loadData);
     }
 
+    public int getTotalNoPresentDaysInClass(Teacher teacher) {
+        try {
+            return logic.getTotalNoPresentDaysInClass(teacher);
+        } catch (BLLexception blLexception) {
+            blLexception.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int getTotalNoAbsentDaysInClass(Teacher teacher) {
+        try {
+            return logic.getTotalNoAbsentDaysInClass(teacher);
+        } catch (BLLexception blLexception) {
+            blLexception.printStackTrace();
+        }
+        return 1;
+    }
+
     public class LoadData extends Task<List<Student>>{
         @Override
         protected List<Student> call() throws Exception {

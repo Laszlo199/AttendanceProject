@@ -12,6 +12,7 @@ import gui.command.LogInTeacher;
 import gui.model.TeacherDashboardModel;
 import gui.strategy.CreateMonthData;
 import gui.strategy.CreateTodayData;
+import gui.strategy.CreateTotalData;
 import gui.strategy.ICreateDataStrategy;
 import gui.util.HoverChart;
 import javafx.application.Platform;
@@ -264,9 +265,11 @@ public class TeacherViewRefactoredController implements Initializable {
                 }
                 else if(n.toString().matches("Total")){
                     System.out.println("Total");
-                    //add later
-                    HoverChart.listenerPieChart(pieChart, caption, pieChart.getData());
+                    strategy = new CreateTotalData();
+                    pieChart.getData().addAll(strategy.createData(null, null,
+                            loggedTeacher));
                     setCaption();
+                    HoverChart.listenerPieChart(pieChart, caption, pieChart.getData());
                 }
                 else{
                     strategy = new CreateMonthData();
