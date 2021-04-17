@@ -46,10 +46,10 @@ public class StudentDAO {
                 int totalPresence = rs.getInt(2);
                 Map<WeekDay, Integer> attDays = new HashMap<>();
                 attDays.put(WeekDay.MONDAY, rs.getInt(3));
-                attDays.put(WeekDay.TUESDAY, rs.getInt(3));
-                attDays.put(WeekDay.WEDNESDAY, rs.getInt(3));
-                attDays.put(WeekDay.THURSDAY, rs.getInt(3));
-                attDays.put(WeekDay.FRIDAY, rs.getInt(3));
+                attDays.put(WeekDay.TUESDAY, rs.getInt(4));
+                attDays.put(WeekDay.WEDNESDAY, rs.getInt(5));
+                attDays.put(WeekDay.THURSDAY, rs.getInt(6));
+                attDays.put(WeekDay.FRIDAY, rs.getInt(7));
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
                 String email = rs.getString("email");
