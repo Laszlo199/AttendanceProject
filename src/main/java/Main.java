@@ -24,7 +24,7 @@ public class Main extends Application {
         //FXMLLoader loader = new FXMLLoader(getClass().getResource("logIn.fxml"));
 
 
-/*
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentDashboard.fxml"));
         Parent root = loader.load();
         //for the student dashboard in the stage of development
@@ -36,17 +36,10 @@ public class Main extends Application {
         scene.getStylesheets().add("/css/MainStyle.css");
         stage.setScene(scene);
         studentDashboardController.setLoggedStudent(new Student(1, "Dorelia McCawley", "dmccawley0@epa.gov",
-                null,
+                        "/images/ProfileImages/student1female.jpg",
                 1, 1));
-
-
         stage.show();
-
-
-
- */
-
-
+        
 /*
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("logIn.fxml"));
@@ -76,7 +69,7 @@ public class Main extends Application {
 
  */
 
-
+/*
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/TeacherViewRefactored.fxml"));
         Parent root = loader.load();
         TeacherViewRefactoredController teacherViewController = (TeacherViewRefactoredController) loader.getController();
@@ -87,6 +80,8 @@ public class Main extends Application {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+
+ */
 
 
 

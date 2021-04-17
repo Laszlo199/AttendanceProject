@@ -9,6 +9,7 @@ import gui.model.TeacherDashboardModel;
 import gui.strategy.CreateMonthData;
 import gui.strategy.CreateTodayData;
 import gui.strategy.ICreateDataStrategy;
+import gui.util.HoverChart;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ChangeListener;
@@ -23,6 +24,8 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
 
@@ -40,6 +43,9 @@ import static java.lang.Thread.sleep;
  * @date 4/14/2021 8:02 AM
  */
 public class TeacherViewRefactoredController implements Initializable {
+    public StackPane stackPie;
+    @FXML
+    private AnchorPane pieAnchor;
     @FXML
     private TableView changeTable;
     @FXML
@@ -84,6 +90,7 @@ public class TeacherViewRefactoredController implements Initializable {
     private Text dateLabel;
     @FXML
     private Text hourLabel;
+    private static final Label caption = new Label("");
 
     Callback<TableColumn<ChangeRequest, Void>, TableCell<ChangeRequest, Void>> cFactory;
     Callback<TableColumn<ChangeRequest, Void>, TableCell<ChangeRequest, Void>> cellFactory;
@@ -170,12 +177,12 @@ public class TeacherViewRefactoredController implements Initializable {
         tableview.setItems(model.getObsStudents());
     }
 
-
-
     /**
      * pie chart shows ratio abs days to present days
      */
     private void initPieChart() {
+        caption.setVisible(false);
+        stackPie.getChildren().add(caption);
         setCombobox();
         Thread thread = new Thread(() ->{
             if(currentLesson!=null) {
@@ -186,8 +193,8 @@ public class TeacherViewRefactoredController implements Initializable {
                 System.out.println("sum of students: " + sumOfStudents);
                 if(sumOfStudents>0) {
                     pieData = FXCollections.observableArrayList(
-                            new PieChart.Data("Absent", (absent * 100) / sumOfStudents),
                             new PieChart.Data("Present", (present * 100) / sumOfStudents),
+                            new PieChart.Data("Absent", (absent * 100) / sumOfStudents),
                             new PieChart.Data("No data", ((noAllStudents - absent - present) * 100) / sumOfStudents)
                     );
                     Platform.runLater(() ->{
@@ -199,10 +206,21 @@ public class TeacherViewRefactoredController implements Initializable {
                         });
                     });
                 }
+                HoverChart.setThreePies(true);
+                HoverChart.listenerPieChart(pieChart, caption, pieData);
+                setCaption();
             }
         });
         thread.start();
     }
+
+    private void setCaption() {
+        caption.setVisible(false);
+        caption.getStyleClass().addAll("chart-line-symbol", "chart-series-line");
+        caption.setStyle("-fx-font-size: 12; -fx-font-weight: bold;");
+        caption.setMinSize(Label.USE_PREF_SIZE, Label.USE_PREF_SIZE);
+    }
+
 
     private void searchfieldListener() {
         searchField.textProperty().addListener((observableValue, s, t1) -> {
@@ -227,16 +245,22 @@ public class TeacherViewRefactoredController implements Initializable {
                     strategy = new CreateTodayData();
                     pieChart.getData().addAll(strategy.createData(currentLesson,
                             null, null));
+                    HoverChart.listenerPieChart(pieChart, caption, pieChart.getData());
+                    setCaption();
                     //later add some inromation if there is no record
                 }
                 else if(n.toString().matches("Total")){
                     System.out.println("Total");
                     //add later
+                    HoverChart.listenerPieChart(pieChart, caption, pieChart.getData());
+                    setCaption();
                 }
                 else{
                     strategy = new CreateMonthData();
                     pieChart.getData().addAll(strategy.createData(null, Months.valueOf((String) n),
                             loggedTeacher));
+                    setCaption();
+                    HoverChart.listenerPieChart(pieChart, caption, pieChart.getData());
                 }
             }
         });

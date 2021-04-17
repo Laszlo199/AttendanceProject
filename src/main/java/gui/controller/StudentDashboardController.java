@@ -7,6 +7,7 @@ import com.jfoenix.controls.JFXRadioButton;
 import gui.model.StudentDashboardModel;
 import gui.util.DonutChart;
 //import gui.util.Resizer;
+import gui.util.HoverChart;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -83,10 +84,9 @@ public class StudentDashboardController implements Initializable {
     final NumberAxis yAxis = new NumberAxis();
     private BarChart<String,Number> barChart =
             new BarChart<String,Number>(xAxis,yAxis);
-    private ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
-    DonutChart donutChart = new DonutChart(pieChartData);
-    private final Label caption = new Label("");
-
+    private static ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+    static DonutChart donutChart = new DonutChart(pieChartData);
+    private static final Label caption = new Label("");
     private Student loggedStudent;
     private ScheduleEntity currentLesson;
     private static StudentDashboardModel model = new StudentDashboardModel();
@@ -94,7 +94,7 @@ public class StudentDashboardController implements Initializable {
     private int count =0;
    // private StudentDashboardModel studentDashboardModel = new StudentDashboardModel();
     private boolean quoteIsShown = false;
-    Label quote = new Label(model.getRandQuote());
+    static Label quote = new Label(model.getRandQuote());
     //ObservableList<PieChart.Data> pieChartData = createData(getCurrentMonth());
     //donutChart = new DonutChart(pieChartData);
 
@@ -119,7 +119,7 @@ public class StudentDashboardController implements Initializable {
         digitalClock();
         initGroupRadioButtons();
         listenForShowingQuote();
-        listenerPieChart();
+        HoverChart.listenerPieChart(donutChart, caption ,pieChartData);
         btnSave.setDisable(true);
         disable();
     }
@@ -156,45 +156,10 @@ public class StudentDashboardController implements Initializable {
         showPhoto();
     }
 
-    private void listenerPieChart() {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                hoveredPieChart();
-                unhoveredPieChart();
-            }
-        });
-    }
 
-    private void unhoveredPieChart() {
-        donutChart.getData()
-                .stream()
-                .forEach(data -> {
-                    data.getNode().addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
-                        caption.setVisible(false);
-                    });
-                });
-    }
 
-    private void hoveredPieChart() {
-        donutChart.getData()
-                .stream()
-                .forEach(data ->{
-                    data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED, e->{
-                        Point2D locationInScene = new Point2D(e.getSceneX(), e.getSceneY());
-                        Point2D locationInParent = donutChart.sceneToLocal(locationInScene);
-                        caption.relocate(locationInParent.getX(), locationInParent.getY());
-                       // caption.setText(String.valueOf(data.getPieValue()));
-                       int  avg = (int) ((pieChartData.get(0).getPieValue() / (pieChartData.get(0).getPieValue() +
-                               pieChartData.get(1).getPieValue())) *100);
-                        if(data.getName().matches("Present"))
-                            caption.setText("Presence: " + avg +"%");
-                        else if(data.getName().matches("Absent"))
-                            caption.setText("Absence: "+ (100-avg)+  "%");
-                        caption.setVisible(true);
-                    });
-                });
-    }
+
+
 
 
     private Months getCurrentMonth(){
@@ -215,6 +180,7 @@ public class StudentDashboardController implements Initializable {
         donutChart.setPrefWidth(270);
         AnchorPane.setLeftAnchor(donutChart, 10.0);
         AnchorPane.setBottomAnchor(donutChart, 15.0);
+
         caption.setVisible(false);
         caption.getStyleClass().addAll("chart-line-symbol", "chart-series-line");
         caption.setStyle("-fx-font-size: 12; -fx-font-weight: bold;");
@@ -232,8 +198,7 @@ public class StudentDashboardController implements Initializable {
     private void changeChart(Months month) {
         donutChart.getData().clear();
         donutChart.getData().addAll(createData(month));
-        hoveredPieChart();
-        unhoveredPieChart();
+        HoverChart.listenerPieChart(donutChart, caption ,pieChartData);
     }
 
     private void initComboBox() {

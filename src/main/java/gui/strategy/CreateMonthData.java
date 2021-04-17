@@ -24,8 +24,9 @@ public class CreateMonthData implements ICreateDataStrategy{
                     new PieChart.Data("No data", 100));
 
         return FXCollections.observableArrayList(
-                new PieChart.Data("Absent", (absent * 100) / sum),
-                new PieChart.Data("Present", (present * 100) / sum)
+                new PieChart.Data("Present", (present * 100) / sum),
+                new PieChart.Data("Absent", (absent * 100) / sum)
+
         );
     }
 }
