@@ -45,8 +45,6 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import static java.lang.Thread.sleep;
 
@@ -56,31 +54,56 @@ import static java.lang.Thread.sleep;
  */
 public class TeacherViewRefactoredController implements Initializable {
     public StackPane stackPie;
-    @FXML private AnchorPane pieAnchor;
-    @FXML private TableView changeTable;
-    @FXML private TableColumn nameColumnn;
-    @FXML private TableColumn typeColumnn;
-    @FXML private TableColumn dateColumnn;
-    @FXML private TableColumn acceptColumnn;
-    @FXML private TableColumn declineColumnn;
-    @FXML private TableView tableview;
-    @FXML private TableColumn nameCol;
-    @FXML private TableColumn attendanceCol;
-    @FXML private TableColumn dayCol;
-    @FXML private Label dayLabel2;
-    @FXML private JFXComboBox selectMonth;
-    @FXML private PieChart pieChart;
-    @FXML private JFXListView absenceList;
-    @FXML private TextField searchField;
-    @FXML private JFXToggleButton switchAttendance;
-    @FXML private ImageView imageView;
-    @FXML private Text teacherName;
-    @FXML private Text teacherProgram;
-    @FXML private Text dayLabel;
-    @FXML private Text dateLabel;
-    @FXML private Text hourLabel;
+    @FXML
+    private AnchorPane pieAnchor;
+    @FXML
+    private TableView changeTable;
+    @FXML
+    private TableColumn nameColumnn;
+    @FXML
+    private TableColumn typeColumnn;
+    @FXML
+    private TableColumn dateColumnn;
+    @FXML
+    private TableColumn acceptColumnn;
+    @FXML
+    private TableColumn declineColumnn;
+    @FXML
+    private TableView tableview;
+    @FXML
+    private TableColumn nameCol;
+    @FXML
+    private TableColumn attendanceCol;
+    @FXML
+    private TableColumn dayCol;
+    @FXML
+    private Label dayLabel2;
+    @FXML
+    private JFXComboBox selectMonth;
+    @FXML
+    private PieChart pieChart;
+    @FXML
+    private JFXListView absenceList;
+    @FXML
+    private TextField searchField;
+    @FXML
+    private JFXToggleButton switchAttendance;
+    @FXML
+    private ImageView imageView;
+    @FXML
+    private Text teacherName;
+    @FXML
+    private Text teacherProgram;
+    @FXML
+    private Text dayLabel;
+    @FXML
+    private Text dateLabel;
+    @FXML
+    private Text hourLabel;
+    @FXML
+    private Label lblNoData;
     private static final Label caption = new Label("");
-    ExecutorService executorService = Executors.newFixedThreadPool(2);
+
     Callback<TableColumn<ChangeRequest, Void>, TableCell<ChangeRequest, Void>> cFactory;
     Callback<TableColumn<ChangeRequest, Void>, TableCell<ChangeRequest, Void>> cellFactory;
     private static TeacherDashboardModel model;
@@ -88,7 +111,7 @@ public class TeacherViewRefactoredController implements Initializable {
     private Teacher loggedTeacher;
     private ObservableList<String> comboboxOptions =
             FXCollections.observableArrayList("Today", "Total");;
-    private volatile ObservableList<PieChart.Data> pieData;
+    private ObservableList<PieChart.Data> pieData;
 
    static {
        model = TeacherDashboardModel.getInstance();
@@ -108,39 +131,12 @@ public class TeacherViewRefactoredController implements Initializable {
         }
     }
 
-    public void setTeacher(Teacher teacher) {
-        this.loggedTeacher = teacher;
-        this.currentLesson = model.getCurrentLesson(loggedTeacher.getId());
-        if(currentLesson==null) {
-            System.out.println("current lesson is null");
-            currentLesson = new ScheduleEntity(1, 1, WeekDay.MONDAY, null, null);
-        }
-        else
-            System.out.println(currentLesson.toString());
-        teacherName.setText(loggedTeacher.getName());
-        dayLabel2.setText(model.getSubject(currentLesson.getSubjectId()).getName());
-        teacherProgram.setText(loggedTeacher.getDepartment());
-        initAbsenceList();
-        initPieChart();
-        initStudentsTableView();
-        setChangeTableView();
-        showPhoto();
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initTime();
         changePieChartListener();
         searchfieldListener();
-    }
-
-    private void showPhoto() {
-        String path = loggedTeacher.getPhotoPath();
-        javafx.scene.image.Image image = new Image(path);
-        imageView.setImage(image);
-        final Circle clip = new Circle(35, 35, 35);
-        clip.setStroke(Color.BLACK);
-        imageView.setClip(clip);
+        absenceList.setPlaceholder(new Label("There are no missing students today"));
     }
 
 
@@ -155,9 +151,9 @@ public class TeacherViewRefactoredController implements Initializable {
     private void setDate() {
         Calendar time = Calendar.getInstance();
         SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("MM-dd-yyyy");
+        dateLabel.setText(simpleDateFormat2.format(time.getTime()));
         SimpleDateFormat simpleDateFormat3 = new SimpleDateFormat("EEEE");
-        dateLabel.setText(simpleDateFormat3.format(time.getTime()) + ", " + simpleDateFormat2.format(time.getTime()));
-        //dayLabel.setText(simpleDateFormat3.format(time.getTime()) + ", ");
+        dayLabel.setText(simpleDateFormat3.format(time.getTime()));
     }
 
     /**
@@ -180,8 +176,7 @@ public class TeacherViewRefactoredController implements Initializable {
             }
         };
         Thread th1 = new Thread(runnable1);
-        //th1.start();
-        executorService.execute(th1);
+        th1.start();
     }
 
     private void initStudentsTableView() {
@@ -236,8 +231,7 @@ public class TeacherViewRefactoredController implements Initializable {
                 setCaption();
             }
         });
-       // thread.start();
-        executorService.execute(thread);
+        thread.start();
     }
 
     private void setCaption() {
@@ -265,39 +259,35 @@ public class TeacherViewRefactoredController implements Initializable {
         selectMonth.valueProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observableValue, Object o, Object n) {
-                Thread thread = new Thread(() ->{
-               // ObservableList<PieChart.Data> dataObservableList=null;
                 ICreateDataStrategy strategy;
-                Platform.runLater(()->pieChart.getData().clear());
-                if (n.toString().matches("Today") && currentLesson!=null) {
-                    strategy = new CreateTodayData();
-                   pieData= strategy.createData(currentLesson,
-                            null, null);
-                        Platform.runLater(() ->pieChart.getData().addAll(pieData));
-                    HoverChart.listenerPieChart(pieChart, caption, pieChart.getData());
-                    setCaption();
+                pieChart.getData().clear();
+                if(n.toString().matches("Today")){
+                    if (pieChart.getData().isEmpty()){
+                        lblNoData.setText("No Data Today");
+                    }else {
+                        strategy = new CreateTodayData();
+                        pieChart.getData().addAll(strategy.createData(currentLesson,
+                                null, null));
+                        HoverChart.listenerPieChart(pieChart, caption, pieChart.getData());
+                        setCaption();
+                    }
                     //later add some inromation if there is no record
-                } else if (n.toString().matches("Total")) {
+                }
+                else if(n.toString().matches("Total")){
                     System.out.println("Total");
                     strategy = new CreateTotalData();
-                     pieData= strategy.createData(null, null,
-                            loggedTeacher);
-                   Platform.runLater(()->pieChart.getData().addAll(pieData));
+                    pieChart.getData().addAll(strategy.createData(null, null,
+                            loggedTeacher));
                     setCaption();
                     HoverChart.listenerPieChart(pieChart, caption, pieChart.getData());
-                } else if(currentLesson==null && n.toString().matches("Today")){
-                    //show information that there is no lesson now
                 }
-                else {
+                else{
                     strategy = new CreateMonthData();
-                    pieData= strategy.createData(null, Months.valueOf((String) n),
-                            loggedTeacher);
-                    Platform.runLater(()->pieChart.getData().addAll(pieData));
+                    pieChart.getData().addAll(strategy.createData(null, Months.valueOf((String) n),
+                            loggedTeacher));
                     setCaption();
                     HoverChart.listenerPieChart(pieChart, caption, pieChart.getData());
                 }
-                });
-                executorService.execute(thread);
             }
         });
     }
@@ -404,5 +394,31 @@ public class TeacherViewRefactoredController implements Initializable {
         dateColumnn.setText("Date");
     }
 
+    public void setTeacher(Teacher teacher) {
+        this.loggedTeacher = teacher;
+        this.currentLesson = model.getCurrentLesson(loggedTeacher.getId());
+        if(currentLesson==null)
+            System.out.println("current lesson is null");
+        else
+            System.out.println(currentLesson.toString());
+        initAbsenceList();
+        initPieChart();
+        initStudentsTableView();
+        setChangeTableView();
+        showInfoTeacher();
+        showPhoto();
+    }
+    private void showInfoTeacher() {
+        teacherName.setText(this.loggedTeacher.getName());
+        teacherProgram.setText(this.loggedTeacher.getDepartment());
+    }
+    private void showPhoto() {
+        String path = loggedTeacher.getPhotoPath();
+        javafx.scene.image.Image image = new Image(path);
+        imageView.setImage(image);
+        final Circle clip = new Circle(39, 39, 39);
+        clip.setStroke(Color.BLACK);
+        imageView.setClip(clip);
+    }
 
 }
