@@ -6,6 +6,7 @@ import bll.exception.BLLexception;
 import dal.exception.DALexception;
 import gui.controller.TeacherViewController;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -81,4 +82,6 @@ public interface IFacadeBLL {
     int getTotalNoPresentDaysInClass(Teacher teacher) throws BLLexception;
 
     int getTotalNoAbsentDaysInClass(Teacher teacher) throws BLLexception;
+
+    boolean hasRecordToday(int studentId,java.sql.Date date) throws BLLexception;
 }

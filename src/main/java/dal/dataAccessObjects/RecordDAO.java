@@ -129,4 +129,34 @@ public class RecordDAO {
         }
         return records;
     }
+
+    public boolean hasRecordToday(int studentId,java.sql.Date date) throws DALexception{
+        Date logDate = null;
+
+
+        try(Connection connection = dbConnector.getConnection()) {
+            String sql = "SELECT * FROM Records WHERE studentId =? AND date =?";
+            PreparedStatement pstat = connection.prepareStatement(sql);
+            pstat.setInt(1, studentId);
+            pstat.setDate(2, date);
+            ResultSet rs = pstat.executeQuery();
+
+            while (rs.next()) {
+               logDate = date;
+            }
+
+
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            throw new DALexception("Couldn't get absent days");
+        }
+
+        return logDate != null;
+
+    }
+
+
 }
+
+

@@ -12,6 +12,7 @@ import dal.IFacadeDAL;
 import dal.exception.DALexception;
 import gui.controller.TeacherViewController;
 
+import java.sql.Date;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -448,6 +449,16 @@ public class FacadeBLL implements IFacadeBLL{
             throw new BLLexception("Couldn't getTotalNoAbsentDaysInClass", daLexception);
         }
     }
+
+    @Override
+    public boolean hasRecordToday(int studentId, java.sql.Date date) throws BLLexception {
+        try {
+            return facadeDAL.hasRecordToday(studentId, date);
+        }catch (DALexception daLexception){
+            throw new BLLexception("Couldn't hasRecordToday");
+        }
+    }
+
 
     List<String> quotes = Arrays.asList("“An investment in knowledge pays the best interest.”- Benjamin Franklin, writer and polymath.",
             "15 – “The capacity to learn is a gift; the ability to learn is a skill; the willingness to learn is a choice.” – " +
