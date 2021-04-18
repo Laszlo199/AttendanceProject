@@ -25,14 +25,9 @@ public class TeacherDashboardModel {
     ObservableList<Student> results = FXCollections.observableList(obsStudents);
     private static TeacherDashboardModel instance;
 
-    public ObservableList<ChangeRequest> getChanges() {
-        return changes;
-    }
-
     ObservableList<ChangeRequest> changes =
             FXCollections.observableArrayList();
     ExecutorService executorService = Executors.newSingleThreadExecutor();
-
 
     private TeacherDashboardModel() {
         logic = FacadeBLL.getInstance();
@@ -41,6 +36,10 @@ public class TeacherDashboardModel {
     public void loadCache() {
         LoadData loadData = new LoadData();
         executorService.execute(loadData);
+    }
+
+    public ObservableList<ChangeRequest> getChanges() {
+        return changes;
     }
 
     public int getTotalNoPresentDaysInClass(Teacher teacher) {
@@ -92,8 +91,8 @@ public class TeacherDashboardModel {
             return logic.getRequestsForTeacher(teacherId);
         } catch (BLLexception blLexception) {
             blLexception.printStackTrace();
-
-        }return null;
+            return null;
+        }
     }
 
     public void requestAccepted(ChangeRequest changeRequest) {

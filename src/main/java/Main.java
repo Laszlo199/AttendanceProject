@@ -41,7 +41,6 @@ public class Main extends Application {
         stage.show();
 
          */
-        
 
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("logIn.fxml"));
@@ -70,8 +69,8 @@ public class Main extends Application {
         stage.show();
 
  */
-
 /*
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/TeacherViewRefactored.fxml"));
         Parent root = loader.load();
         TeacherViewRefactoredController teacherViewController = (TeacherViewRefactoredController) loader.getController();
@@ -80,16 +79,13 @@ public class Main extends Application {
         stage.setTitle("Attendance tracker");
         stage.getIcons().add(new Image("/images/icon.png"));
         Scene scene = new Scene(root);
+        scene.getStylesheets().add("/css/MainStyle.css");
         stage.setScene(scene);
         stage.show();
 
+
+
  */
-
-
-
-
- 
-
 
     }
 }

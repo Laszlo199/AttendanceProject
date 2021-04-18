@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Gelasio:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital@0;1&display=swap');
 
+/*STUDENT*/
 .labelQuote {
     -fx-wrap-text: true;
     -fx-padding: 30 40 30 40;
@@ -27,7 +28,7 @@
     -fx-background-color: #F8FCFD;
     -fx-background-radius: 15;
 }
-#btnSave{
+#btnSave {
     -fx-background-color: #76b8c1;
     -fx-border-radius: 30;
     -fx-text-fill: black;
@@ -37,8 +38,9 @@
 }
 
 /*right side (absence list)*/
-#absencePane > .viewport{
-    -fx-background-color: transparent;
+#absencePane {
+    -fx-background-color: #F8FCFD;
+    -fx-background-radius: 15;
 }
 
 .button {
@@ -50,10 +52,6 @@
     -fx-text-fill: darkgrey;
 }
 
-#scrollPane > .viewport {
-    -fx-background-color: #F8FCFD;
-    -fx-background-radius: 15;
-}
 .scroll-bar:horizontal, .scroll-bar:vertical{
     -fx-background-color:transparent;
 }
@@ -96,22 +94,27 @@
 }
 
 
+/*TEACHER*/
+#absentBox, #changeBox, #chartBox {
+    -fx-background-color: #F8FCFD;
+    -fx-background-radius: 15;
+}
+/*part we want to hide (above table view) */
+#bigTableScrollPane, #bigBox {
+    -fx-background-color: #CBE7F0;
+}
 
-
-
+/*table view*/
 .table-view .column-header-background .filler {
     -fx-background-color: transparent;
 }
-
 .table-view .corner {
     -fx-background-color: transparent;
 }
-
 .table-view {
     -fx-base: transparent;
     -fx-background-color: transparent;
 }
-
 .table-view .column-header-background {
     -fx-background-color: #a5d4de;
     -fx-text-background-color: black;
@@ -119,25 +122,20 @@
     -fx-background-insets: 0 11px 0 0;
     -fx-padding: 0 0 5px 0;
 }
-
 .table-view .column-header {
     -fx-background-color: transparent;
 }
-
 .table-view .table-cell {
     -fx-border-color: transparent;
     -fx-padding: 2 0 2 10px;
 }
-
 .table-row-cell:hover {
-    -fx-text-background-color: grey;
+    -fx-text-background-color: darkgrey;
 }
-
 .table-row-cell:odd {
     -fx-background-color: white;
     -fx-opacity: 0.9;
 }
-
 .table-row-cell:even{
     -fx-background-color: white;
     -fx-opacity: 0.9;
@@ -152,13 +150,11 @@
     -fx-background-color: transparent;
 }
 
-
 .table-view .virtual-flow .scroll-bar .increment-button,
 .table-view .virtual-flow .scroll-bar .decrement-button {
     -fx-opacity: 0;
     -fx-padding: 2;
 }
-
 
 .table-view .virtual-flow .scroll-bar:vertical .thumb{
     -fx-background-color: white;
@@ -169,7 +165,6 @@
     -fx-opacity: 0.8;
 }
 
-
 .table-row-cell:selected {
     -fx-background-color: white;
 }
@@ -177,7 +172,6 @@
     -fx-fill: black;
 
 }
-
 
 
 #changeTable .column-header-background {

@@ -28,9 +28,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -128,11 +131,39 @@ public class TeacherViewRefactoredController implements Initializable {
         }
     }
 
+    public void setTeacher(Teacher teacher) {
+        this.loggedTeacher = teacher;
+        this.currentLesson = model.getCurrentLesson(loggedTeacher.getId());
+        if(currentLesson==null) {
+            System.out.println("current lesson is null");
+            currentLesson = new ScheduleEntity(1, 1, WeekDay.MONDAY, null, null);
+        }
+        else
+            System.out.println(currentLesson.toString());
+        teacherName.setText(loggedTeacher.getName());
+        dayLabel2.setText(model.getSubject(currentLesson.getSubjectId()).getName());
+        teacherProgram.setText(loggedTeacher.getDepartment());
+        initAbsenceList();
+        initPieChart();
+        initStudentsTableView();
+        setChangeTableView();
+        showPhoto();
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initTime();
         changePieChartListener();
         searchfieldListener();
+    }
+
+    private void showPhoto() {
+        String path = loggedTeacher.getPhotoPath();
+        javafx.scene.image.Image image = new Image(path);
+        imageView.setImage(image);
+        final Circle clip = new Circle(35, 35, 35);
+        clip.setStroke(Color.BLACK);
+        imageView.setClip(clip);
     }
 
 
@@ -147,9 +178,9 @@ public class TeacherViewRefactoredController implements Initializable {
     private void setDate() {
         Calendar time = Calendar.getInstance();
         SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("MM-dd-yyyy");
-        dateLabel.setText(simpleDateFormat2.format(time.getTime()));
         SimpleDateFormat simpleDateFormat3 = new SimpleDateFormat("EEEE");
-        dayLabel.setText(simpleDateFormat3.format(time.getTime()));
+        dateLabel.setText(simpleDateFormat3.format(time.getTime()) + ", " + simpleDateFormat2.format(time.getTime()));
+        //dayLabel.setText(simpleDateFormat3.format(time.getTime()) + ", ");
     }
 
     /**
@@ -396,17 +427,5 @@ public class TeacherViewRefactoredController implements Initializable {
         dateColumnn.setText("Date");
     }
 
-    public void setTeacher(Teacher teacher) {
-        this.loggedTeacher = teacher;
-        this.currentLesson = model.getCurrentLesson(loggedTeacher.getId());
-        if(currentLesson==null)
-            System.out.println("current lesson is null");
-        else
-            System.out.println(currentLesson.toString());
-        initAbsenceList();
-        initPieChart();
-        initStudentsTableView();
-        setChangeTableView();
-    }
 
 }

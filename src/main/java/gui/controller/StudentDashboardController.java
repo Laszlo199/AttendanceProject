@@ -5,6 +5,9 @@ import be.Record;
 import bll.exception.BLLexception;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
+import gui.command.Command;
+import gui.command.LogInStudent;
+import gui.command.LogInTeacher;
 import gui.model.StudentDashboardModel;
 import gui.util.DonutChart;
 //import gui.util.Resizer;
@@ -47,6 +50,7 @@ import javafx.util.Duration;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
@@ -107,9 +111,9 @@ public class StudentDashboardController implements Initializable {
         this.currentLesson = model.getCurrentLesson(loggedStudent.getCourseID());
         if (model.getCurrentLesson(loggedStudent.getCourseID())==null){
             lessonDuration.setText("You are Free Today");
+            btnSave.setDisable(true);
         }
         showInfoStudent();
-
     }
 
 
@@ -131,7 +135,7 @@ public class StudentDashboardController implements Initializable {
         String path = loggedStudent.getPhotoPath();
         javafx.scene.image.Image image = new Image(path);
         studentImage.setImage(image);
-        final Circle clip = new Circle(39, 39, 39);
+        final Circle clip = new Circle(35, 35, 35);
         clip.setStroke(Color.BLACK);
         studentImage.setClip(clip);
     }
@@ -390,9 +394,9 @@ public class StudentDashboardController implements Initializable {
         timeline.play();
         Calendar time = Calendar.getInstance();
         SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("MM-dd-yyyy");
-        dateLabel.setText(simpleDateFormat2.format(time.getTime()));
         SimpleDateFormat simpleDateFormat3 = new SimpleDateFormat("EEEE");
-        dayLabel.setText(simpleDateFormat3.format(time.getTime())+",");
+        dateLabel.setText(simpleDateFormat3.format(time.getTime()) + ", " + simpleDateFormat2.format(time.getTime()));
+        //dayLabel.setText(simpleDateFormat3.format(time.getTime()) + ", ");
     }
 
 
@@ -416,6 +420,8 @@ public class StudentDashboardController implements Initializable {
                 private void editAttendance(Record lastItem) {
                     ChangeRequest newRequest = new ChangeRequest(lastItem.getId(), StatusType.PENDING);
                     model.createChangeRequest(newRequest);
+                    button.setText("Pending");
+                    button.setDisable(true);
                 }
             });
         }
@@ -477,5 +483,18 @@ public class StudentDashboardController implements Initializable {
 
     }
 
+    /**
+     * log out using command pattern
+     * @param actionEvent
+     */
+    public void logOut(ActionEvent actionEvent) {
+        Command command = new LogInStudent(loggedStudent);
+        Stage thisStage = (Stage) studentName.getScene().getWindow();
+        try {
+            command.LogOut(thisStage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

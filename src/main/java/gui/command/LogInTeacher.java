@@ -35,7 +35,7 @@ public class LogInTeacher extends Command{
         stage.setTitle("Attendance tracker");
         stage.getIcons().add(new Image("/images/icon.png"));
         Scene scene = new Scene(root);
-        //scene.getStylesheets().add("/css/MainStyle.css");
+        scene.getStylesheets().add("/css/MainStyle.css");
         stage.setScene(scene);
         stage.show();
         return true;
