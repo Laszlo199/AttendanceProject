@@ -2,6 +2,7 @@ package gui.command;
 
 import be.Student;
 import be.User;
+import bll.exception.BLLexception;
 import gui.controller.StudentDashboardController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -39,6 +40,11 @@ public class LogInStudent extends Command{
         scene.getStylesheets().add("/css/MainStyle.css");
         stage.setScene(scene);
         stage.show();
+        try {
+            studentDashboardController.disable();
+        } catch (BLLexception blLexception) {
+            blLexception.printStackTrace();
+        }
         return true;
     }
 }

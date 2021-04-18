@@ -4,6 +4,7 @@ import be.*;
 import be.Record;
 import dal.exception.DALexception;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -63,4 +64,8 @@ public interface IFacadeDAL extends IAbsenceData {
    List<Student> getTaughtStudents(Teacher teacher) throws DALexception;
 
 
+
+
+    // Absent Date From Records by StudentID.
+    boolean hasRecordToday(int studentId,java.sql.Date date) throws DALexception;
 }

@@ -2,6 +2,7 @@ package gui.controller;
 
 import be.*;
 import be.Record;
+import bll.exception.BLLexception;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
 import gui.model.StudentDashboardModel;
@@ -44,6 +45,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
 
+import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
 import java.sql.Time;
@@ -98,7 +100,7 @@ public class StudentDashboardController implements Initializable {
     //ObservableList<PieChart.Data> pieChartData = createData(getCurrentMonth());
     //donutChart = new DonutChart(pieChartData);
 
-    public void setLoggedStudent(Student student) {
+    public void setLoggedStudent(Student student){
         this.loggedStudent = student;
         initPieChart();
         model.setAbsentDays(loggedStudent.getId());
@@ -107,12 +109,14 @@ public class StudentDashboardController implements Initializable {
             lessonDuration.setText("You are Free Today");
         }
         showInfoStudent();
+
     }
 
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         initComboBox();
         comboBoxListener();
         setListView();
@@ -120,8 +124,7 @@ public class StudentDashboardController implements Initializable {
         initGroupRadioButtons();
         listenForShowingQuote();
         HoverChart.listenerPieChart(donutChart, caption ,pieChartData);
-        btnSave.setDisable(true);
-        disable();
+
     }
 
     private void showPhoto() {
@@ -334,7 +337,7 @@ public class StudentDashboardController implements Initializable {
     private void initGroupRadioButtons() {
         absentRadioButton.setToggleGroup(groupRadioButtons);
         presentRadioButton.setToggleGroup(groupRadioButtons);
-        presentRadioButton.setSelected(true);
+        //presentRadioButton.setSelected(true);
     }
 
 
@@ -451,49 +454,27 @@ public class StudentDashboardController implements Initializable {
         setCurrentAttendance(isPresent);
 
 
-        btnSave.setDisable(true);
-        absentRadioButton.setDisable(true);
-        presentRadioButton.setDisable(true);
+
     }
 
-    public void isPresent(ActionEvent actionEvent) {
-        if (presentRadioButton.isSelected()){
-            btnSave.setDisable(false);
-        }
+    public void isPresent(ActionEvent actionEvent) throws BLLexception {
+
     }
 
-    public void isAbsent(ActionEvent actionEvent) {
-        if (absentRadioButton.isSelected()){
-            btnSave.setDisable(false);
-        }
+    public void isAbsent(ActionEvent actionEvent) throws BLLexception {
+
     }
-    public void disable(){
 
-        //LocalDate localDate = LocalDate.now();
-        ObservableList<Record> studentRecords = model.getRecordObservableList();
-        int i = 0;
-       // Date date = new Date(Calendar.getInstance().getTime().getTime());
-       // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        //String date3 = formatter.format((TemporalAccessor) date);
-        java.util.Date date = new java.util.Date();
-        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String currentTime = sdf.format(date);
 
-        while (i<studentRecords.size() &&
-                (
-                        studentRecords.get(i).getStudentId() != loggedStudent.getId() ||
-                                (studentRecords.get(i).getStudentId() == loggedStudent.getId() && studentRecords.get(i).getDate() != date)
-                )
-        )
-            i++;
+    public void disable() throws BLLexception {
+        LocalDate date = LocalDate.now();
 
-        if (i<studentRecords.size()){
+        if (model.hasRecordToday(loggedStudent.getId(),java.sql.Date.valueOf(date))){
             btnSave.setDisable(true);
             absentRadioButton.setDisable(true);
             presentRadioButton.setDisable(true);
         }
 
-         
     }
 
 

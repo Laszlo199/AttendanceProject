@@ -9,6 +9,7 @@ import bll.exception.BLLexception;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.Date;
 import java.util.List;
 
 public class StudentDashboardModel {
@@ -111,5 +112,15 @@ public class StudentDashboardModel {
             blLexception.printStackTrace();
         }
         return 1;
+    }
+
+    public boolean hasRecordToday(int studentId,java.sql.Date date) throws BLLexception {
+        try {
+            return logic.hasRecordToday(studentId,date);
+        }catch (BLLexception blLexception){
+            blLexception.printStackTrace();
+            return false;
+        }
+
     }
 }

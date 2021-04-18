@@ -5,6 +5,7 @@ import be.Record;
 import dal.dataAccessObjects.*;
 import dal.exception.DALexception;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -273,6 +274,11 @@ public class FacadeDAL implements IFacadeDAL, IAbsenceData{
     public List<Student> getTaughtStudents(Teacher teacher) throws DALexception {
         return absenceData.getTaughtStudents(teacher);
 
+    }
+
+    @Override
+    public boolean hasRecordToday(int studentId, java.sql.Date date) throws DALexception {
+        return recordDAO.hasRecordToday(studentId,date);
     }
 
     @Override
