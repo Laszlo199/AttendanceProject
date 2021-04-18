@@ -23,7 +23,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<GridPane fx:id="gridPane" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1186.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.TeacherViewRefactoredController">
+<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1186.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.TeacherViewRefactoredController">
   <columnConstraints>
     <ColumnConstraints hgrow="ALWAYS" maxWidth="589.0" minWidth="10.0" prefWidth="471.0" />
     <ColumnConstraints hgrow="ALWAYS" maxWidth="771.0" minWidth="10.0" prefWidth="715.0" />
@@ -37,16 +37,16 @@
       <RowConstraints fillHeight="false" maxHeight="45.0" minHeight="0.0" prefHeight="45.0" vgrow="NEVER" />
   </rowConstraints>
    <children>
-      <VBox fx:id="chartBox" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.rowSpan="2">
+      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: white;" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.rowSpan="2">
          <GridPane.margin>
             <Insets bottom="10.0" left="30.0" right="10.0" top="20.0" />
          </GridPane.margin>
          <children>
             <AnchorPane fx:id="pieAnchor" prefHeight="41.0" prefWidth="431.0">
                <children>
-                  <Label fx:id="dayLabel2" layoutX="14.0" layoutY="6.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="10.0">
+                  <Label fx:id="dayLabel2" layoutX="14.0" layoutY="6.0" text="Monday" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="10.0">
                      <font>
-                        <Font name="System Bold" size="24.0" />
+                        <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
                   <JFXComboBox fx:id="selectMonth" layoutX="311.0" layoutY="8.0" prefHeight="25.0" prefWidth="122.0" promptText="Select month" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="8.0" />
@@ -58,21 +58,22 @@
                </VBox.margin>
                <children>
                   <PieChart fx:id="pieChart" prefWidth="431.0" />
+                  <Label fx:id="lblNoData" prefHeight="17.0" prefWidth="139.0" />
                </children>
             </StackPane>
          </children>
       </VBox>
-      <VBox fx:id="absentBox" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="3" GridPane.rowSpan="2">
+      <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: white;" GridPane.rowIndex="3" GridPane.rowSpan="2">
          <GridPane.margin>
             <Insets left="30.0" right="10.0" top="10.0" />
          </GridPane.margin>
          <children>
             <Label text="Absent Today">
                <VBox.margin>
-                  <Insets left="10.0" top="10.0" />
+                  <Insets left="20.0" top="20.0" />
                </VBox.margin>
                <font>
-                  <Font name="System Bold" size="24.0" />
+                  <Font size="20.0" />
                </font>
             </Label>
             <JFXListView fx:id="absenceList">
@@ -82,12 +83,12 @@
             </JFXListView>
          </children>
       </VBox>
-      <ScrollPane fx:id="bigTableScrollPane" fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="3">
+      <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="3">
          <GridPane.margin>
             <Insets left="10.0" right="10.0" top="20.0" />
          </GridPane.margin>
          <content>
-            <VBox fx:id="bigBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0">
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: white;">
                <children>
                   <AnchorPane prefHeight="57.0" prefWidth="693.0" VBox.vgrow="NEVER">
                      <children>
@@ -103,33 +104,33 @@
                     <columns>
                       <TableColumn fx:id="nameCol" prefWidth="280.0" text="name" />
                       <TableColumn fx:id="attendanceCol" prefWidth="202.0" text="Attendance %" />
-                        <TableColumn fx:id="dayCol" prefWidth="210.0" text="Absent day" />
+                        <TableColumn fx:id="dayCol" prefWidth="210.0" text="Abent day" />
                     </columns>
                   </TableView>
                </children>
             </VBox>
          </content>
       </ScrollPane>
-      <VBox fx:id="changeBox" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+      <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: white;" GridPane.columnIndex="1" GridPane.rowIndex="4">
          <GridPane.margin>
             <Insets left="10.0" right="10.0" top="10.0" />
          </GridPane.margin>
          <children>
-            <Label text="Change requests">
-               <VBox.margin>
-                  <Insets left="10.0" top="10.0" />
-               </VBox.margin>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Change requests">
                <font>
-                  <Font name="System Bold" size="24.0" />
+                  <Font size="24.0" />
                </font>
-            </Label>
+               <VBox.margin>
+                  <Insets left="5.0" top="5.0" />
+               </VBox.margin>
+            </Text>
             <TableView id="changeTable" fx:id="changeTable" prefHeight="139.0" prefWidth="416.0" VBox.vgrow="ALWAYS">
                <columns>
-                  <TableColumn fx:id="nameColumnn" prefWidth="180.0" text="name" />
-                  <TableColumn fx:id="typeColumnn" minWidth="0.0" prefWidth="118.0" text="subject" />
+                  <TableColumn fx:id="nameColumnn" prefWidth="224.0" text="name" />
+                  <TableColumn fx:id="typeColumnn" minWidth="0.0" prefWidth="118.0" text="type" />
                   <TableColumn fx:id="dateColumnn" prefWidth="125.0" text="date" />
-                  <TableColumn fx:id="acceptColumnn" prefWidth="100.0" />
-                  <TableColumn fx:id="declineColumnn" prefWidth="100.0" />
+                  <TableColumn fx:id="acceptColumnn" minWidth="1.0" prefWidth="46.0" />
+                  <TableColumn fx:id="declineColumnn" prefWidth="116.0" />
                </columns>
             </TableView>
          </children>
@@ -142,12 +143,12 @@
             <Insets right="10.0" />
          </GridPane.margin>
          <buttons>
-            <JFXButton fx:id="logOutbtn" onAction="#logOut" prefHeight="25.0" prefWidth="104.0" text="Log Out" />
+            <JFXButton onAction="#logOut" prefHeight="25.0" prefWidth="104.0" style="-fx-background-color: brown;" text="Log Out" />
          </buttons>
       </ButtonBar>
       <AnchorPane fx:id="top" prefHeight="110.0" prefWidth="1186.0" GridPane.columnSpan="2">
          <children>
-            <ImageView fx:id="imageView" fitHeight="70.0" fitWidth="70.0" layoutX="21.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="12.0">
+            <ImageView fx:id="imageView" fitHeight="65.0" fitWidth="52.0" layoutX="21.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="12.0">
                <image>
                   <Image url="@images/person2.png" />
                </image>
@@ -162,9 +163,9 @@
                   <Font size="17.0" />
                </font>
             </Text>
-            <Text fx:id="dayLabel" layoutX="772.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" AnchorPane.rightAnchor="120.0" AnchorPane.topAnchor="12.0">
+            <Text fx:id="dayLabel" layoutX="772.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tuesday" AnchorPane.rightAnchor="120.0" AnchorPane.topAnchor="12.0">
                <font>
-                  <Font size="21.0" />
+                  <Font size="30.0" />
                </font>
             </Text>
             <Text fx:id="dateLabel" layoutX="929.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="24.03.2021" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="20.3388671875">
