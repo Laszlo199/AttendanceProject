@@ -42,6 +42,8 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static java.lang.Thread.sleep;
 
@@ -98,7 +100,7 @@ public class TeacherViewRefactoredController implements Initializable {
     @FXML
     private Text hourLabel;
     private static final Label caption = new Label("");
-
+    ExecutorService executorService = Executors.newFixedThreadPool(2);
     Callback<TableColumn<ChangeRequest, Void>, TableCell<ChangeRequest, Void>> cFactory;
     Callback<TableColumn<ChangeRequest, Void>, TableCell<ChangeRequest, Void>> cellFactory;
     private static TeacherDashboardModel model;
@@ -106,7 +108,7 @@ public class TeacherViewRefactoredController implements Initializable {
     private Teacher loggedTeacher;
     private ObservableList<String> comboboxOptions =
             FXCollections.observableArrayList("Today", "Total");;
-    private ObservableList<PieChart.Data> pieData;
+    private volatile ObservableList<PieChart.Data> pieData;
 
    static {
        model = TeacherDashboardModel.getInstance();
@@ -170,7 +172,8 @@ public class TeacherViewRefactoredController implements Initializable {
             }
         };
         Thread th1 = new Thread(runnable1);
-        th1.start();
+        //th1.start();
+        executorService.execute(th1);
     }
 
     private void initStudentsTableView() {
@@ -225,7 +228,8 @@ public class TeacherViewRefactoredController implements Initializable {
                 setCaption();
             }
         });
-        thread.start();
+       // thread.start();
+        executorService.execute(thread);
     }
 
     private void setCaption() {
@@ -253,31 +257,39 @@ public class TeacherViewRefactoredController implements Initializable {
         selectMonth.valueProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observableValue, Object o, Object n) {
+                Thread thread = new Thread(() ->{
+               // ObservableList<PieChart.Data> dataObservableList=null;
                 ICreateDataStrategy strategy;
-                pieChart.getData().clear();
-                if(n.toString().matches("Today")){
+                Platform.runLater(()->pieChart.getData().clear());
+                if (n.toString().matches("Today") && currentLesson!=null) {
                     strategy = new CreateTodayData();
-                    pieChart.getData().addAll(strategy.createData(currentLesson,
-                            null, null));
+                   pieData= strategy.createData(currentLesson,
+                            null, null);
+                        Platform.runLater(() ->pieChart.getData().addAll(pieData));
                     HoverChart.listenerPieChart(pieChart, caption, pieChart.getData());
                     setCaption();
                     //later add some inromation if there is no record
-                }
-                else if(n.toString().matches("Total")){
+                } else if (n.toString().matches("Total")) {
                     System.out.println("Total");
                     strategy = new CreateTotalData();
-                    pieChart.getData().addAll(strategy.createData(null, null,
-                            loggedTeacher));
+                     pieData= strategy.createData(null, null,
+                            loggedTeacher);
+                   Platform.runLater(()->pieChart.getData().addAll(pieData));
                     setCaption();
                     HoverChart.listenerPieChart(pieChart, caption, pieChart.getData());
+                } else if(currentLesson==null && n.toString().matches("Today")){
+                    //show information that there is no lesson now
                 }
-                else{
+                else {
                     strategy = new CreateMonthData();
-                    pieChart.getData().addAll(strategy.createData(null, Months.valueOf((String) n),
-                            loggedTeacher));
+                    pieData= strategy.createData(null, Months.valueOf((String) n),
+                            loggedTeacher);
+                    Platform.runLater(()->pieChart.getData().addAll(pieData));
                     setCaption();
                     HoverChart.listenerPieChart(pieChart, caption, pieChart.getData());
                 }
+                });
+                executorService.execute(thread);
             }
         });
     }
