@@ -80,8 +80,8 @@ public class StudentDashboardModel {
     }
 
     public void setAbsentDays(int studentId){
+        this.recordObservableList.clear();
         this.recordObservableList.addAll(getAbsentDays(studentId));
-        //this.recordObservableList.add(new Record(1, 1, new Date(System.currentTimeMillis()), 1, false));
     }
 
     public void createChangeRequest(ChangeRequest newRequest) {

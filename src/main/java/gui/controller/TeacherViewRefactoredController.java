@@ -56,52 +56,29 @@ import static java.lang.Thread.sleep;
  */
 public class TeacherViewRefactoredController implements Initializable {
     public StackPane stackPie;
-    @FXML
-    private AnchorPane pieAnchor;
-    @FXML
-    private TableView changeTable;
-    @FXML
-    private TableColumn nameColumnn;
-    @FXML
-    private TableColumn typeColumnn;
-    @FXML
-    private TableColumn dateColumnn;
-    @FXML
-    private TableColumn acceptColumnn;
-    @FXML
-    private TableColumn declineColumnn;
-    @FXML
-    private TableView tableview;
-    @FXML
-    private TableColumn nameCol;
-    @FXML
-    private TableColumn attendanceCol;
-    @FXML
-    private TableColumn dayCol;
-    @FXML
-    private Label dayLabel2;
-    @FXML
-    private JFXComboBox selectMonth;
-    @FXML
-    private PieChart pieChart;
-    @FXML
-    private JFXListView absenceList;
-    @FXML
-    private TextField searchField;
-    @FXML
-    private JFXToggleButton switchAttendance;
-    @FXML
-    private ImageView imageView;
-    @FXML
-    private Text teacherName;
-    @FXML
-    private Text teacherProgram;
-    @FXML
-    private Text dayLabel;
-    @FXML
-    private Text dateLabel;
-    @FXML
-    private Text hourLabel;
+    @FXML private AnchorPane pieAnchor;
+    @FXML private TableView changeTable;
+    @FXML private TableColumn nameColumnn;
+    @FXML private TableColumn typeColumnn;
+    @FXML private TableColumn dateColumnn;
+    @FXML private TableColumn acceptColumnn;
+    @FXML private TableColumn declineColumnn;
+    @FXML private TableView tableview;
+    @FXML private TableColumn nameCol;
+    @FXML private TableColumn attendanceCol;
+    @FXML private TableColumn dayCol;
+    @FXML private Label dayLabel2;
+    @FXML private JFXComboBox selectMonth;
+    @FXML private PieChart pieChart;
+    @FXML private JFXListView absenceList;
+    @FXML private TextField searchField;
+    @FXML private JFXToggleButton switchAttendance;
+    @FXML private ImageView imageView;
+    @FXML private Text teacherName;
+    @FXML private Text teacherProgram;
+    @FXML private Text dayLabel;
+    @FXML private Text dateLabel;
+    @FXML private Text hourLabel;
     private static final Label caption = new Label("");
     ExecutorService executorService = Executors.newFixedThreadPool(2);
     Callback<TableColumn<ChangeRequest, Void>, TableCell<ChangeRequest, Void>> cFactory;

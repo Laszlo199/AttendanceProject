@@ -110,8 +110,10 @@ public class StudentDashboardController implements Initializable {
         model.setAbsentDays(loggedStudent.getId());
         this.currentLesson = model.getCurrentLesson(loggedStudent.getCourseID());
         if (model.getCurrentLesson(loggedStudent.getCourseID())==null){
-            lessonDuration.setText("You are Free Today");
+            lessonDuration.setText("No lesson at the moment");
             btnSave.setDisable(true);
+            absentRadioButton.setDisable(true);
+            presentRadioButton.setDisable(true);
         }
         showInfoStudent();
     }
@@ -446,6 +448,7 @@ public class StudentDashboardController implements Initializable {
         LocalDate currentDate = LocalDate.now();
         Record record = new Record(0, loggedStudent.getId(), Date.valueOf(currentDate), currentLesson.getId(), isPresent);
         model.createRecord(record);
+        if(record.isPresent()==false) model.setAbsentDays(loggedStudent.getId());
     }
 
     /**
