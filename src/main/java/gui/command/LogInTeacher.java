@@ -5,6 +5,7 @@ import be.Teacher;
 import be.User;
 import gui.controller.StudentDashboardController;
 import gui.controller.TeacherViewController;
+import gui.controller.TeacherViewRefactoredController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -25,10 +26,10 @@ public class LogInTeacher extends Command{
 
     @Override
     public boolean logIn() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/TeacherView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/TeacherViewRefactored.fxml"));
         Parent root = loader.load();
-        TeacherViewController teacherViewController =
-                (TeacherViewController) loader.getController();
+        TeacherViewRefactoredController teacherViewController =
+                (TeacherViewRefactoredController) loader.getController();
         teacherViewController.setTeacher((Teacher) getUser());
         Stage stage = new Stage();
         stage.setTitle("Attendance tracker");
