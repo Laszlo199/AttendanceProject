@@ -59,6 +59,7 @@
                <children>
                   <PieChart fx:id="pieChart" prefWidth="431.0" />
                   <Label fx:id="lblNoData" prefHeight="17.0" prefWidth="139.0" />
+                  <Label fx:id="lblNoData" prefHeight="17.0" prefWidth="67.0" />
                </children>
             </StackPane>
          </children>
