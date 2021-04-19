@@ -41,6 +41,7 @@ import javafx.util.Callback;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.time.Month;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
@@ -193,6 +194,8 @@ public class TeacherViewRefactoredController implements Initializable {
     private void initComboBoxesSem() {
         semesterTablevView.getItems().addAll(semesters);
         selectSemPieChart.getItems().addAll(semesters);
+        selectSemPieChart.getSelectionModel().select(0);
+
     }
 
 
@@ -313,34 +316,25 @@ public class TeacherViewRefactoredController implements Initializable {
     private void changePieChartListener() {
          selectMonth.valueProperty().addListener(new ChangeListener() {
             @Override
-            public void changed(ObservableValue observableValue, Object o, Object n) {
+            public void changed(ObservableValue observableValue, Object o, Object m) {
                 lblNoData.setText("");
                 Thread thread = new Thread(() ->{
-                ICreateDataStrategy strategy;
-                clearPieChart();
-                int sem = getSemester(selectSemPieChart.getSelectionModel().toString());
-                    if (n.toString().matches("Current lesson") && currentLesson!=null) {
-                        System.out.println("current lesson is null but im shoing it anyways haha");
-                        System.out.printf("Showing current lesson!!");
-                        strategy = new CreateTodayData();
-                        createTodayData(strategy, sem) ;
+                    String s = selectMonth.getSelectionModel().getSelectedItem().toString();
+                    String sem = selectSemPieChart.getSelectionModel().getSelectedItem().toString();
+                    ICreateDataStrategy strategy  = setStrategy();
+                    Months month =null;
+
+                    //just set month
+                    if(!s.toString().matches("Current lesson") &&
+                            ! s.matches("All year")
+                    ) month =Months.valueOf(s);
+                    if(s.matches("Current lesson") && currentLesson==null)
+                        System.out.println("dont do anything");
+                    else {
+                        pieData = strategy.createData(currentLesson, month, loggedTeacher, getSemester(sem));
+                        Platform.runLater(() -> pieChart.getData().addAll(pieData));
                     }
-                    else if(currentLesson==null && n.toString().matches("Current lesson")){
-                        alreadyInitialized=true;
-                        System.out.printf("There is no lesson at the moment");
-                        //show information that there is no lesson now
-                    }
-                    else if(n.toString().matches("All year") && alreadyInitialized){
-                        System.out.println("showing all year");
-                        strategy = new CreateTotalData();
-                        createAllClassesData(strategy, sem);
-                    }
-                    /* in other cases we have months from january to december*/
-                    else{
-                        System.out.println("Showing month");
-                    strategy = new CreateMonthData();
-                    createMonthData(strategy, Months.valueOf((String) n), sem);
-                }
+
                 });
                 executorService.execute(thread);
             }
@@ -351,7 +345,8 @@ public class TeacherViewRefactoredController implements Initializable {
         selectSemPieChart.valueProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observableValue, Object o, Object semester) {
-                //Period period = getPeriod(selectMonth.toString());
+                clearPieChart();
+                lblNoData.setText("");
                 Thread thread = new Thread(() ->{
                     ICreateDataStrategy strategy  = setStrategy();
                     Months month = null;
@@ -380,7 +375,8 @@ public class TeacherViewRefactoredController implements Initializable {
     }
 
     private ICreateDataStrategy setStrategy(){
-        switch(selectMonth.toString()){
+      //  switch(selectMonth.toString()){
+        switch (selectMonth.getSelectionModel().getSelectedItem().toString()){
             case "Current lesson" : return new CreateTodayData();
             case "All year" :return new CreateTotalData();
             default :return new CreateMonthData();

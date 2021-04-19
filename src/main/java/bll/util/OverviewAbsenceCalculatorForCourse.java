@@ -52,8 +52,10 @@ public class OverviewAbsenceCalculatorForCourse extends OverviewAbsenceCalculato
     public int getClassPresentDays(Teacher teacher, Months months, int sem) throws BLLexception {
         int presNumber=0;
         try {
+            System.out.println("taught students: " + dal.getTaughtStudents(teacher, sem).toString() );
             for (Student s: dal.getTaughtStudents(teacher, sem) ) {
                 presNumber += dal.getNumberOfPresentDays(s, months);
+                System.out.println("another present");
             } return presNumber;
         } catch (DALexception daLexception) {
             throw new BLLexception("Couldn't get present days of taught students");
