@@ -15,7 +15,7 @@ import java.util.HashMap;
 public interface ICalculationsOverview {
         // Name, encapsulated data.
         HashMap<String,  OverviewAbsenceCalculator.OverviewEntity>
-        getOverviewClassAttendance(Months month) throws BLLexception;
+        getOverviewClassAttendance(Months month, int sem) throws BLLexception;
         int getPresence(Student student, Months month) throws BLLexception;
         WeekDay getMostAbsWeekday(Months month, Student student) throws BLLexception;
 }

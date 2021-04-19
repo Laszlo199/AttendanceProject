@@ -3,7 +3,6 @@ package gui.strategy;
 import be.Months;
 import be.ScheduleEntity;
 import be.Teacher;
-import gui.model.TeacherDashboardModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
@@ -16,10 +15,10 @@ public class CreateTodayData implements ICreateDataStrategy{
 
     @Override
     public ObservableList<PieChart.Data> createData(ScheduleEntity currentLesson,
-                                                    Months month, Teacher teacher) {
-        int absent = model.getNumberOfAbsent(currentLesson);
-        int present = model.getNumberOfPresent(currentLesson);
-        int noAllStudents = model.getNumberOfAllStudents(currentLesson);
+                                                    Months month, Teacher teacher, int sem) {
+        int absent = model.getNumberOfAbsent(currentLesson, sem);
+        int present = model.getNumberOfPresent(currentLesson, sem);
+        int noAllStudents = model.getNumberOfAllStudents(currentLesson,sem);
         int sumOfStudents = absent + present + noAllStudents;
 
         if(sumOfStudents==0)

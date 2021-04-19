@@ -15,9 +15,10 @@ public class CreateMonthData implements ICreateDataStrategy{
 
     @Override
     public ObservableList<PieChart.Data> createData(ScheduleEntity currentLesson,
-                                                    Months month, Teacher teacher) {
-        int present = model.getClassPresentDays(teacher, month);
-        int absent = model.getClassAbsentDays(teacher, month);
+                                                    Months month, Teacher teacher,
+                                                    int semester) {
+        int present = model.getClassPresentDays(teacher, month, semester);
+        int absent = model.getClassAbsentDays(teacher, month, semester);
         int sum = present + absent;
         if(sum==0)
             return FXCollections.observableArrayList(

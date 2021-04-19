@@ -3,8 +3,6 @@ package bll;
 import be.*;
 import be.Record;
 import bll.exception.BLLexception;
-import gui.controller.TeacherViewController;
-import javafx.collections.ObservableList;
 
 import java.util.List;
 
@@ -31,10 +29,10 @@ public interface IFacadeBLL {
     List<Record> getAbsentDays(int studentId) throws BLLexception;
     List<Student> getAbsentToday(ScheduleEntity scheduleEntity) throws BLLexception;
     List<Student> getPresentToday(ScheduleEntity scheduleEntity) throws BLLexception;
-    int getNumberOfAbsentToday(ScheduleEntity scheduleEntity) throws BLLexception;
-    int getNumberOfPresentToday(ScheduleEntity scheduleEntity) throws BLLexception;
-    String getPresenceForStudent(Student student, TeacherViewController.Timeframe timeframe) throws BLLexception;
-    String getMostAbsentDay(Student student, TeacherViewController.Timeframe timeframe) throws BLLexception;
+    int getNumberOfAbsentToday(ScheduleEntity scheduleEntity, int sem) throws BLLexception;
+    int getNumberOfPresentToday(ScheduleEntity scheduleEntity, int sem) throws BLLexception;
+    String getPresenceForStudent(Student student, Timeframe timeframe) throws BLLexception;
+    String getMostAbsentDay(Student student, Timeframe timeframe) throws BLLexception;
     int getNumberOfPresentDays(Student student, Months month) throws BLLexception;
     int getNumberOfAbsentDays(Student loggedStudent, Months month) throws BLLexception;
 
@@ -72,15 +70,15 @@ public interface IFacadeBLL {
     void deleteCourse(Course course) throws BLLexception;
     Course getCourse(int courseId) throws BLLexception;
 
-    int getNumberOfAllStudents(ScheduleEntity currentLesson) throws BLLexception;
+    int getNumberOfAllStudents(ScheduleEntity currentLesson, int sem) throws BLLexception;
 
-    int getClassPresentDays(Teacher teacher, Months month) throws BLLexception;
+    int getClassPresentDays(Teacher teacher, Months month, int sem) throws BLLexception;
 
-    int getClassAbsentDays(Teacher teacher, Months month) throws BLLexception;
+    int getClassAbsentDays(Teacher teacher, Months month, int sem) throws BLLexception;
 
-    int getTotalNoPresentDaysInClass(Teacher teacher) throws BLLexception;
+    int getTotalNoPresentDaysInClass(Teacher teacher, int sem) throws BLLexception;
 
-    int getTotalNoAbsentDaysInClass(Teacher teacher) throws BLLexception;
+    int getTotalNoAbsentDaysInClass(Teacher teacher, int sem) throws BLLexception;
 
     boolean hasRecordToday(int studentId,java.sql.Date date) throws BLLexception;
 

@@ -10,8 +10,6 @@ import bll.util.PresenceCalculator;
 import dal.FacadeDAL;
 import dal.IFacadeDAL;
 import dal.exception.DALexception;
-import gui.controller.TeacherViewController;
-import javafx.collections.ObservableList;
 
 import java.util.Arrays;
 import java.util.List;
@@ -71,18 +69,18 @@ public class FacadeBLL implements IFacadeBLL{
         }
     }
 
-    public int getNumberOfAbsentToday(ScheduleEntity scheduleEntity) throws BLLexception {
+    public int getNumberOfAbsentToday(ScheduleEntity scheduleEntity, int sem) throws BLLexception {
         try {
-            return facadeDAL.getNumberOfAbsentToday(scheduleEntity);
+            return facadeDAL.getNumberOfAbsentToday(scheduleEntity, sem);
         } catch (DALexception daLexception) {
             daLexception.printStackTrace();
             throw new BLLexception("Couldn't get a number of absent students today");
         }
     }
 
-    public int getNumberOfPresentToday(ScheduleEntity scheduleEntity) throws BLLexception {
+    public int getNumberOfPresentToday(ScheduleEntity scheduleEntity, int sem) throws BLLexception {
         try {
-            return facadeDAL.getNumberOfPresentToday(scheduleEntity);
+            return facadeDAL.getNumberOfPresentToday(scheduleEntity, sem);
         } catch (DALexception daLexception) {
             daLexception.printStackTrace();
             throw new BLLexception("Couldn't get a number of absent students today");
@@ -200,7 +198,7 @@ public class FacadeBLL implements IFacadeBLL{
     }
 
     @Override
-    public String getPresenceForStudent(Student student, TeacherViewController.Timeframe timeframe) throws BLLexception {
+    public String getPresenceForStudent(Student student, Timeframe timeframe) throws BLLexception {
         try {
             return presenceCalculator.getPresenceForStudent(student, timeframe);
         } catch (BLLexception daLexception) {
@@ -210,7 +208,7 @@ public class FacadeBLL implements IFacadeBLL{
     }
 
     @Override
-    public String getMostAbsentDay(Student student, TeacherViewController.Timeframe timeframe) throws BLLexception {
+    public String getMostAbsentDay(Student student, Timeframe timeframe) throws BLLexception {
         try {
             return presenceCalculator.getMostAbsentDay(student, timeframe);
         } catch (BLLexception blLexception) {
@@ -413,28 +411,28 @@ public class FacadeBLL implements IFacadeBLL{
     }
 
     @Override
-    public int getNumberOfAllStudents(ScheduleEntity currentLesson) throws BLLexception {
+    public int getNumberOfAllStudents(ScheduleEntity currentLesson, int sem) throws BLLexception {
         try {
-            return facadeDAL.getNumberOfAllStudents(currentLesson);
+            return facadeDAL.getNumberOfAllStudents(currentLesson,sem);
         } catch (DALexception daLexception) {
             throw new BLLexception("Couldn't get number of students", daLexception);
         }
     }
 
     @Override
-    public int getClassPresentDays(Teacher teacher, Months month) throws BLLexception {
-            return absenceCourseCalc.getClassPresentDays(teacher, month);
+    public int getClassPresentDays(Teacher teacher, Months month, int sem) throws BLLexception {
+            return absenceCourseCalc.getClassPresentDays(teacher, month, sem);
     }
 
     @Override
-    public int getClassAbsentDays(Teacher teacher, Months month) throws BLLexception {
-        return absenceCourseCalc.getClassAbsentDays(teacher, month);
+    public int getClassAbsentDays(Teacher teacher, Months month, int sem) throws BLLexception {
+        return absenceCourseCalc.getClassAbsentDays(teacher, month, sem);
     }
 
     @Override
-    public int getTotalNoPresentDaysInClass(Teacher teacher) throws BLLexception {
+    public int getTotalNoPresentDaysInClass(Teacher teacher, int sem) throws BLLexception {
         try {
-            return facadeDAL.getTotalNoPresentDaysInClass(teacher);
+            return facadeDAL.getTotalNoPresentDaysInClass(teacher, sem);
         } catch (DALexception daLexception) {
             throw new BLLexception("Couldn't getTotalNoPresentDaysInClass", daLexception);
 
@@ -442,9 +440,9 @@ public class FacadeBLL implements IFacadeBLL{
     }
 
     @Override
-    public int getTotalNoAbsentDaysInClass(Teacher teacher) throws BLLexception {
+    public int getTotalNoAbsentDaysInClass(Teacher teacher, int sem) throws BLLexception {
         try {
-            return facadeDAL.getTotalNoAbsentDaysInClass(teacher);
+            return facadeDAL.getTotalNoAbsentDaysInClass(teacher, sem);
         } catch (DALexception daLexception) {
             throw new BLLexception("Couldn't getTotalNoAbsentDaysInClass", daLexception);
         }

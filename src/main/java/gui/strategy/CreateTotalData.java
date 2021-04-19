@@ -14,9 +14,9 @@ import javafx.scene.chart.PieChart;
 public class CreateTotalData implements ICreateDataStrategy{
     @Override
     public ObservableList<PieChart.Data> createData(ScheduleEntity currentLesson,
-                                                    Months month, Teacher teacher) {
-        int present = model.getTotalNoPresentDaysInClass(teacher);
-        int absent = model.getTotalNoAbsentDaysInClass(teacher);
+                                                    Months month, Teacher teacher, int sem) {
+        int present = model.getTotalNoPresentDaysInClass(teacher, sem);
+        int absent = model.getTotalNoAbsentDaysInClass(teacher, sem);
         int sum = present +absent;
         if(sum==0)
             return FXCollections.observableArrayList(

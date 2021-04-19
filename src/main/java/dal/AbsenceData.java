@@ -62,13 +62,13 @@ public class AbsenceData implements IAbsenceData {
     }
 
     @Override
-    public int getNumberOfPresentToday(ScheduleEntity scheduleEntity) throws DALexception {
-        return getNumberOfToday(scheduleEntity, 1);
+    public int getNumberOfPresentToday(ScheduleEntity scheduleEntity, int sem) throws DALexception {
+        return getNumberOfToday(scheduleEntity, 1, sem);
     }
 
     @Override
-    public int getNumberOfAbsentToday(ScheduleEntity scheduleEntity) throws DALexception {
-        return getNumberOfToday(scheduleEntity, 0);
+    public int getNumberOfAbsentToday(ScheduleEntity scheduleEntity, int sem) throws DALexception {
+        return getNumberOfToday(scheduleEntity, 0, sem);
     }
     public int getAbsForDay(Enum dayOfWeek) throws DALexception {
         return getAllDays(false, dayOfWeek);
@@ -162,8 +162,8 @@ public class AbsenceData implements IAbsenceData {
                 number = rs.getInt("NumberOfDays");
            // }
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            throw new DALexception("Couldn't get number of days per month");
+           // throwables.printStackTrace();
+            throw new DALexception("Couldn't get number of days per month", throwables);
         }
         return number;
     }
@@ -185,7 +185,7 @@ public class AbsenceData implements IAbsenceData {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            throw new DALexception("Couldn't get number of days in total");
+            throw new DALexception("Couldn't get number of days in total", throwables);
         }
         return number;
     }
@@ -233,17 +233,20 @@ public class AbsenceData implements IAbsenceData {
      * @param isPresent 1 - present, 0 - absent
      * @return number of present / absent students during current lesson
      */
-    private int getNumberOfToday(ScheduleEntity scheduleEntity, int isPresent) throws DALexception {
+    private int getNumberOfToday(ScheduleEntity scheduleEntity, int isPresent, int sem) throws DALexception {
         int number = 0;
         try(Connection connection = dbConnector.getConnection()) {
             String sql = "SELECT COUNT(s.id) AS NumberOfStudents " +
                     "FROM Students s " +
                     "JOIN Records r ON s.ID = r.StudentID " +
                     "JOIN ScheduleEntity se ON se.ID = r.ScheduleEntityID " +
-                    "WHERE r.isPresent=? AND r.ScheduleEntityID=? AND CONVERT(DATE, r.[Date]) = CONVERT(DATE, GETDATE())";
+                    "WHERE r.isPresent=? AND " +
+                    "r.ScheduleEntityID=? AND CONVERT(DATE, r.[Date]) = CONVERT(DATE, GETDATE()) " +
+                    "and s.Semester=?;";
             PreparedStatement pstat = connection.prepareStatement(sql);
             pstat.setInt(1, isPresent);
             pstat.setInt(2, scheduleEntity.getId());
+            pstat.setInt(3, sem);
             ResultSet rs = pstat.executeQuery();
             while(rs.next()) {
                 number = rs.getInt("NumberOfStudents");
@@ -260,15 +263,16 @@ public class AbsenceData implements IAbsenceData {
 
 
     @Override
-    public int getNumberOfAllStudents(ScheduleEntity currentLesson) throws DALexception {
+    public int getNumberOfAllStudents(ScheduleEntity currentLesson, int sem) throws DALexception {
         try(Connection connection = dbConnector.getConnection()) {
             String sql = "SELECT COUNT (s.id) as no " +
                     "FROM Students s " +
                     "JOIN Subjects sub on sub.courseId = s.CourseID " +
                     "JOIN ScheduleEntity se on se.SubjectID = sub.ID " +
-                    "WHERE se.ID=?; ";
+                    "WHERE se.ID=? and s.Semester=?; ";
             PreparedStatement pstat = connection.prepareStatement(sql);
             pstat.setInt(1, currentLesson.getId());
+            pstat.setInt(2, sem);
             ResultSet rs = pstat.executeQuery();
             rs.next();
             return  rs.getInt("no");
@@ -281,7 +285,7 @@ public class AbsenceData implements IAbsenceData {
     }
 
     @Override
-    public List<Student> getTaughtStudents(Teacher teacher) throws DALexception {
+    public List<Student> getTaughtStudents(Teacher teacher, int sem) throws DALexception {
         List<Student> students = new ArrayList<>();
         try(Connection connection = dbConnector.getConnection()) {
             String sql  = "SELECT s.*  " +
@@ -289,9 +293,10 @@ public class AbsenceData implements IAbsenceData {
                     "Join Courses c on s.CourseID = c.id " +
                     "Join Subjects sub on sub.courseId = c.id " +
                     "Join Teachers t on sub.teacherID = t.id " +
-                    "where t.id=?; ";
+                    "where t.id=? and s.Semester=?; ";
             PreparedStatement pstat = connection.prepareStatement(sql);
             pstat.setInt(1, teacher.getId());
+            pstat.setInt(2, sem);
             ResultSet rs = pstat.executeQuery();
             while(rs.next()) {
                 int id = rs.getInt("id");
@@ -312,12 +317,12 @@ public class AbsenceData implements IAbsenceData {
 
     }
 
-    public int getTotalNoPresentDaysInClass(Teacher teacher) throws DALexception {
-        return getTotalNumberOfDaysInClass(teacher, 1);
+    public int getTotalNoPresentDaysInClass(Teacher teacher, int sem) throws DALexception {
+        return getTotalNumberOfDaysInClass(teacher, 1, sem);
     }
 
-    public int getTotalNoAbsentDaysInClass(Teacher teacher) throws DALexception {
-        return getTotalNumberOfDaysInClass(teacher, 0);
+    public int getTotalNoAbsentDaysInClass(Teacher teacher, int sem) throws DALexception {
+        return getTotalNumberOfDaysInClass(teacher, 0, sem);
     }
 
     /**
@@ -327,16 +332,18 @@ public class AbsenceData implements IAbsenceData {
      * @param isPresent
      * @return
      */
-    public int getTotalNumberOfDaysInClass(Teacher teacher, int isPresent) throws DALexception {
+    public int getTotalNumberOfDaysInClass(Teacher teacher, int isPresent, int sem) throws DALexception {
         String sql = "Select COUNT(r.id) AS AbsOrPresentDays " +
                 "FROM Records r " +
                 "JOIN ScheduleEntity se ON se.ID = r.ScheduleEntityID " +
                 "JOIN Subjects s ON se.SubjectID = s.ID " +
-                "WHERE s.TeacherID =? and r.isPresent=?";
+                "JOIN Students stu on s.ID = r.StudentID " +
+                "WHERE s.TeacherID =? and r.isPresent=? and stu.Semester=?";
         try(Connection connection = dbConnector.getConnection()) {
             PreparedStatement pstat = connection.prepareStatement(sql);
             pstat.setInt(1, teacher.getId());
             pstat.setInt(2, isPresent);
+            pstat.setInt(3, sem);
             ResultSet rs = pstat.executeQuery();
             rs.next();
                 return rs.getInt("AbsOrPresentDays");

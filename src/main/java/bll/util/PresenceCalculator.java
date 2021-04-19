@@ -2,12 +2,11 @@ package bll.util;
 
 import be.Months;
 import be.Student;
+import be.Timeframe;
 import bll.exception.BLLexception;
 import dal.FacadeDAL;
 import dal.IFacadeDAL;
 import dal.exception.DALexception;
-import gui.controller.TeacherViewController;
-import javafx.application.Platform;
 
 import java.util.concurrent.*;
 
@@ -33,7 +32,7 @@ public class PresenceCalculator {
      * @param timeframe
      * @return
      */
-    public String getPresenceForStudent(Student student, TeacherViewController.Timeframe timeframe) throws BLLexception {
+    public String getPresenceForStudent(Student student, Timeframe timeframe) throws BLLexception {
         switch (timeframe){
             case TODAY: return   getPresenceToday(student);
 
@@ -67,7 +66,7 @@ public class PresenceCalculator {
         return null;
     }
 
-    public String getMostAbsentDay(Student student, TeacherViewController.Timeframe timeframe) throws BLLexception {
+    public String getMostAbsentDay(Student student, Timeframe timeframe) throws BLLexception {
         return overviewAbsenceCalculator.getMostAbsWeekday(Months.APRIL, student).name();
 
     }

@@ -161,13 +161,13 @@ public class FacadeDAL implements IFacadeDAL, IAbsenceData{
     }
 
     @Override
-    public int getNumberOfPresentToday(ScheduleEntity scheduleEntity) throws DALexception {
-        return absenceData.getNumberOfPresentToday(scheduleEntity);
+    public int getNumberOfPresentToday(ScheduleEntity scheduleEntity, int sem) throws DALexception {
+        return absenceData.getNumberOfPresentToday(scheduleEntity,sem);
     }
 
     @Override
-    public int getNumberOfAbsentToday(ScheduleEntity scheduleEntity) throws DALexception {
-        return absenceData.getNumberOfAbsentToday(scheduleEntity);
+    public int getNumberOfAbsentToday(ScheduleEntity scheduleEntity, int sem) throws DALexception {
+        return absenceData.getNumberOfAbsentToday(scheduleEntity,sem);
     }
 
     @Override
@@ -266,13 +266,13 @@ public class FacadeDAL implements IFacadeDAL, IAbsenceData{
         return courseDAO.getCourse(courseId);
     }
 
-    public int getNumberOfAllStudents(ScheduleEntity currentLesson) throws DALexception {
-        return absenceData.getNumberOfAllStudents(currentLesson);
+    public int getNumberOfAllStudents(ScheduleEntity currentLesson, int sem) throws DALexception {
+        return absenceData.getNumberOfAllStudents(currentLesson, sem);
     }
 
     @Override
-    public List<Student> getTaughtStudents(Teacher teacher) throws DALexception {
-        return absenceData.getTaughtStudents(teacher);
+    public List<Student> getTaughtStudents(Teacher teacher, int sem) throws DALexception {
+        return absenceData.getTaughtStudents(teacher, sem);
 
     }
 
@@ -282,12 +282,12 @@ public class FacadeDAL implements IFacadeDAL, IAbsenceData{
     }
 
     @Override
-    public int getTotalNoPresentDaysInClass(Teacher teacher) throws DALexception {
-        return absenceData.getTotalNoPresentDaysInClass(teacher);
+    public int getTotalNoPresentDaysInClass(Teacher teacher, int sem) throws DALexception {
+        return absenceData.getTotalNoPresentDaysInClass(teacher, sem);
     }
 
     @Override
-    public int getTotalNoAbsentDaysInClass(Teacher teacher) throws DALexception {
-        return absenceData.getTotalNoAbsentDaysInClass(teacher);
+    public int getTotalNoAbsentDaysInClass(Teacher teacher, int sem) throws DALexception {
+        return absenceData.getTotalNoAbsentDaysInClass(teacher, sem);
     }
 }

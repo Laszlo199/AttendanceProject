@@ -40,7 +40,7 @@ public class OverviewAbsenceCalculator implements ICalculationsOverview {
      * @return HashMap<String, OverviewEntity>
      */
     @Override
-    public HashMap<String, OverviewEntity> getOverviewClassAttendance(Months month) throws BLLexception {
+    public HashMap<String, OverviewEntity> getOverviewClassAttendance(Months month, int sem) throws BLLexception {
         HashMap<String, OverviewEntity> mapStudents = new HashMap<>();
 
         try {

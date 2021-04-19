@@ -31,11 +31,11 @@ public class OverviewAbsenceCalculatorForCourse extends OverviewAbsenceCalculato
      * @throws BLLexception
      */
     @Override
-    public HashMap<String, OverviewEntity> getOverviewClassAttendance(Months month) throws BLLexception {
+    public HashMap<String, OverviewEntity> getOverviewClassAttendance(Months month, int sem) throws BLLexception {
         HashMap<String, OverviewEntity> mapStudents = new HashMap<>();
 
         try {
-            for (Student s: dal.getTaughtStudents(teacher) ) {
+            for (Student s: dal.getTaughtStudents(teacher, sem) ) {
                 OverviewEntity overviewEntity = new OverviewEntity();
                 overviewEntity.setMostAbs(getMostAbsWeekday(month, s));
                 overviewEntity.setPresenceThisMonth(getPresence(s, month));
@@ -49,10 +49,10 @@ public class OverviewAbsenceCalculatorForCourse extends OverviewAbsenceCalculato
         return mapStudents;
     }
 
-    public int getClassPresentDays(Teacher teacher, Months months) throws BLLexception {
+    public int getClassPresentDays(Teacher teacher, Months months, int sem) throws BLLexception {
         int presNumber=0;
         try {
-            for (Student s: dal.getTaughtStudents(teacher) ) {
+            for (Student s: dal.getTaughtStudents(teacher, sem) ) {
                 presNumber += dal.getNumberOfPresentDays(s, months);
             } return presNumber;
         } catch (DALexception daLexception) {
@@ -60,10 +60,10 @@ public class OverviewAbsenceCalculatorForCourse extends OverviewAbsenceCalculato
         }
     }
 
-    public int getClassAbsentDays(Teacher teacher, Months months) throws BLLexception {
+    public int getClassAbsentDays(Teacher teacher, Months months, int sem) throws BLLexception {
         int absDays=0;
         try {
-            for (Student s: dal.getTaughtStudents(teacher) ) {
+            for (Student s: dal.getTaughtStudents(teacher, sem) ) {
                 absDays += dal.getNumberOfAbsentDays(s, months);
             } return absDays;
         } catch (DALexception daLexception) {

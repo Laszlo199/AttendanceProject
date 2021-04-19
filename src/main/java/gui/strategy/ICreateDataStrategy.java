@@ -15,6 +15,6 @@ import javafx.scene.chart.PieChart;
 public interface ICreateDataStrategy {
     TeacherDashboardModel model = TeacherDashboardModel.getInstance();
     ObservableList<PieChart.Data> createData(ScheduleEntity currentLesson,
-                                             Months month, Teacher teacher);
+                                             Months month, Teacher teacher, int semester);
 
 }

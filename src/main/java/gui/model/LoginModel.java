@@ -1,13 +1,11 @@
 package gui.model;
 
 import be.Student;
-import be.Teacher;
 import be.User;
 import be.UserType;
 import bll.FacadeBLL;
 import bll.IFacadeBLL;
 import bll.exception.BLLexception;
-import gui.controller.TeacherViewController;
 
 /**
  * @author Kuba

@@ -4,7 +4,6 @@ import be.*;
 import bll.FacadeBLL;
 import bll.IFacadeBLL;
 import bll.exception.BLLexception;
-import gui.controller.TeacherViewController;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -42,18 +41,18 @@ public class TeacherDashboardModel {
         return changes;
     }
 
-    public int getTotalNoPresentDaysInClass(Teacher teacher) {
+    public int getTotalNoPresentDaysInClass(Teacher teacher, int sem) {
         try {
-            return logic.getTotalNoPresentDaysInClass(teacher);
+            return logic.getTotalNoPresentDaysInClass(teacher, sem);
         } catch (BLLexception blLexception) {
             blLexception.printStackTrace();
         }
         return 0;
     }
 
-    public int getTotalNoAbsentDaysInClass(Teacher teacher) {
+    public int getTotalNoAbsentDaysInClass(Teacher teacher, int sem) {
         try {
-            return logic.getTotalNoAbsentDaysInClass(teacher);
+            return logic.getTotalNoAbsentDaysInClass(teacher, sem);
         } catch (BLLexception blLexception) {
             blLexception.printStackTrace();
         }
@@ -151,9 +150,9 @@ public class TeacherDashboardModel {
     }
 
     //returns number of absent students from current lesson
-    public int getNumberOfAbsent(ScheduleEntity scheduleEntity){
+    public int getNumberOfAbsent(ScheduleEntity scheduleEntity, int sem){
         try {
-            return logic.getNumberOfAbsentToday(scheduleEntity);
+            return logic.getNumberOfAbsentToday(scheduleEntity, sem );
         } catch (BLLexception blLexception) {
             blLexception.printStackTrace();
             return Integer.parseInt(null);
@@ -162,9 +161,9 @@ public class TeacherDashboardModel {
     }
 
     //returns number of present students from current lesson
-    public int getNumberOfPresent(ScheduleEntity scheduleEntity){
+    public int getNumberOfPresent(ScheduleEntity scheduleEntity, int sem){
         try {
-            return logic.getNumberOfPresentToday(scheduleEntity);
+            return logic.getNumberOfPresentToday(scheduleEntity, sem);
         } catch (BLLexception blLexception) {
             blLexception.printStackTrace();
             return Integer.parseInt(null);
@@ -190,23 +189,6 @@ public class TeacherDashboardModel {
     }
 
 
-    public String getPresenceForStudent(Student student, TeacherViewController.Timeframe timeframe) {
-        try {
-            return logic.getPresenceForStudent(student, timeframe);
-        } catch (BLLexception blLexception) {
-            blLexception.printStackTrace();
-        }
-        return null;
-    }
-
-    public String getMostAbsentDay(Student student, TeacherViewController.Timeframe timeframe) {
-        try {
-            return logic.getMostAbsentDay(student, timeframe);
-        } catch (BLLexception blLexception) {
-            blLexception.printStackTrace();
-        }
-        return "nothing";
-    }
 
     public void loadTableView() {
         try {
@@ -229,27 +211,27 @@ public class TeacherDashboardModel {
         }
     }
 
-    public int getNumberOfAllStudents(ScheduleEntity currentLesson) {
+    public int getNumberOfAllStudents(ScheduleEntity currentLesson, int sem) {
         try {
-            return logic.getNumberOfAllStudents(currentLesson);
+            return logic.getNumberOfAllStudents(currentLesson, sem);
         } catch (BLLexception blLexception) {
             blLexception.printStackTrace();
         }
         return 0;
     }
 
-    public int getClassPresentDays(Teacher teacher, Months month) {
+    public int getClassPresentDays(Teacher teacher, Months month, int sem) {
         try {
-            return  logic.getClassPresentDays(teacher, month);
+            return  logic.getClassPresentDays(teacher, month, sem);
         } catch (BLLexception blLexception) {
             blLexception.printStackTrace();
         }
         return 0;
     }
 
-    public int getClassAbsentDays(Teacher teacher, Months month) {
+    public int getClassAbsentDays(Teacher teacher, Months month, int semester) {
         try {
-            return logic.getClassAbsentDays(teacher, month);
+            return logic.getClassAbsentDays(teacher, month, semester);
         } catch (BLLexception blLexception) {
             blLexception.printStackTrace();
         }

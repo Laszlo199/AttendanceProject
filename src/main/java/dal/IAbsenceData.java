@@ -21,8 +21,8 @@ public interface IAbsenceData {
     List<Student> getAllStudents() throws DALexception;
     List<Student> getAbsentToday(ScheduleEntity scheduleEntity) throws DALexception;
     List<Student> getPresentToday(ScheduleEntity scheduleEntity) throws DALexception;
-    int getNumberOfPresentToday(ScheduleEntity scheduleEntity) throws DALexception;
-    int getNumberOfAbsentToday(ScheduleEntity scheduleEntity) throws DALexception;
+    int getNumberOfPresentToday(ScheduleEntity scheduleEntity, int sem) throws DALexception;
+    int getNumberOfAbsentToday(ScheduleEntity scheduleEntity, int sem) throws DALexception;
     int getAbsForDay(Enum dayOfWeek) throws DALexception;
     int getPresentForDay(Enum dayOfWeek) throws DALexception;
 
@@ -30,10 +30,10 @@ public interface IAbsenceData {
 
     boolean isDataStudentPresent(int id) throws DALexception;
 
-    int getNumberOfAllStudents(ScheduleEntity currentLesson) throws DALexception;
+    int getNumberOfAllStudents(ScheduleEntity currentLesson, int sem) throws DALexception;
 
-    List<Student> getTaughtStudents(Teacher teacher) throws DALexception;
-    int getTotalNoPresentDaysInClass(Teacher teacher) throws DALexception;
+    List<Student> getTaughtStudents(Teacher teacher, int sem) throws DALexception;
+    int getTotalNoPresentDaysInClass(Teacher teacher, int sem) throws DALexception;
 
-    int getTotalNoAbsentDaysInClass(Teacher teacher) throws DALexception;
+    int getTotalNoAbsentDaysInClass(Teacher teacher, int sem) throws DALexception;
 }
