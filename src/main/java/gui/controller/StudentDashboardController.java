@@ -445,6 +445,7 @@ public class StudentDashboardController implements Initializable {
     //when 'save' button is clicked
     //creates a new Record
     public void setCurrentAttendance(boolean isPresent) {
+        btnSave.setDisable(true);
         LocalDate currentDate = LocalDate.now();
         Record record = new Record(0, loggedStudent.getId(), Date.valueOf(currentDate), currentLesson.getId(), isPresent);
         model.createRecord(record);

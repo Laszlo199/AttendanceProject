@@ -26,6 +26,7 @@ D:\onedrive2\github\Attendance-project-2\src\main\java\dal\dataAccessObjects\Sch
 D:\onedrive2\github\Attendance-project-2\src\main\java\gui\controller\LogInWindowController.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\bll\ICalculationsOverview.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\gui\util\DonutChart.java
+D:\onedrive2\github\Attendance-project-2\src\main\java\gui\strategy\CreateTotalData.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\be\User.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\gui\command\LogInTeacher.java
 D:\onedrive2\github\Attendance-project-2\src\main\java\be\PasswordObject.java
