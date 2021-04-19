@@ -3,10 +3,9 @@ package bll;
 import be.*;
 import be.Record;
 import bll.exception.BLLexception;
-import dal.exception.DALexception;
 import gui.controller.TeacherViewController;
+import javafx.collections.ObservableList;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -84,4 +83,6 @@ public interface IFacadeBLL {
     int getTotalNoAbsentDaysInClass(Teacher teacher) throws BLLexception;
 
     boolean hasRecordToday(int studentId,java.sql.Date date) throws BLLexception;
+
+    List<Student> getStudentsOnSem(int sem, List<Student> obsStudents);
 }

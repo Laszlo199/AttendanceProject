@@ -11,8 +11,8 @@ import dal.FacadeDAL;
 import dal.IFacadeDAL;
 import dal.exception.DALexception;
 import gui.controller.TeacherViewController;
+import javafx.collections.ObservableList;
 
-import java.sql.Date;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -457,6 +457,11 @@ public class FacadeBLL implements IFacadeBLL{
         }catch (DALexception daLexception){
             throw new BLLexception("Couldn't hasRecordToday");
         }
+    }
+
+    @Override
+    public List<Student> getStudentsOnSem(int sem, List<Student> obsStudents) {
+        return operations.getStudentsOnSem(sem, obsStudents);
     }
 
 

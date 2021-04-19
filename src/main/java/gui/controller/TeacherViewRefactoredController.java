@@ -54,6 +54,11 @@ import static java.lang.Thread.sleep;
  */
 public class TeacherViewRefactoredController implements Initializable {
     public StackPane stackPie;
+    public TableColumn semCol;
+    @FXML
+    private JFXComboBox selectSemPieChart;
+    @FXML
+    private JFXComboBox semesterTablevView;
     @FXML
     private AnchorPane pieAnchor;
     @FXML
@@ -102,6 +107,7 @@ public class TeacherViewRefactoredController implements Initializable {
     private Text hourLabel;
     @FXML
     private Label lblNoData;
+
     private static final Label caption = new Label("");
 
     Callback<TableColumn<ChangeRequest, Void>, TableCell<ChangeRequest, Void>> cFactory;
@@ -110,7 +116,9 @@ public class TeacherViewRefactoredController implements Initializable {
     private static ScheduleEntity currentLesson;
     private Teacher loggedTeacher;
     private ObservableList<String> comboboxOptions =
-            FXCollections.observableArrayList("Today", "Total");;
+            FXCollections.observableArrayList("Today", "Total");
+    private ObservableList<String> semesters =
+            FXCollections.observableArrayList(" All students","1st sem", "2nd sem", "3rd sem", "4th sem");
     private ObservableList<PieChart.Data> pieData;
 
    static {
@@ -134,9 +142,36 @@ public class TeacherViewRefactoredController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initTime();
+        initComboBoxesSem();
         changePieChartListener();
+        changeTableViewListener();
         searchfieldListener();
         absenceList.setPlaceholder(new Label("There are no missing students today"));
+    }
+
+    private void changeTableViewListener() {
+        semesterTablevView.valueProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observableValue, Object o, Object semester) {
+                int sem = 0;
+                if(semester.toString().matches("1.*"))
+                    sem=1;
+                if(semester.toString().matches("2.*"))
+                    sem=2;
+                if(semester.toString().matches("3.*"))
+                    sem=3;
+                if(semester.toString().matches("4.*"))
+                    sem=4;
+
+               model.setStudents(sem);
+            }
+        });
+
+    }
+
+    private void initComboBoxesSem() {
+        semesterTablevView.getItems().addAll(semesters);
+        selectSemPieChart.getItems().addAll(semesters);
     }
 
 
@@ -191,6 +226,25 @@ public class TeacherViewRefactoredController implements Initializable {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Student, String> student) {
                 return new ReadOnlyObjectWrapper<String>(student.getValue().getMostAbsWeekday().name());
+            }
+        });
+        semCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Student, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Student, String> student) {
+                return new ReadOnlyObjectWrapper<String>(setSemInfo(student.getValue().getSemester() ));
+            }
+
+            private String setSemInfo(int sem) {
+               if(sem==1)
+                   return sem +"st" + " sem";
+               else if(sem ==2)
+                   return sem+"nd sem";
+               else if(sem ==3)
+                   return sem+"rd sem";
+               else if(sem ==4)
+                   return sem+" th sem";
+               else
+                   return "not known";
             }
         });
         model.loadCache();
@@ -262,8 +316,8 @@ public class TeacherViewRefactoredController implements Initializable {
                 ICreateDataStrategy strategy;
                 pieChart.getData().clear();
                 if(n.toString().matches("Today")){
-                    if (pieChart.getData().isEmpty()){
-                        lblNoData.setText("No Data Today");
+                    if (pieChart.getData().isEmpty() || pieChart.getData()==null){
+                       // lblNoData.setText("No Data Today");
                     }else {
                         strategy = new CreateTodayData();
                         pieChart.getData().addAll(strategy.createData(currentLesson,

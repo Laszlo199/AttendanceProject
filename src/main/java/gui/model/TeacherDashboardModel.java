@@ -12,15 +12,14 @@ import javafx.concurrent.Task;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.stream.Collectors;
 
 public class TeacherDashboardModel {
 
     private  IFacadeBLL logic;
+    private final List<Student> students = new ArrayList<>();
     private  ObservableList<Student> obsStudents = FXCollections.observableArrayList();
     ObservableList<Student> results = FXCollections.observableList(obsStudents);
     private static TeacherDashboardModel instance;
@@ -37,6 +36,7 @@ public class TeacherDashboardModel {
         LoadData loadData = new LoadData();
         executorService.execute(loadData);
     }
+
 
     public ObservableList<ChangeRequest> getChanges() {
         return changes;
@@ -60,12 +60,22 @@ public class TeacherDashboardModel {
         return 1;
     }
 
+    public void setStudents(int sem) {
+      obsStudents.clear();
+     // System.out.println(students.toString());
+      if(sem==0){
+          obsStudents.addAll(students);
+      }
+      obsStudents.addAll(logic.getStudentsOnSem(sem, students));
+    }
+
     public class LoadData extends Task<List<Student>>{
         @Override
         protected List<Student> call() throws Exception {
             if(isCancelled())
                 return null;
             List<Student> temp =  logic.getAllStudents();
+            students.addAll(temp);
             //this.updateValue(temp);
             Platform.runLater(() -> obsStudents.addAll(temp));
             //updateProgress(obsStudents.size(), 10);

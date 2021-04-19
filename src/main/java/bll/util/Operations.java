@@ -1,11 +1,16 @@
 package bll.util;
 
 import be.PasswordObject;
+import be.Student;
 import be.UserType;
 import bll.exception.BLLexception;
 import dal.FacadeDAL;
 import dal.IFacadeDAL;
 import dal.exception.DALexception;
+import javafx.collections.ObservableList;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Kuba
@@ -40,5 +45,13 @@ public class Operations {
 
         }
         else return false;
+    }
+
+    public List<Student> getStudentsOnSem(int sem, List<Student> obsStudents) {
+        List<Student> students = new ArrayList<>();
+        for (Student s: obsStudents)
+            if(s.getSemester()==sem)
+                students.add(s);
+           return students;
     }
 }
