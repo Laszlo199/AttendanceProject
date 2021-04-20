@@ -41,6 +41,7 @@ import javafx.util.Callback;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.time.Month;
 import java.util.Calendar;
 import java.util.Collection;
@@ -121,7 +122,7 @@ public class TeacherViewRefactoredController implements Initializable {
     private Teacher loggedTeacher;
     private ObservableList<String> comboboxOptions =FXCollections.observableArrayList("Current lesson", "All year");
     private ObservableList<String> semesters =
-            FXCollections.observableArrayList(" All students","1st sem", "2nd sem", "3rd sem", "4th sem"); 
+            FXCollections.observableArrayList("1st sem", "2nd sem", "3rd sem", "4th sem");
     private volatile ObservableList<PieChart.Data> pieData;
     boolean alreadyInitialized =false;
 
@@ -131,6 +132,7 @@ public class TeacherViewRefactoredController implements Initializable {
     public void setTeacher(Teacher teacher) {
         this.loggedTeacher = teacher;
         this.currentLesson = model.getCurrentLesson(loggedTeacher.getId());
+
 
         if(currentLesson!=null) {
             dayLabel2.setText(model.getSubject(currentLesson.getSubjectId()).getName());
@@ -212,7 +214,7 @@ public class TeacherViewRefactoredController implements Initializable {
         SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("MM-dd-yyyy");
         SimpleDateFormat simpleDateFormat3 = new SimpleDateFormat("EEEE");
         dateLabel.setText(simpleDateFormat3.format(time.getTime()) + ", " + simpleDateFormat2.format(time.getTime()));
-        //dayLabel.setText(simpleDateFormat3.format(time.getTime()) + ", ");
+       // dayLabel.setText(simpleDateFormat3.format(time.getTime()) + ", ");
     }
 
     /**
@@ -319,6 +321,7 @@ public class TeacherViewRefactoredController implements Initializable {
             public void changed(ObservableValue observableValue, Object o, Object m) {
                 lblNoData.setText("");
                 Thread thread = new Thread(() ->{
+                    clearPieChart();
                     String s = selectMonth.getSelectionModel().getSelectedItem().toString();
                     String sem = selectSemPieChart.getSelectionModel().getSelectedItem().toString();
                     ICreateDataStrategy strategy  = setStrategy();
