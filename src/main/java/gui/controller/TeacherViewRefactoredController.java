@@ -104,8 +104,6 @@ public class TeacherViewRefactoredController implements Initializable {
     @FXML
     private Text teacherProgram;
     @FXML
-    private Text dayLabel;
-    @FXML
     private Text dateLabel;
     @FXML
     private Text hourLabel;
@@ -214,7 +212,6 @@ public class TeacherViewRefactoredController implements Initializable {
         SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("MM-dd-yyyy");
         SimpleDateFormat simpleDateFormat3 = new SimpleDateFormat("EEEE");
         dateLabel.setText(simpleDateFormat3.format(time.getTime()) + ", " + simpleDateFormat2.format(time.getTime()));
-       // dayLabel.setText(simpleDateFormat3.format(time.getTime()) + ", ");
     }
 
     /**
@@ -319,66 +316,46 @@ public class TeacherViewRefactoredController implements Initializable {
          selectMonth.valueProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observableValue, Object o, Object m) {
-                lblNoData.setText("");
-                Thread thread = new Thread(() ->{
-                    clearPieChart();
-                    String s = selectMonth.getSelectionModel().getSelectedItem().toString();
-                    String sem = selectSemPieChart.getSelectionModel().getSelectedItem().toString();
-                    ICreateDataStrategy strategy  = setStrategy();
-                    Months month =null;
-
-                    //just set month
-                    if(!s.toString().matches("Current lesson") &&
-                            ! s.matches("All year")
-                    ) month =Months.valueOf(s);
-                    if(s.matches("Current lesson") && currentLesson==null)
-                        System.out.println("dont do anything");
-                    else {
-                        pieData = strategy.createData(currentLesson, month, loggedTeacher, getSemester(sem));
-                        Platform.runLater(() -> pieChart.getData().addAll(pieData));
-                    }
-
-                });
-                executorService.execute(thread);
+              changePieChart();
             }
         });
     }
+
+    private void changePieChart(){
+        lblNoData.setText("");
+        clearPieChart();
+        Thread thread = new Thread(() ->{
+            String s = selectMonth.getSelectionModel().getSelectedItem().toString();
+            String sem = selectSemPieChart.getSelectionModel().getSelectedItem().toString();
+            ICreateDataStrategy strategy  = setStrategy();
+            Months month =null;
+
+            //just set month
+            if(!s.toString().matches("Current lesson") &&
+                    ! s.matches("All year")
+            ) month =Months.valueOf(s);
+            if(s.matches("Current lesson") && currentLesson==null)
+                System.out.println("dont do anything");
+            else {
+                pieData = strategy.createData(currentLesson, month, loggedTeacher, getSemester(sem));
+                Platform.runLater(() -> pieChart.getData().addAll(pieData));
+            }
+
+        });
+        executorService.execute(thread);
+    }
+
     //" All students","1st sem", "2nd sem", "3rd sem", "4th sem");
     private void ChangePieChartListener2() {
         selectSemPieChart.valueProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observableValue, Object o, Object semester) {
-                clearPieChart();
-                lblNoData.setText("");
-                Thread thread = new Thread(() ->{
-                    ICreateDataStrategy strategy  = setStrategy();
-                    Months month = null;
-                    String s = selectMonth.getSelectionModel().getSelectedItem().toString();
-                    System.out.println("Enum: "+ s);
-                    if(!s.matches("Current lesson") &&
-                           ! s.matches("All year")
-                    ) month =Months.valueOf(s);
-                    if(s.matches("Current lesson") && currentLesson==null)
-                        System.out.println("dont do anything");
-                    else {
-                        pieData = strategy.createData(currentLesson, month, loggedTeacher, getSemester(semester.toString()));
-                        Platform.runLater(() -> pieChart.getData().addAll(pieData));
-                    }
-                });
-
-                executorService.execute(thread);
+               changePieChart();
             }
         });
     }
 
-    enum Period{
-        CURRENT_LESSON,
-        ALL_YEAR,
-        MONTH
-    }
-
     private ICreateDataStrategy setStrategy(){
-      //  switch(selectMonth.toString()){
         switch (selectMonth.getSelectionModel().getSelectedItem().toString()){
             case "Current lesson" : return new CreateTodayData();
             case "All year" :return new CreateTotalData();
@@ -398,42 +375,6 @@ public class TeacherViewRefactoredController implements Initializable {
         else return -1;
     }
 
-    private Months getPeriod(String string) {
-        if(string.toString().matches("Current lesson"))
-            return null;
-        if(string.toString().matches("All year"))
-            return null;
-        else
-            return Months.valueOf(string);
-    }
-
-    private void createMonthData(ICreateDataStrategy strategy, Months month, int semester ) {
-        alreadyInitialized=true;
-        pieData= strategy.createData(null, month,
-                loggedTeacher, semester);
-        Platform.runLater(()-> pieChart.getData().addAll(pieData)
-        );
-        setCaption();
-        HoverChart.listenerPieChart(pieChart, caption, pieChart.getData());
-    }
-
-    private void createAllClassesData(ICreateDataStrategy strategy, int semester) {
-        alreadyInitialized=true;
-        pieData= strategy.createData(null, null,
-                loggedTeacher, semester);
-        Platform.runLater(()->pieChart.getData().addAll(pieData));
-        setCaption();
-        HoverChart.listenerPieChart(pieChart, caption, pieChart.getData());
-    }
-
-    private void createTodayData(ICreateDataStrategy strategy, int semester){
-        strategy = new CreateTodayData();
-        pieData= strategy.createData(currentLesson,
-                null, null, -1);
-        Platform.runLater(() ->pieChart.getData().addAll(pieData));
-        HoverChart.listenerPieChart(pieChart, caption, pieChart.getData());
-        setCaption();
-    }
 
 
     private void setCombobox() {
