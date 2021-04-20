@@ -1,5 +1,4 @@
 be\UserType.class
-dal\dataAccessObjects\StudentDAO$GetAll.class
 gui\model\LoginModel.class
 be\WeekDay.class
 dal\dataAccessObjects\ScheduleEntityDAO.class

@@ -22,6 +22,11 @@ public class StudentDAO {
     }
 
 
+    /**
+     * method should also return students for which we dont have data
+     * @return
+     * @throws DALexception
+     */
     public  List<Student> getAll() throws DALexception {
         List<Student> students = new ArrayList<>();
         try(Connection connection = dbConnector.getConnection()) {
@@ -66,45 +71,24 @@ public class StudentDAO {
         return students;
     }
 
+    /**
+     * it gets the biggest number of absent days
+     * @param
+     * @return
+     */
     private WeekDay getMinKey(Map<WeekDay, Integer> map) {
         WeekDay minKey = null;
-        int minValue = Integer.MAX_VALUE;
+        int minValue = Integer.MIN_VALUE;
         for(WeekDay key : map.keySet()) {
             int value = map.get(key);
-            if(value < minValue) {
+            if(value > minValue) {
                 minValue = value;
                 minKey = key;
             }
         }
         return minKey;
     }
-
-    protected class GetAll implements Callable<List<Student>>{
-        List<Student> students = new ArrayList<>();
-        @Override
-        public List<Student> call() throws DALexception {
-            try(Connection connection = dbConnector.getConnection()) {
-                String sql = "SELECT * FROM Students";
-                Statement statement = connection.createStatement();
-                ResultSet rs = statement.executeQuery(sql);
-
-                while(rs.next()) {
-                    int id = rs.getInt("id");
-                    String name = rs.getString("name");
-                    String email = rs.getString("email");
-                    int courseId = rs.getInt("courseID");
-                    int semester = rs.getInt("semester");
-                    String photoPath = rs.getString("photoPath");
-                    //students.add(new Student(id, name, email, photoPath, semester, courseId));
-                }
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-                throw new DALexception("Couldn't get all students");
-            }
-            return students;
-        }
-    }
-
+    
     public void create(Student student) throws DALexception{
         try(Connection connection = dbConnector.getConnection()) {
             String sql = "INSERT INTO Students([name], email, courseId, semester, photoPath) VALUES(?,?,?,?,?)";
